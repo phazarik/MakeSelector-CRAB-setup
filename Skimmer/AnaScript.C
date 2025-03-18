@@ -9,6 +9,7 @@
 #include <string>
 #include <set>
 #include "../includeHeaders.h"
+#include "SkimmerHelper.h"
 
 void AnaScript::Begin(TTree * /*tree*/)
 {
@@ -81,13 +82,13 @@ void AnaScript::SlaveTerminate()
   cout<<"nEvtTrigger = "<<nEvtTrigger<<" ("<<trigevtfrac*100<<" %)"<<endl;
   cout<<"nEvtPass = "<<nEvtPass<<" ("<<passevtfrac*100<<" %)"<<endl;
   cout<<"nEvtBad = "<<nEvtBad<<" ("<<badevtfrac*100<<" %)"<<endl;
-  if(_data==0) cout<<"genEventsumw = "<<(int)genEventsumw<<endl;
+  if(_data==0) cout<<"genEventsumw = "<<(double)genEventsumw<<endl;
   if(_data!=0) cout<<"nEvents not in golden json = "<<nThrown<<" ("<<notgoldenevtfrac*100<<" %)"<<endl;
   cout<<"---------------------------------------------"<<endl;
   
   time(&end);
   double time_taken = double(end - start);
-  cout << setw(10) << left << "Time taken: " << (int)time_taken << " sec." << endl;
+  cout<<"\033[34mTime taken to process = " << (int)time_taken << " secconds.\033[0m"<< endl;
 }
 
 void AnaScript::Terminate()
@@ -125,7 +126,7 @@ Bool_t AnaScript::Process(Long64_t entry)
   GoodEvt2023 = (_year == 2022 ? common && eeBadSc : 1);
   GoodEvt = GoodEvt2018 && GoodEvt2017 && GoodEvt2016 && GoodEvt2022 && GoodEvt2023;
 
-  if(true){  
+  if(GoodEvt){  
     nEvtRan++;
 
     //Triggers:
