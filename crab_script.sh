@@ -1,9 +1,14 @@
 #!/bin/bash
 
-# The first argument ($1) is always the job number, so we start from $2
-campaign=$2
-sample=$3
-flag=$4
+# Picking up argumnets given in key=value format.
+for ARGUMENT in "$@"
+do
+    if [[ "$ARGUMENT" == *"="* ]]; then
+	KEY=$(echo $ARGUMENT | cut -f1 -d=)
+	VALUE="${ARGUMENT#*=}"
+	export "$KEY"="$VALUE"
+    fi
+done
 
 #Set up CMS environment
 source /cvmfs/cms.cern.ch/cmsset_default.sh
