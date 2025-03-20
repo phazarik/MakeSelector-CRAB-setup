@@ -1,21 +1,22 @@
 from WMCore.Configuration import Configuration
 from CRABClient.UserUtilities import config
 
-config = config()
-
 #-----------------------------------------------------------------------------
 # Setting parameters:
-import datetime,sys
-timestamp = datetime.datetime.now().strftime("_%Y%m%d_%H%M%S")
-campaign    = "Run3Summer22"
-samplename  = "DYToLL-4Jets_MLL-50"
-flag        = "dy"
+import datetime,os,sys
+timestamp  = datetime.datetime.now().strftime("_%Y%m%d_%H%M%S")
+campaign   = os.getenv('CRAB_CAMPAIGN', 'Run3Summer22')
+samplename = os.getenv('CRAB_SAMPLENAME', 'DYTo2L-4Jets_MLL-50')
+flag       = os.getenv('CRAB_FLAG', 'dy')
+print(f'Samplename={samplename} campaign={campaign} flag={flag}')
 ##----------------------------------------------------------------------------
+
+config = config()
 
 ### General:
 config.General.transferOutputs = True
 config.General.transferLogs = True
-config.General.requestName='nanoskim_test4'
+#config.General.requestName=reqname ### Taken from argument
 config.General.workArea='submitted'
 
 ### JobType:
@@ -41,7 +42,7 @@ config.JobType.outputFiles = ['skimFile.root']
 #Make sure that this name is identical to the one in the shell script
 
 ### Data (input/output):
-config.Data.inputDataset='/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM'
+#config.Data.inputDataset = dasname ### Taken from argument
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1  # Number of files per job
