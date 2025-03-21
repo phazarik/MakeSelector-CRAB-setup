@@ -11,14 +11,14 @@ def parse_crab_status_output(output):
         elif "transferring" in line: transferring = line.split("transferring")[-1].strip()        
         elif "idle" in line:         idle         = line.split("idle")[-1].strip()
         elif "finished" in line:     finished     = line.split("finished")[-1].strip()
-        elif "failed" in line:       failed       = line.split("finished")[-1].strip()
+        elif "failed" in line:       failed       = line.split("failed")[-1].strip()
     return idle, running, transferring, finished, status
 
 def check_status_all_jobs():
     submitted_dir = "submitted"
     
     ### Header for display with adjusted column widths
-    print(f"\n\033[33m{'No':<3} {'jobname':<40} {'idle':<15} {'running':<15} {'transferring':<15} {'finished':<15} {'status':<15}\033[0m")
+    print(f"\n\033[33m{'No':<3} {'jobname':<40} {'idle':<18} {'running':<18} {'transferring':<18} {'finished':<18} {'status':<18}\033[0m")
     
     ### Iterate over each folder in the submitted directory
     count = 1
@@ -32,7 +32,7 @@ def check_status_all_jobs():
         if   status == "FAILED":    status = f"\033[31m{status}\033[0m"
         elif status == "COMPLETED": status = f"\033[34m{status}\033[0m"
 
-        print(f"{count:<3} {job_name:<40} {idle:<15} {running:<15} {transferring:<15} {finished:<15} {status:<15}")
+        print(f"{count:<3} {job_name:<40} {idle:<18} {running:<18} {transferring:<18} {finished:<18} {status:<18}")
         count += 1
         
     print("")
