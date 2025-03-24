@@ -185,8 +185,8 @@ void AnaScript::ReadBranch(){
   *HLT_IsoMu24;
   *HLT_IsoMu24_eta2p1;
   *HLT_IsoMu27;
-  *HLT_IsoMu30;
-  *HLT_Mu12;
+  //*HLT_IsoMu30;
+  //*HLT_Mu12;
   *HLT_Mu15;
   *HLT_Mu20;
   *HLT_Mu27;

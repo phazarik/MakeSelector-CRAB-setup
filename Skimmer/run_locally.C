@@ -10,11 +10,13 @@
 using namespace std;
 
 void run_locally(
-		 TString infile  = "test_inputs/DYto2L-4Jets_MLL-50.root",
+		 //TString infile  = "test_inputs/DYto2L-4Jets_MLL-50.root",
+		 TString infile  = "test_inputs/Muon_Run2022C.root",
 		 TString outfile = "test_outputs/test_local.root",
 		 TString campaign = "Run3Summer22",
-		 TString sample = "DYJetsToLL_M50",
-		 TString flag = "dy"
+		 //TString sample = "DYJetsToLL_M50",
+		 TString sample = "Data",
+		 TString flag = "muon"
 		 )
 {
   // Suppress warnings (optional)
@@ -33,7 +35,7 @@ void run_locally(
   m_selec.SetCampaign(campaign);
   m_selec.SetSampleName(sample);
   m_selec.SetFlag(flag);
-  if((flag == "egamma")||(flag =="singlemuon")) m_selec.SetData(1);
+  if((flag == "egamma")||(flag =="muon")) m_selec.SetData(1);
   else m_selec.SetData(0);
   
   chain->Process(&m_selec);

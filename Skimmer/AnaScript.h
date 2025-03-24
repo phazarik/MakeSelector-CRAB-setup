@@ -29,6 +29,20 @@
 #include <time.h>
 
 class AnaScript : public TSelector {
+private:
+  /*
+  //For NanoAODv12 and beyond: (MC)
+  using iterator     = Int_t;
+  using int_or_char  = UChar_t;
+  using int_or_short = Short_t;
+  using int_or_ushort = UShort_t;*/
+
+  //For NanoAODv11 (Run3Summer22 Data)
+  using iterator     = UInt_t; 
+  using int_or_char  = Int_t;
+  using int_or_short = Int_t;
+  using int_or_ushort = Int_t;
+  
 public :
   TTreeReader     fReader_2022;
   TTreeReader     fReader_2022MC;
@@ -41,8 +55,8 @@ public :
   //TTreeReaderValue<UInt_t> bunchCrossing = {fReader_2022, "bunchCrossing"};
 
   //Electrons:
-  TTreeReaderValue<Int_t> nElectron = {fReader_2022, "nElectron"};
-  TTreeReaderArray<UChar_t> Electron_cutBased = {fReader_2022, "Electron_cutBased"};
+  TTreeReaderValue<iterator> nElectron = {fReader_2022, "nElectron"};
+  TTreeReaderArray<int_or_char> Electron_cutBased = {fReader_2022, "Electron_cutBased"};
   TTreeReaderArray<Bool_t> Electron_cutBased_HEEP = {fReader_2022, "Electron_cutBased_HEEP"};
   TTreeReaderArray<UChar_t> Electron_lostHits = {fReader_2022, "Electron_lostHits"};
   TTreeReaderArray<Bool_t> Electron_mvaIso_WP80 = {fReader_2022, "Electron_mvaIso_WP80"};
@@ -73,7 +87,7 @@ public :
 
   /*
   //IsoTrack
-  TTreeReaderValue<Int_t> nIsoTrack = {fReader_2022, "nIsoTrack"};
+  TTreeReaderValue<iterator> nIsoTrack = {fReader_2022, "nIsoTrack"};
   TTreeReaderArray<Bool_t> IsoTrack_isHighPurityTrack = {fReader_2022, "IsoTrack_isHighPurityTrack"};
   TTreeReaderArray<Bool_t> IsoTrack_isPFcand = {fReader_2022, "IsoTrack_isPFcand"};
   TTreeReaderArray<Bool_t> IsoTrack_isFromLostTrack = {fReader_2022, "IsoTrack_isFromLostTrack"};
@@ -91,37 +105,37 @@ public :
   TTreeReaderArray<Float_t> IsoTrack_miniPFRelIso_chg = {fReader_2022, "IsoTrack_miniPFRelIso_chg"};*/
 
   //Jet
-  TTreeReaderValue<Int_t> nJet = {fReader_2022, "nJet"};
-  TTreeReaderArray<UChar_t> Jet_jetId = {fReader_2022, "Jet_jetId"};
+  TTreeReaderValue<iterator> nJet = {fReader_2022, "nJet"};
+  TTreeReaderArray<int_or_char> Jet_jetId = {fReader_2022, "Jet_jetId"};
   TTreeReaderArray<UChar_t> Jet_nConstituents = {fReader_2022, "Jet_nConstituents"};
-  TTreeReaderArray<UChar_t> Jet_nElectrons = {fReader_2022, "Jet_nElectrons"};
-  TTreeReaderArray<UChar_t> Jet_nMuons = {fReader_2022, "Jet_nMuons"};
-  TTreeReaderArray<UChar_t> Jet_nSVs = {fReader_2022, "Jet_nSVs"};
-  TTreeReaderArray<Short_t> Jet_electronIdx1 = {fReader_2022, "Jet_electronIdx1"};
-  TTreeReaderArray<Short_t> Jet_electronIdx2 = {fReader_2022, "Jet_electronIdx2"};
-  TTreeReaderArray<Short_t> Jet_muonIdx1 = {fReader_2022, "Jet_muonIdx1"};
-  TTreeReaderArray<Short_t> Jet_muonIdx2 = {fReader_2022, "Jet_muonIdx2"};
-  TTreeReaderArray<Short_t> Jet_svIdx1 = {fReader_2022, "Jet_svIdx1"};
-  TTreeReaderArray<Short_t> Jet_svIdx2 = {fReader_2022, "Jet_svIdx2"};
-  TTreeReaderArray<Int_t> Jet_hfadjacentEtaStripsSize = {fReader_2022, "Jet_hfadjacentEtaStripsSize"};
-  TTreeReaderArray<Int_t> Jet_hfcentralEtaStripSize = {fReader_2022, "Jet_hfcentralEtaStripSize"};
-  TTreeReaderArray<Float_t> Jet_PNetRegPtRawCorr = {fReader_2022, "Jet_PNetRegPtRawCorr"};
-  TTreeReaderArray<Float_t> Jet_PNetRegPtRawCorrNeutrino = {fReader_2022, "Jet_PNetRegPtRawCorrNeutrino"};
-  TTreeReaderArray<Float_t> Jet_PNetRegPtRawRes = {fReader_2022, "Jet_PNetRegPtRawRes"};
+  TTreeReaderArray<int_or_char> Jet_nElectrons = {fReader_2022, "Jet_nElectrons"};
+  TTreeReaderArray<int_or_char> Jet_nMuons = {fReader_2022, "Jet_nMuons"};
+  TTreeReaderArray<int_or_char> Jet_nSVs = {fReader_2022, "Jet_nSVs"};
+  TTreeReaderArray<int_or_short> Jet_electronIdx1 = {fReader_2022, "Jet_electronIdx1"};
+  TTreeReaderArray<int_or_short> Jet_electronIdx2 = {fReader_2022, "Jet_electronIdx2"};
+  TTreeReaderArray<int_or_short> Jet_muonIdx1 = {fReader_2022, "Jet_muonIdx1"};
+  TTreeReaderArray<int_or_short> Jet_muonIdx2 = {fReader_2022, "Jet_muonIdx2"};
+  TTreeReaderArray<int_or_short> Jet_svIdx1 = {fReader_2022, "Jet_svIdx1"};
+  TTreeReaderArray<int_or_short> Jet_svIdx2 = {fReader_2022, "Jet_svIdx2"};
+  //TTreeReaderArray<Int_t> Jet_hfadjacentEtaStripsSize = {fReader_2022, "Jet_hfadjacentEtaStripsSize"};
+  //TTreeReaderArray<Int_t> Jet_hfcentralEtaStripSize = {fReader_2022, "Jet_hfcentralEtaStripSize"};
+  //TTreeReaderArray<Float_t> Jet_PNetRegPtRawCorr = {fReader_2022, "Jet_PNetRegPtRawCorr"};
+  //TTreeReaderArray<Float_t> Jet_PNetRegPtRawCorrNeutrino = {fReader_2022, "Jet_PNetRegPtRawCorrNeutrino"};
+  //TTreeReaderArray<Float_t> Jet_PNetRegPtRawRes = {fReader_2022, "Jet_PNetRegPtRawRes"};
   TTreeReaderArray<Float_t> Jet_area = {fReader_2022, "Jet_area"};
   TTreeReaderArray<Float_t> Jet_btagDeepFlavB = {fReader_2022, "Jet_btagDeepFlavB"};
   TTreeReaderArray<Float_t> Jet_btagDeepFlavCvB = {fReader_2022, "Jet_btagDeepFlavCvB"};
   TTreeReaderArray<Float_t> Jet_btagDeepFlavCvL = {fReader_2022, "Jet_btagDeepFlavCvL"};
   TTreeReaderArray<Float_t> Jet_btagDeepFlavQG = {fReader_2022, "Jet_btagDeepFlavQG"};
-  TTreeReaderArray<Float_t> Jet_btagPNetB = {fReader_2022, "Jet_btagPNetB"};
-  TTreeReaderArray<Float_t> Jet_btagPNetCvB = {fReader_2022, "Jet_btagPNetCvB"};
-  TTreeReaderArray<Float_t> Jet_btagPNetCvL = {fReader_2022, "Jet_btagPNetCvL"};
-  TTreeReaderArray<Float_t> Jet_btagPNetQvG = {fReader_2022, "Jet_btagPNetQvG"};
-  TTreeReaderArray<Float_t> Jet_btagPNetTauVJet = {fReader_2022, "Jet_btagPNetTauVJet"};
-  TTreeReaderArray<Float_t> Jet_btagRobustParTAK4B = {fReader_2022, "Jet_btagRobustParTAK4B"};
-  TTreeReaderArray<Float_t> Jet_btagRobustParTAK4CvB = {fReader_2022, "Jet_btagRobustParTAK4CvB"};
-  TTreeReaderArray<Float_t> Jet_btagRobustParTAK4CvL = {fReader_2022, "Jet_btagRobustParTAK4CvL"};
-  TTreeReaderArray<Float_t> Jet_btagRobustParTAK4QG = {fReader_2022, "Jet_btagRobustParTAK4QG"};
+  //TTreeReaderArray<Float_t> Jet_btagPNetB = {fReader_2022, "Jet_btagPNetB"};
+  //TTreeReaderArray<Float_t> Jet_btagPNetCvB = {fReader_2022, "Jet_btagPNetCvB"};
+  //TTreeReaderArray<Float_t> Jet_btagPNetCvL = {fReader_2022, "Jet_btagPNetCvL"};
+  //TTreeReaderArray<Float_t> Jet_btagPNetQvG = {fReader_2022, "Jet_btagPNetQvG"};
+  //TTreeReaderArray<Float_t> Jet_btagPNetTauVJet = {fReader_2022, "Jet_btagPNetTauVJet"};
+  //TTreeReaderArray<Float_t> Jet_btagRobustParTAK4B = {fReader_2022, "Jet_btagRobustParTAK4B"};
+  //TTreeReaderArray<Float_t> Jet_btagRobustParTAK4CvB = {fReader_2022, "Jet_btagRobustParTAK4CvB"};
+  //TTreeReaderArray<Float_t> Jet_btagRobustParTAK4CvL = {fReader_2022, "Jet_btagRobustParTAK4CvL"};
+  //TTreeReaderArray<Float_t> Jet_btagRobustParTAK4QG = {fReader_2022, "Jet_btagRobustParTAK4QG"};
   TTreeReaderArray<Float_t> Jet_chEmEF = {fReader_2022, "Jet_chEmEF"};
   TTreeReaderArray<Float_t> Jet_chHEF = {fReader_2022, "Jet_chHEF"};
   TTreeReaderArray<Float_t> Jet_eta = {fReader_2022, "Jet_eta"};
@@ -149,7 +163,7 @@ public :
   TTreeReaderValue<Float_t> MET_sumPtUnclustered = {fReader_2022, "MET_sumPtUnclustered"};
 
   //Muon
-  TTreeReaderValue<Int_t> nMuon = {fReader_2022, "nMuon"};
+  TTreeReaderValue<iterator> nMuon = {fReader_2022, "nMuon"};
   TTreeReaderArray<UChar_t> Muon_highPtId = {fReader_2022, "Muon_highPtId"};
   TTreeReaderArray<Bool_t> Muon_highPurity = {fReader_2022, "Muon_highPurity"};
   TTreeReaderArray<Bool_t> Muon_inTimeMuon = {fReader_2022, "Muon_inTimeMuon"};
@@ -183,9 +197,9 @@ public :
 
   //Photon
   /*
-  TTreeReaderValue<Int_t> nPhoton = {fReader_2022, "nPhoton"};
+  TTreeReaderValue<iterator> nPhoton = {fReader_2022, "nPhoton"};
   TTreeReaderArray<Char_t> Photon_seediEtaOriX = {fReader_2022, "Photon_seediEtaOriX"};
-  TTreeReaderArray<UChar_t> Photon_cutBased = {fReader_2022, "Photon_cutBased"};
+  TTreeReaderArray<int_or_char> Photon_cutBased = {fReader_2022, "Photon_cutBased"};
   TTreeReaderArray<Bool_t> Photon_electronVeto = {fReader_2022, "Photon_electronVeto"};
   TTreeReaderArray<Bool_t> Photon_hasConversionTracks = {fReader_2022, "Photon_hasConversionTracks"};
   TTreeReaderArray<Bool_t> Photon_isScEtaEB = {fReader_2022, "Photon_isScEtaEB"};
@@ -194,8 +208,8 @@ public :
   TTreeReaderArray<Bool_t> Photon_mvaID_WP90 = {fReader_2022, "Photon_mvaID_WP90"};
   TTreeReaderArray<Bool_t> Photon_pixelSeed = {fReader_2022, "Photon_pixelSeed"};
   TTreeReaderArray<UChar_t> Photon_seedGain = {fReader_2022, "Photon_seedGain"};
-  TTreeReaderArray<Short_t> Photon_electronIdx = {fReader_2022, "Photon_electronIdx"};
-  TTreeReaderArray<Short_t> Photon_jetIdx = {fReader_2022, "Photon_jetIdx"};
+  TTreeReaderArray<int_or_short> Photon_electronIdx = {fReader_2022, "Photon_electronIdx"};
+  TTreeReaderArray<int_or_short> Photon_jetIdx = {fReader_2022, "Photon_jetIdx"};
   TTreeReaderArray<Int_t> Photon_seediPhiOriY = {fReader_2022, "Photon_seediPhiOriY"};
   TTreeReaderArray<Int_t> Photon_vidNestedWPBitmap = {fReader_2022, "Photon_vidNestedWPBitmap"};
   TTreeReaderArray<Float_t> Photon_ecalPFClusterIso = {fReader_2022, "Photon_ecalPFClusterIso"};
@@ -249,7 +263,7 @@ public :
 
   //Tau
   /*
-   TTreeReaderValue<Int_t> nTau = {fReader_2022, "nTau"};
+   TTreeReaderValue<iterator> nTau = {fReader_2022, "nTau"};
    TTreeReaderArray<UChar_t> Tau_decayMode = {fReader_2022, "Tau_decayMode"};
    TTreeReaderArray<Bool_t> Tau_idAntiEleDeadECal = {fReader_2022, "Tau_idAntiEleDeadECal"};
    TTreeReaderArray<UChar_t> Tau_idAntiMu = {fReader_2022, "Tau_idAntiMu"};
@@ -262,7 +276,7 @@ public :
    TTreeReaderArray<UChar_t> Tau_idDeepTau2018v2p5VSjet = {fReader_2022, "Tau_idDeepTau2018v2p5VSjet"};
    TTreeReaderArray<UChar_t> Tau_idDeepTau2018v2p5VSmu = {fReader_2022, "Tau_idDeepTau2018v2p5VSmu"};
    TTreeReaderArray<UChar_t> Tau_nSVs = {fReader_2022, "Tau_nSVs"};
-   TTreeReaderArray<Short_t> Tau_charge = {fReader_2022, "Tau_charge"};
+   TTreeReaderArray<int_or_short> Tau_charge = {fReader_2022, "Tau_charge"};
    TTreeReaderArray<Short_t> Tau_decayModePNet = {fReader_2022, "Tau_decayModePNet"};
    TTreeReaderArray<Short_t> Tau_eleIdx = {fReader_2022, "Tau_eleIdx"};
    TTreeReaderArray<Short_t> Tau_jetIdx = {fReader_2022, "Tau_jetIdx"};
@@ -303,9 +317,9 @@ public :
   */
   
   //TrigObj
-  TTreeReaderValue<Int_t> nTrigObj = {fReader_2022, "nTrigObj"};
-  TTreeReaderArray<Short_t> TrigObj_l1charge = {fReader_2022, "TrigObj_l1charge"};
-  TTreeReaderArray<UShort_t> TrigObj_id = {fReader_2022, "TrigObj_id"};
+  TTreeReaderValue<iterator> nTrigObj = {fReader_2022, "nTrigObj"};
+  TTreeReaderArray<int_or_short> TrigObj_l1charge = {fReader_2022, "TrigObj_l1charge"};
+  TTreeReaderArray<int_or_ushort> TrigObj_id = {fReader_2022, "TrigObj_id"};
   TTreeReaderArray<Int_t> TrigObj_l1iso = {fReader_2022, "TrigObj_l1iso"};
   TTreeReaderArray<Int_t> TrigObj_filterBits = {fReader_2022, "TrigObj_filterBits"};
   TTreeReaderArray<Float_t> TrigObj_pt = {fReader_2022, "TrigObj_pt"};
@@ -365,8 +379,8 @@ public :
   TTreeReaderValue<Bool_t> HLT_IsoMu24 = {fReader_2022, "HLT_IsoMu24"};
   TTreeReaderValue<Bool_t> HLT_IsoMu24_eta2p1 = {fReader_2022, "HLT_IsoMu24_eta2p1"};
   TTreeReaderValue<Bool_t> HLT_IsoMu27 = {fReader_2022, "HLT_IsoMu27"};
-  TTreeReaderValue<Bool_t> HLT_IsoMu30 = {fReader_2022, "HLT_IsoMu30"};   
-  TTreeReaderValue<Bool_t> HLT_Mu12 = {fReader_2022, "HLT_Mu12"};
+  //TTreeReaderValue<Bool_t> HLT_IsoMu30 = {fReader_2022, "HLT_IsoMu30"};   
+  //TTreeReaderValue<Bool_t> HLT_Mu12 = {fReader_2022, "HLT_Mu12"};
   TTreeReaderValue<Bool_t> HLT_Mu15 = {fReader_2022, "HLT_Mu15"};
   TTreeReaderValue<Bool_t> HLT_Mu20 = {fReader_2022, "HLT_Mu20"};
   TTreeReaderValue<Bool_t> HLT_Mu27 = {fReader_2022, "HLT_Mu27"};
@@ -383,15 +397,15 @@ public :
   //--------------------
 
   //GenJet:
-  TTreeReaderValue<Int_t> nGenJet = {fReader_2022MC, "nGenJet"};
+  TTreeReaderValue<iterator> nGenJet = {fReader_2022MC, "nGenJet"};
   TTreeReaderArray<Float_t> GenJet_eta = {fReader_2022MC, "GenJet_eta"};
   TTreeReaderArray<Float_t> GenJet_mass = {fReader_2022MC, "GenJet_mass"};
   TTreeReaderArray<Float_t> GenJet_phi = {fReader_2022MC, "GenJet_phi"};
   TTreeReaderArray<Float_t> GenJet_pt = {fReader_2022MC, "GenJet_pt"};
 
   //GenPart:
-  TTreeReaderValue<Int_t> nGenPart = {fReader_2022MC, "nGenPart"};
-  TTreeReaderArray<Short_t> GenPart_genPartIdxMother = {fReader_2022MC, "GenPart_genPartIdxMother"};
+  TTreeReaderValue<iterator> nGenPart = {fReader_2022MC, "nGenPart"};
+  TTreeReaderArray<int_or_short> GenPart_genPartIdxMother = {fReader_2022MC, "GenPart_genPartIdxMother"};
   TTreeReaderArray<UShort_t> GenPart_statusFlags = {fReader_2022MC, "GenPart_statusFlags"};
   TTreeReaderArray<Int_t> GenPart_pdgId = {fReader_2022MC, "GenPart_pdgId"};
   TTreeReaderArray<Int_t> GenPart_status = {fReader_2022MC, "GenPart_status"};
@@ -404,13 +418,13 @@ public :
   TTreeReaderValue<Float_t> Generator_weight = {fReader_2022MC, "Generator_weight"};
   TTreeReaderValue<Float_t> genWeight = {fReader_2022MC, "genWeight"};
   TTreeReaderValue<Float_t> LHEWeight_originalXWGTUP = {fReader_2022MC, "LHEWeight_originalXWGTUP"};
-  TTreeReaderValue<Int_t> nLHEPdfWeight = {fReader_2022MC, "nLHEPdfWeight"};
+  TTreeReaderValue<iterator> nLHEPdfWeight = {fReader_2022MC, "nLHEPdfWeight"};
   TTreeReaderArray<Float_t> LHEPdfWeight = {fReader_2022MC, "LHEPdfWeight"};
-  TTreeReaderValue<Int_t> nLHEReweightingWeight = {fReader_2022MC, "nLHEReweightingWeight"};
+  TTreeReaderValue<iterator> nLHEReweightingWeight = {fReader_2022MC, "nLHEReweightingWeight"};
   TTreeReaderArray<Float_t> LHEReweightingWeight = {fReader_2022MC, "LHEReweightingWeight"};
-  TTreeReaderValue<Int_t> nLHEScaleWeight = {fReader_2022MC, "nLHEScaleWeight"};
+  TTreeReaderValue<iterator> nLHEScaleWeight = {fReader_2022MC, "nLHEScaleWeight"};
   TTreeReaderArray<Float_t> LHEScaleWeight = {fReader_2022MC, "LHEScaleWeight"};
-  TTreeReaderValue<Int_t> nPSWeight = {fReader_2022MC, "nPSWeight"};
+  TTreeReaderValue<iterator> nPSWeight = {fReader_2022MC, "nPSWeight"};
   TTreeReaderArray<Float_t> PSWeight = {fReader_2022MC, "PSWeight"};
 
   //GenMET
@@ -426,7 +440,7 @@ public :
   TTreeReaderValue<Float_t> Pileup_gpudensity = {fReader_2022MC, "Pileup_gpudensity"};
 
   //Jetflavor:
-  TTreeReaderArray<UChar_t> Jet_hadronFlavour = {fReader_2022MC, "Jet_hadronFlavour"};
+  TTreeReaderArray<int_or_char> Jet_hadronFlavour = {fReader_2022MC, "Jet_hadronFlavour"};
   
   
   AnaScript(TTree * /*tree*/ =0) { }

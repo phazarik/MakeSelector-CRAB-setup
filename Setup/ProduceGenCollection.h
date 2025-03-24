@@ -14,7 +14,7 @@ void AnaScript::createGenLightLeptons(){
     temp.status = GenPart_status[i];
     temp.ind = i;
     temp.pdgid = GenPart_pdgId[i];
-    temp.momid= MotherID(i,GenPart_genPartIdxMother[i]);
+    temp.momid= MotherID(i, (int)GenPart_genPartIdxMother[i]);
 
     int lepcharge=0;
     if(GenPart_pdgId[i]>0) lepcharge = -1; else lepcharge = 1;
@@ -28,7 +28,7 @@ void AnaScript::createGenLightLeptons(){
     if(promptdecay){
       if(abs(temp.momid)==24 || abs(temp.momid)==23|| abs(temp.momid)==15){
 	ttzdecay=true;
-	int grandmomid=MotherID(GenPart_genPartIdxMother[i],GenPart_genPartIdxMother[GenPart_genPartIdxMother[i]]);
+	int grandmomid=MotherID((int)GenPart_genPartIdxMother[i], (int)GenPart_genPartIdxMother[(int)GenPart_genPartIdxMother[i]]);
 	//cout<<"GrandMom ID="<<grandmomid<<endl;
 	if((abs(grandmomid)>0 && abs(grandmomid)<7))
 	  WZbosondecay=true;    //Interested in very specific decay: W->l nu, Z->ll, mother is W or Z and grandmother should be a quark
@@ -39,7 +39,7 @@ void AnaScript::createGenLightLeptons(){
     //genMuon block:
     //##############
     bool passcutmu= abs(temp.pdgid)==13 && temp.status==1 && temp.v.Pt()>5 && fabs(temp.v.Eta())<2.4;
-    bool motherisnotmu= abs(temp.momid)!=13 && GenPart_pdgId[GenPart_genPartIdxMother[i]]!=22;
+    bool motherisnotmu= abs(temp.momid)!=13 && GenPart_pdgId[(int)GenPart_genPartIdxMother[i]]!=22;
     passcutmu = passcutmu && motherisnotmu && promptdecay; 
     if(passcutmu){     	
       genMuon.push_back(temp);
@@ -50,7 +50,7 @@ void AnaScript::createGenLightLeptons(){
     //genElectron block:
     //##################
     bool passcutele= abs(temp.pdgid)==11 && temp.status==1 && temp.v.Pt()>5 && fabs(temp.v.Eta())<2.4;
-    bool motherisnotele= abs(temp.momid)!=11 && GenPart_pdgId[GenPart_genPartIdxMother[i]]!=22;
+    bool motherisnotele= abs(temp.momid)!=11 && GenPart_pdgId[(int)GenPart_genPartIdxMother[i]]!=22;
     passcutele = passcutele && motherisnotele && promptdecay; 
     if(passcutele){
       genElectron.push_back(temp);
@@ -107,7 +107,7 @@ void AnaScript::createSignalArrays(){
     temp.ind = i;
     temp.pdgid = GenPart_pdgId[i];
     //temp.momid= MotherID(i,GenPart_genPartIdxMother[i]);
-    temp.momid = GenPart_pdgId[GenPart_genPartIdxMother[i]]; //Not fixing the mother right now
+    temp.momid = GenPart_pdgId[(int)GenPart_genPartIdxMother[i]]; //Not fixing the mother right now
 
     //h.sig[0]->Fill(GenPart_pdgId[i], 1.0);
 
@@ -124,7 +124,7 @@ void AnaScript::createSignalArrays(){
     for(unsigned int j=0; j<iterator2; j++){
       float id = GenPart_pdgId[j];
       //float momid = GenPart_pdgId[GenPart_genPartIdxMother[i]];
-      float momid = MotherID(j,GenPart_genPartIdxMother[j]);
+      float momid = MotherID(j,(int)GenPart_genPartIdxMother[j]);
       //remove identical daughetrs:
       bool unique_daughter = true;
       if(momid == GenPart_pdgId[i]){ //If mother of the j-th particle is the i-th particle,
