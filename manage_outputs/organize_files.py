@@ -3,8 +3,8 @@ import os, sys
 basedir = "/eos/user/p/phazarik"
 jobdir  = "Run3Summer22_skim_singleV"
 dumpdir = "skimmed_2LSS_Run3Summer22" 
-dryrun = True
-test   = False
+dryrun  = False
+test    = False
 
 samples=[
     ### SingleV:
@@ -22,7 +22,18 @@ samples=[
     ("TT_TTto2L2Nu",    "/TTto2L2Nu-3Jets_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
     ("TT_TTtoLminusNu", "/TTtoLminusNu2Q-3Jets_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
     ("TT_TTtoLplusNu",  "/TTtoLplusNu2Q-3Jets_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
+
+    ### SingleTop
+    ("ST_TBbartoLplusNuBbar", "/TBbartoLplusNuBbar-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
+    ("ST_TbarBtoLminusNuB",   "/TbarBtoLminusNuB-s-channel-4FS_TuneCP5_13p6TeV_amcatnlo-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
+    ("ST_TBbarQ",             "/TBbarQ_t-channel_4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
+    ("ST_TQbarto2Q",          "/TQbarto2Q-t-channel_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
+    ("ST_TQbartoLNu",         "/TQbartoLNu-t-channel_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
+    ("ST_TbarBQ",             "/TbarBQ_t-channel_4FS_TuneCP5_13p6TeV_powheg-madspin-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
+    ("ST_TbarQto2Q",          "/TbarQto2Q-t-channel_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
+    ("ST_TbarQtoLNu",         "/TbarQtoLNu-t-channel_TuneCP5_13p6TeV_powheg-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM", "ttbar"),
 ]
+
 
 for fullsamplename, fulldasname, tag in samples:
 
@@ -34,26 +45,33 @@ for fullsamplename, fulldasname, tag in samples:
 
     dasname = fulldasname.split('/')[1]
     searchdir = os.path.join(basedir, jobdir, dasname)
-    print('Searching files in: '+searchdir)
+    if not os.path.exists(searchdir):
+        print(f'\033[31mPath does not exists: {searchdir}. Skipping.\033[0m')
+        continue
     
+    print('Searching files in: '+searchdir)
+
+    files_found = False
     for rootdir, _, files in os.walk(searchdir):
         root_files = [f for f in files if f.endswith('.root')]
         if root_files:
             print(f'Found {len(root_files)} root files in: {rootdir}')
+            files_found = True
             nfile = 0
             for file in root_files:
                 src = os.path.join(rootdir, file)
                 dst = os.path.join(dump,    file)
                 if not dryrun: os.system(f'cp "{src}" "{dst}"')
-                if os.path.exists(dst): print(f'\033[91mWarning: {dst} already exists. Skipping copy.\033[0m')
-                else:
-                    if not dryrun:
-                        os.system(f'cp "{src}" "{dst}"')
-                        nfile += 1
+                #if os.path.exists(dst): print(f'\033[31mWarning: {dst} already exists. Skipping copy.\033[0m')
+                #else:
+                if not dryrun:
+                    os.system(f'cp "{src}" "{dst}"')
+                    nfile += 1
                 
             print('Destination: '+dump)
             print(f'Copied {nfile} files.')
 
+    if not files_found: print(f'\033[31mNo root files in: {searchdir}, skipping.\033[0m')
     if test: break ##sample
 
 print(f'\nAll files in {jobdir} copied to {dumpdir}.\n')

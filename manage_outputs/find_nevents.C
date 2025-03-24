@@ -79,9 +79,9 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22") {
       cout<< setw(20) << left  << subsample;
       cout<< setw(12) << right << fixed << setprecision(0) << nEvtTotal <<endl;
       
-      break; //subsample
+      //break; //subsample
     }
-    break; //sample
+    //break; //sample
   }
 
   cout<< "-----------------------------------------" <<endl;
