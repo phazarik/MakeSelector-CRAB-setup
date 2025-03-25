@@ -5,7 +5,6 @@
 *.d
 *pyc
 *#
-*txt
 *png
 *zip
 *gz
