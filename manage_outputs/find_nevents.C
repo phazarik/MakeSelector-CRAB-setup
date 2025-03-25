@@ -31,6 +31,8 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22") {
   for (TObject* obj : *allsamples) {
     TString sample = obj->GetName();
     if (sample == "." || sample == "..") continue;
+    if (sample != "EGamma" && sample != "Muon") continue;
+    
     TString path2 = path + "/" + sample;
 
     TSystemDirectory subdir(path2, path2);

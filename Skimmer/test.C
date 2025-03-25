@@ -14,10 +14,10 @@
 using namespace std;
 
 void test(
-	  TString infile  = "test_inputs/DYto2L-4Jets_MLL-50.root",
-	  TString outfile = "test_outputs/test_driver.root",
+	  TString infile  = "/eos/user/p/phazarik/skimmed_2LSS_Run3Summer22/DYto2L/50toInf/*",
+	  TString outfile = "test_outputs/skim_test.root",
 	  TString campaign = "Run3Summer22",
-	  TString sample = "DYJetsToLL_M50",
+	  TString sample = "DY",
 	  TString flag = "dy"
 	  )
 {  

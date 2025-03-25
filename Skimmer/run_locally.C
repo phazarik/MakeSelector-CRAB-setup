@@ -10,13 +10,12 @@
 using namespace std;
 
 void run_locally(
-		 //TString infile  = "test_inputs/DYto2L-4Jets_MLL-50.root",
-		 TString infile  = "test_inputs/Muon_Run2022C.root",
-		 TString outfile = "test_outputs/test_local.root",
+		 TString infile  = "test_inputs/DYto2L-4Jets_MLL-50.root",
+		 //TString infile  = "test_inputs/EGamma_Run2022D_38_full.root",
+		 TString outfile = "test_outputs/skimtest.root",
 		 TString campaign = "Run3Summer22",
-		 //TString sample = "DYJetsToLL_M50",
-		 TString sample = "Data",
-		 TString flag = "muon"
+		 TString sample = "DYJetsToLL_M50",
+		 TString flag = "dy"
 		 )
 {
   // Suppress warnings (optional)

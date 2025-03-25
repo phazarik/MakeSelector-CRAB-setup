@@ -8,14 +8,15 @@ sample=$2
 flag=$3
 
 #Testing:
-#infile="Skimmer/test_inputs/DYto2L-4Jets_MLL-50.root"
+#infile="Skimmer/test_inputs/Muon_Run2022C.root"
 #outfile="Skimmer/test_outputs/test_driver.root"
 #campaign="Run3Summer22"
-#sample="DYto2L-4Jets_MLL-50"
-#flag="dy"
+#sample="Data"
+#flag="muon"
 
 #root_command="compile_and_run.C(\"root://cms-xrd-global.cern.ch//$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\")"
 root_command="compile_and_run.C(\"root://cmsxrootd.fnal.gov//$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\")"
+#root_command="compile_and_run.C(\"$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\")"
 
 
 # Echo the command for copy-paste testing

@@ -11,3 +11,5 @@
 *gz
 *log
 *.ipynb_checkpoints
+CMSSW_*
+submitted

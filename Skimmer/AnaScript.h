@@ -30,18 +30,19 @@
 
 class AnaScript : public TSelector {
 private:
-  /*
+  
   //For NanoAODv12 and beyond: (MC)
   using iterator     = Int_t;
   using int_or_char  = UChar_t;
   using int_or_short = Short_t;
-  using int_or_ushort = UShort_t;*/
+  using int_or_ushort = UShort_t;
 
+  /*
   //For NanoAODv11 (Run3Summer22 Data)
   using iterator     = UInt_t; 
   using int_or_char  = Int_t;
   using int_or_short = Int_t;
-  using int_or_ushort = Int_t;
+  using int_or_ushort = Int_t;*/
   
 public :
   TTreeReader     fReader_2022;
