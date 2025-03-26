@@ -45,9 +45,9 @@ config.JobType.outputFiles = ['skimFile.root']
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1  # Number of files per job
-config.Data.outLFNDirBase = '/store/user/phazarik/Run3Summer22_skim_VV' #Customize here according to your needs.
+config.Data.outLFNDirBase = '/store/user/phazarik/Run3Summer22_skim_Higgs' #Customize here according to your needs.
 config.Data.publication = False
-config.Data.outputDatasetTag = f'run3Skim_{timestamp}'
+config.Data.outputDatasetTag = f'run3Skim' ###subdirectory
 
 ### Site:
 config.Site.storageSite = 'T3_CH_CERNBOX' #Customize here according to your needs.

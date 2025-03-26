@@ -14,11 +14,11 @@
 using namespace std;
 
 void test(
-	  TString infile  = "/eos/user/p/phazarik/skimmed_2LSS_Run3Summer22/DYto2L/50toInf/*",
+	  TString infile  = "test_inputs/QCDEM_PT-10to30.root",
 	  TString outfile = "test_outputs/skim_test.root",
 	  TString campaign = "Run3Summer22",
-	  TString sample = "DY",
-	  TString flag = "dy"
+	  TString sample = "QCD",
+	  TString flag = "qcd"
 	  )
 {  
   TString arguments = "\""+infile+"\",\""+outfile+"\",\""+campaign+"\",\""+sample+"\",\""+flag+"\"";

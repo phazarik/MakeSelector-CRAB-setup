@@ -43,6 +43,8 @@ private:
   using int_or_char  = Int_t;
   using int_or_short = Int_t;
   using int_or_ushort = Int_t;*/
+
+  //Note: Remove LHE weight branches in case of QCD samples
   
 public :
   TTreeReader     fReader_2022;
@@ -418,6 +420,7 @@ public :
   //GenWeights:
   TTreeReaderValue<Float_t> Generator_weight = {fReader_2022MC, "Generator_weight"};
   TTreeReaderValue<Float_t> genWeight = {fReader_2022MC, "genWeight"};
+  /*
   TTreeReaderValue<Float_t> LHEWeight_originalXWGTUP = {fReader_2022MC, "LHEWeight_originalXWGTUP"};
   TTreeReaderValue<iterator> nLHEPdfWeight = {fReader_2022MC, "nLHEPdfWeight"};
   TTreeReaderArray<Float_t> LHEPdfWeight = {fReader_2022MC, "LHEPdfWeight"};
@@ -426,7 +429,7 @@ public :
   TTreeReaderValue<iterator> nLHEScaleWeight = {fReader_2022MC, "nLHEScaleWeight"};
   TTreeReaderArray<Float_t> LHEScaleWeight = {fReader_2022MC, "LHEScaleWeight"};
   TTreeReaderValue<iterator> nPSWeight = {fReader_2022MC, "nPSWeight"};
-  TTreeReaderArray<Float_t> PSWeight = {fReader_2022MC, "PSWeight"};
+  TTreeReaderArray<Float_t> PSWeight = {fReader_2022MC, "PSWeight"};*/
 
   //GenMET
   TTreeReaderValue<Float_t> GenMET_phi = {fReader_2022MC, "GenMET_phi"};
