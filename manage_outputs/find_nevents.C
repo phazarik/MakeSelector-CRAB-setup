@@ -32,7 +32,8 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22") {
     TString sample = obj->GetName();
     if (sample == "." || sample == "..") continue;
     //if (sample != "EGamma" && sample != "Muon") continue;
-    if (sample != "QCDEM" && sample != "QCDMu") continue;
+    //if (sample != "QCDEM" && sample != "QCDMu") continue;
+    if (sample != "Higgs") continue;
     
     TString path2 = path + "/" + sample;
 

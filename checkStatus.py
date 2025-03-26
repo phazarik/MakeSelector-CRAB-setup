@@ -1,4 +1,4 @@
-import os
+import os, subprocess
 
 def parse_crab_status_output(output):
     ### Initialize default values
@@ -36,6 +36,30 @@ def check_status_all_jobs():
         count += 1
         
     print("")
+
+def check_voms_proxy():
+    result = subprocess.run("voms-proxy-info --timeleft", shell=True, capture_output=True, text=True)
+    time_left = result.stdout.strip()
+    if result.returncode != 0 or not time_left.isdigit() or int(time_left) <= 0:
+        print("\n\033[31m[WARNING] CMS VOMS proxy not found or expired! Please run the following.\033[0m")
+        print("voms-proxy-init -voms cms\n")
+        return False
     
+    time_left = int(time_left)
+    hours, remainder = divmod(time_left, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    print(f"CMS VOMS proxy found. Time left: {hours} hours, {minutes} minutes, {seconds} seconds.")
+    return True
+
+def check_cmssw():
+    cmssw_base = os.environ.get("CMSSW_BASE")
+    if not cmssw_base:
+        print("\n\033[31m[WARNING] No CMSSW environment detected! Please set up CMSSW before running.\033[0m\n")
+        return False
+    print(f"CMSSW environment detected: {cmssw_base}")
+    return True
+
 ### Run the function
-if __name__ == "__main__": check_status_all_jobs()
+if __name__ == "__main__":
+    if not check_cmssw() or not check_voms_proxy(): None
+    else: check_status_all_jobs()
