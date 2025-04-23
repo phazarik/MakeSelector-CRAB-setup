@@ -11,7 +11,7 @@
 #include <TSystemFile.h>//representing files in a ROOT directory listing
 using namespace std;
 
-void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22") {
+void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22_v12", TString find="nEvtTotal") {
 
   TString path = gSystem->ConcatFileName("/eos/user/p/phazarik/", dumpdir);
   
@@ -23,7 +23,7 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22") {
   cout<<"\033[033m";
   cout<< setw(8) << left << "sample";
   cout<< setw(20) << left << "subsample";
-  cout<< setw(12) << right << "nEvtTotal" <<endl;
+  cout<< setw(12) << right << find <<endl;
   cout<<"\033[0m";
   cout<< "-----------------------------------------" <<endl;
   
@@ -33,7 +33,7 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22") {
     if (sample == "." || sample == "..") continue;
     //if (sample != "EGamma" && sample != "Muon") continue;
     //if (sample != "QCDEM" && sample != "QCDMu") continue;
-    if (sample != "Higgs") continue;
+    //if (sample != "Higgs") continue;
     
     TString path2 = path + "/" + sample;
 
@@ -70,7 +70,10 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22") {
 	TH1D* hist = dynamic_cast<TH1D*>(file->Get("hCount"));
 	if (hist){
 	  count += 1;
-	  double nevt = hist->GetBinContent(2); 
+	  int bin=0;
+	  if (find=="nEvtTotal") bin=2;
+	  if (find=="nEvtPass") bin=5;
+	  double nevt = hist->GetBinContent(bin); 
 	  //cout<<"Event in file #"<<count<<" = "<< fixed << setprecision(0) << nevt <<endl;
 	  nEvtTotal += nevt;
 	}

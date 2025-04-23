@@ -31,14 +31,14 @@
 class AnaScript : public TSelector {
 private:
   
-  //For NanoAODv12 and beyond: (MC)
+  //For NanoAODv12 and beyond:
   using iterator     = Int_t;
   using int_or_char  = UChar_t;
   using int_or_short = Short_t;
   using int_or_ushort = UShort_t;
 
   /*
-  //For NanoAODv11 (Run3Summer22 Data)
+  //For NanoAODv11 and below
   using iterator     = UInt_t; 
   using int_or_char  = Int_t;
   using int_or_short = Int_t;
@@ -87,7 +87,6 @@ public :
   TTreeReaderArray<Float_t> Electron_scEtOverPt = {fReader_2022, "Electron_scEtOverPt"};
   TTreeReaderArray<Float_t> Electron_sieie = {fReader_2022, "Electron_sieie"};
   TTreeReaderArray<Float_t> Electron_sip3d = {fReader_2022, "Electron_sip3d"};
-
   /*
   //IsoTrack
   TTreeReaderValue<iterator> nIsoTrack = {fReader_2022, "nIsoTrack"};
@@ -318,7 +317,7 @@ public :
    TTreeReaderArray<Float_t> Tau_rawPNetVSjet = {fReader_2022, "Tau_rawPNetVSjet"};
    TTreeReaderArray<Float_t> Tau_rawPNetVSmu = {fReader_2022, "Tau_rawPNetVSmu"};
   */
-  
+  /*
   //TrigObj
   TTreeReaderValue<iterator> nTrigObj = {fReader_2022, "nTrigObj"};
   TTreeReaderArray<int_or_short> TrigObj_l1charge = {fReader_2022, "TrigObj_l1charge"};
@@ -330,7 +329,7 @@ public :
   TTreeReaderArray<Float_t> TrigObj_phi = {fReader_2022, "TrigObj_phi"};
   TTreeReaderArray<Float_t> TrigObj_l1pt = {fReader_2022, "TrigObj_l1pt"};
   TTreeReaderArray<Float_t> TrigObj_l1pt_2 = {fReader_2022, "TrigObj_l1pt_2"};
-  TTreeReaderArray<Float_t> TrigObj_l2pt = {fReader_2022, "TrigObj_l2pt"};
+  TTreeReaderArray<Float_t> TrigObj_l2pt = {fReader_2022, "TrigObj_l2pt"};*/
 
   //Flags
   TTreeReaderValue<Bool_t> Flag_HBHENoiseFilter = {fReader_2022, "Flag_HBHENoiseFilter"};
@@ -382,13 +381,6 @@ public :
   TTreeReaderValue<Bool_t> HLT_IsoMu24 = {fReader_2022, "HLT_IsoMu24"};
   TTreeReaderValue<Bool_t> HLT_IsoMu24_eta2p1 = {fReader_2022, "HLT_IsoMu24_eta2p1"};
   TTreeReaderValue<Bool_t> HLT_IsoMu27 = {fReader_2022, "HLT_IsoMu27"};
-  //TTreeReaderValue<Bool_t> HLT_IsoMu30 = {fReader_2022, "HLT_IsoMu30"};   
-  //TTreeReaderValue<Bool_t> HLT_Mu12 = {fReader_2022, "HLT_Mu12"};
-  TTreeReaderValue<Bool_t> HLT_Mu15 = {fReader_2022, "HLT_Mu15"};
-  TTreeReaderValue<Bool_t> HLT_Mu20 = {fReader_2022, "HLT_Mu20"};
-  TTreeReaderValue<Bool_t> HLT_Mu27 = {fReader_2022, "HLT_Mu27"};
-  TTreeReaderValue<Bool_t> HLT_Mu50 = {fReader_2022, "HLT_Mu50"};
-  TTreeReaderValue<Bool_t> HLT_Mu55 = {fReader_2022, "HLT_Mu55"};
 
   // HLT paths that I am interested in:
   // For 2018 and 2022 and 2023:
@@ -445,7 +437,6 @@ public :
 
   //Jetflavor:
   TTreeReaderArray<int_or_char> Jet_hadronFlavour = {fReader_2022MC, "Jet_hadronFlavour"};
-  
   
   AnaScript(TTree * /*tree*/ =0) { }
   virtual ~AnaScript() { }

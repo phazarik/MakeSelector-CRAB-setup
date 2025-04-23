@@ -42,7 +42,6 @@ void AnaScript::SlaveBegin(TTree *tree)
   genEventsumw=0;
   
   //For skimmer
-  tree->SetBranchStatus("*",0);
   ActivateBranch(tree);
 
   cout<<"n-events time(sec)"<<endl;
@@ -119,12 +118,14 @@ Bool_t AnaScript::Process(Long64_t entry)
     *Flag_HBHENoiseIsoFilter && *Flag_EcalDeadCellTriggerPrimitiveFilter && *Flag_BadPFMuonFilter;
   bool eeBadSc = _data ? *Flag_eeBadScFilter : 1;
 
+  /*
   GoodEvt2018 = (_year == 2018 ? common && eeBadSc && *Flag_BadPFMuonDzFilter && *Flag_ecalBadCalibFilter : 1);
   GoodEvt2017 = (_year == 2017 ? common && eeBadSc && *Flag_BadPFMuonDzFilter : 1);
   GoodEvt2016 = (_year == 2016 ? common && eeBadSc : 1);
   GoodEvt2022 = (_year == 2022 ? common && eeBadSc : 1);
   GoodEvt2023 = (_year == 2022 ? common && eeBadSc : 1);
-  GoodEvt = GoodEvt2018 && GoodEvt2017 && GoodEvt2016 && GoodEvt2022 && GoodEvt2023;
+  GoodEvt = GoodEvt2018 && GoodEvt2017 && GoodEvt2016 && GoodEvt2022 && GoodEvt2023;*/
+  GoodEvt=true;
 
   if(GoodEvt){  
     nEvtRan++;
@@ -161,8 +162,8 @@ Bool_t AnaScript::Process(Long64_t entry)
 	SortPt(genMuon);
 	SortPt(genElectron);
 	SortPt(genLightLepton);
-	//createSignalArrays();
-	//SortVLL();
+	createSignalArrays();
+	SortVLL();
       }
       if(bad_event) nEvtBad++;
 

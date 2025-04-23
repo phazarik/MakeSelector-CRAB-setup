@@ -33,6 +33,6 @@ void compile_and_run(
   cout<<"Compilation success!"<<endl;
   auto dt = compile_end-compile_start;
   cout<<"\033[34mTime taken to compile = "<<(int)dt<<" seconds.\033[0m"<<endl;
-
+  
   gROOT->ProcessLine(processline);
 }

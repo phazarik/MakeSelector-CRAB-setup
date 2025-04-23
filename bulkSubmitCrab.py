@@ -10,7 +10,7 @@ import ast
 
 campaign = "Run3Summer22"
 test   = False
-dryrun = True
+dryrun = False
 
 ### Note: For data, use flag == 'singlemuon' or 'egamma'
 

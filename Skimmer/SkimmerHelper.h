@@ -1,7 +1,41 @@
+#include<vector>
+#include<TString.h>
+#include "TRegexp.h"
 using namespace std;
 
 void AnaScript::ActivateBranch(TTree *t){
-  t->SetBranchStatus("*", 1); //Keep all
+  //Option1:
+  //t->SetBranchStatus("*", 1); //Keep all
+
+  //Option2:
+  //Common branches:
+  vector<TString> branches = {"run","luminosityBlock","event",
+			      "Flag_*",
+			      "nMuon","Muon_*",
+			      "nElectron","Electron_*",
+			      //"nTau","Tau_*",
+			      "nJet","Jet_*",
+			      "MET_*","PuppiMET_*",
+			      //"nTrigObj","TrigObj_*",
+			      //"nPhoton", "Photon_*",
+			      "*fixed*",
+			      //"PV*",
+			      "HLT_IsoMu*", "HLT_Ele*"};
+  vector<TString> branches_mc = {"nGenPart","GenPart_*",
+				 "nGenJet","GenJet_*",
+				 //"nGenVisTau","GenVisTau_*",
+				 "GenMET_phi","GenMET_pt",
+				 //"*LHE*Weight*",//non-QCD only
+				 "Pileup*"};
+  if (_data == 0) branches.insert(branches.end(), branches_mc.begin(), branches_mc.end());
+
+  cout<<"Keeping these branches:"<<endl;
+  t->SetBranchStatus("*", 0); //Deactivate all and activate only the selected ones:
+  for(auto activeBranchName : branches){
+    cout<<" -"<<activeBranchName<<endl;
+    t->SetBranchStatus(activeBranchName, 1);
+  }
+  cout<<endl;
 }
 
 void AnaScript::ReadBranch(){
@@ -113,7 +147,7 @@ void AnaScript::ReadBranch(){
   *PuppiMET_ptJERUp;
   *PuppiMET_ptJESUp;
   *PuppiMET_sumEt;
-  
+  /*  
   //TrigObj
   *nTrigObj;
   for(unsigned int i=0; i<(unsigned int)*nTrigObj; i++){
@@ -127,7 +161,7 @@ void AnaScript::ReadBranch(){
     TrigObj_l1iso[i];
     TrigObj_l1charge[i];
     TrigObj_filterBits[i];
-  }
+    }*/
 
   //Flags
   *Flag_HBHENoiseFilter;
@@ -150,8 +184,8 @@ void AnaScript::ReadBranch(){
   *Flag_muonBadTrackFilter;
   *Flag_BadChargedCandidateFilter;
   *Flag_BadPFMuonFilter;
-  //*Flag_BadPFMuonDzFilter;
-  //*Flag_hfNoisyHitsFilter;
+  *Flag_BadPFMuonDzFilter;//
+  *Flag_hfNoisyHitsFilter;//
   *Flag_BadChargedCandidateSummer16Filter;
   *Flag_BadPFMuonSummer16Filter;
   *Flag_trkPOG_manystripclus53X;
@@ -166,14 +200,7 @@ void AnaScript::ReadBranch(){
   *Rho_fixedGridRhoFastjetCentralChargedPileUp;
   *Rho_fixedGridRhoFastjetCentralNeutral;
 
-  if(_data==0){
-    *Pileup_nPU;
-    *Pileup_sumEOOT;
-    *Pileup_sumLOOT;
-    *Pileup_nTrueInt;
-    *Pileup_gpudensity;
-  }
-
+  //Additionl HLT branches:
   *HLT_Ele27_WPTight_Gsf;
   *HLT_Ele28_WPTight_Gsf;
   *HLT_Ele30_WPTight_Gsf;
@@ -185,12 +212,28 @@ void AnaScript::ReadBranch(){
   *HLT_IsoMu24;
   *HLT_IsoMu24_eta2p1;
   *HLT_IsoMu27;
-  //*HLT_IsoMu30;
-  //*HLT_Mu12;
-  *HLT_Mu15;
-  *HLT_Mu20;
-  *HLT_Mu27;
-  *HLT_Mu50;
-  *HLT_Mu55;
+
+  //for MC:
+  if(_data==0){
+    *GenMET_phi;
+    *GenMET_pt;
+
+    *nGenPart;
+    for(unsigned int i=0; i<(unsigned int)*nGenPart; i++){
+      GenPart_eta[i];
+      GenPart_mass[i];
+      GenPart_phi[i];
+      GenPart_pt[i];
+      GenPart_genPartIdxMother[i];
+      GenPart_pdgId[i];
+      GenPart_status[i];
+    }
+    *nGenJet;
+    *Pileup_nPU;
+    *Pileup_sumEOOT;
+    *Pileup_sumLOOT;
+    *Pileup_nTrueInt;
+    *Pileup_gpudensity;
+  }
   
 }
