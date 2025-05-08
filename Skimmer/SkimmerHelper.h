@@ -13,14 +13,10 @@ void AnaScript::ActivateBranch(TTree *t){
 			      "Flag_*",
 			      "nMuon","Muon_*",
 			      "nElectron","Electron_*",
-			      //"nTau","Tau_*",
 			      "nJet","Jet_*",
 			      "MET_*","PuppiMET_*",
-			      //"nTrigObj","TrigObj_*",
-			      //"nPhoton", "Photon_*",
 			      "*fixed*",
-			      //"PV*",
-			      "HLT_IsoMu*", "HLT_Ele*"};
+			      "HLT_IsoMu*", "HLT_Ele*WPTight_Gsf"};
   vector<TString> branches_mc = {"nGenPart","GenPart_*",
 				 "nGenJet","GenJet_*",
 				 //"nGenVisTau","GenVisTau_*",
@@ -69,6 +65,7 @@ void AnaScript::ReadBranch(){
     Electron_cutBased[i];
     Electron_pdgId[i];
   }
+  
   //Jets
   *nJet;
   for(unsigned int i=0; i<(unsigned int)*nJet;i++){
@@ -93,7 +90,7 @@ void AnaScript::ReadBranch(){
     Jet_nMuons[i];
     if(_data==0) Jet_hadronFlavour[i];
   }
-
+  
   //PFMET
   *MET_MetUnclustEnUpDeltaX;
   *MET_MetUnclustEnUpDeltaY;
@@ -147,6 +144,7 @@ void AnaScript::ReadBranch(){
   *PuppiMET_ptJERUp;
   *PuppiMET_ptJESUp;
   *PuppiMET_sumEt;
+
   /*  
   //TrigObj
   *nTrigObj;
@@ -215,9 +213,11 @@ void AnaScript::ReadBranch(){
 
   //for MC:
   if(_data==0){
+
+    *Generator_weight;
     *GenMET_phi;
     *GenMET_pt;
-
+    
     *nGenPart;
     for(unsigned int i=0; i<(unsigned int)*nGenPart; i++){
       GenPart_eta[i];
@@ -228,7 +228,15 @@ void AnaScript::ReadBranch(){
       GenPart_pdgId[i];
       GenPart_status[i];
     }
+    
     *nGenJet;
+    for(unsigned int i=0; i<(unsigned int)*nGenPart; i++){
+      GenJet_eta[i];
+      GenJet_mass[i];
+      GenJet_phi[i];
+      GenJet_pt[i];
+    }
+    
     *Pileup_nPU;
     *Pileup_sumEOOT;
     *Pileup_sumLOOT;

@@ -11,7 +11,7 @@
 #include <TSystemFile.h>//representing files in a ROOT directory listing
 using namespace std;
 
-void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22_v12", TString find="nEvtTotal") {
+void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22EE_MC", TString find="nEvtTotal") {
 
   TString path = gSystem->ConcatFileName("/eos/user/p/phazarik/", dumpdir);
   
@@ -26,7 +26,8 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22_v12", TString fin
   cout<< setw(12) << right << find <<endl;
   cout<<"\033[0m";
   cout<< "-----------------------------------------" <<endl;
-  
+
+  vector<TString> invalidFiles;
   //Looping over objects kept in path:
   for (TObject* obj : *allsamples) {
     TString sample = obj->GetName();
@@ -64,7 +65,10 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22_v12", TString fin
 	//Access each file:
 	TString filepath = path3 + "/" + filename;
 	TFile* file = TFile::Open(filepath);
-	if (!file || file->IsZombie()) {cerr << "\033[031mError: Cannot open file " << filepath <<"\033[0m"<<endl; continue;}
+	if (!file || file->IsZombie()) {
+	  cerr << "\033[031mError: Cannot open file " << filepath <<"\033[0m"<<endl; continue;
+	  invalidFiles.push_back(filepath);
+	}
 
 	//Access histogram:
 	TH1D* hist = dynamic_cast<TH1D*>(file->Get("hCount"));
@@ -92,5 +96,10 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22_v12", TString fin
   }
 
   cout<< "-----------------------------------------" <<endl;
-  cout<<"\nDone!\n"<<endl;
+  cout<<"\nDone!"<<endl;
+  if((int)invalidFiles.size()>0){
+    cout<<"Invalid files found:"<<endl;
+    for(int i=0; i<(int)invalidFiles.size(); i++) cout<<invalidFiles[i]<<endl;
+  }
+  cout<<endl;
 }

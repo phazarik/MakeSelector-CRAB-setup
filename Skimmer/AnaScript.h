@@ -36,7 +36,6 @@ private:
   using int_or_char  = UChar_t;
   using int_or_short = Short_t;
   using int_or_ushort = UShort_t;
-
   /*
   //For NanoAODv11 and below
   using iterator     = UInt_t; 
@@ -62,10 +61,10 @@ public :
   TTreeReaderArray<int_or_char> Electron_cutBased = {fReader_2022, "Electron_cutBased"};
   TTreeReaderArray<Bool_t> Electron_cutBased_HEEP = {fReader_2022, "Electron_cutBased_HEEP"};
   TTreeReaderArray<UChar_t> Electron_lostHits = {fReader_2022, "Electron_lostHits"};
-  TTreeReaderArray<Bool_t> Electron_mvaIso_WP80 = {fReader_2022, "Electron_mvaIso_WP80"};
-  TTreeReaderArray<Bool_t> Electron_mvaIso_WP90 = {fReader_2022, "Electron_mvaIso_WP90"};
-  TTreeReaderArray<Bool_t> Electron_mvaNoIso_WP80 = {fReader_2022, "Electron_mvaNoIso_WP80"};
-  TTreeReaderArray<Bool_t> Electron_mvaNoIso_WP90 = {fReader_2022, "Electron_mvaNoIso_WP90"};
+  //TTreeReaderArray<Bool_t> Electron_mvaIso_WP80 = {fReader_2022, "Electron_mvaIso_WP80"};
+  //TTreeReaderArray<Bool_t> Electron_mvaIso_WP90 = {fReader_2022, "Electron_mvaIso_WP90"};
+  //TTreeReaderArray<Bool_t> Electron_mvaNoIso_WP80 = {fReader_2022, "Electron_mvaNoIso_WP80"};
+  //TTreeReaderArray<Bool_t> Electron_mvaNoIso_WP90 = {fReader_2022, "Electron_mvaNoIso_WP90"};
   TTreeReaderArray<UChar_t> Electron_seedGain = {fReader_2022, "Electron_seedGain"};
   TTreeReaderArray<Int_t> Electron_charge = {fReader_2022, "Electron_charge"};
   TTreeReaderArray<Int_t> Electron_pdgId = {fReader_2022, "Electron_pdgId"};
@@ -87,6 +86,7 @@ public :
   TTreeReaderArray<Float_t> Electron_scEtOverPt = {fReader_2022, "Electron_scEtOverPt"};
   TTreeReaderArray<Float_t> Electron_sieie = {fReader_2022, "Electron_sieie"};
   TTreeReaderArray<Float_t> Electron_sip3d = {fReader_2022, "Electron_sip3d"};
+
   /*
   //IsoTrack
   TTreeReaderValue<iterator> nIsoTrack = {fReader_2022, "nIsoTrack"};
@@ -112,13 +112,13 @@ public :
   TTreeReaderArray<UChar_t> Jet_nConstituents = {fReader_2022, "Jet_nConstituents"};
   TTreeReaderArray<int_or_char> Jet_nElectrons = {fReader_2022, "Jet_nElectrons"};
   TTreeReaderArray<int_or_char> Jet_nMuons = {fReader_2022, "Jet_nMuons"};
-  TTreeReaderArray<int_or_char> Jet_nSVs = {fReader_2022, "Jet_nSVs"};
+  //TTreeReaderArray<int_or_char> Jet_nSVs = {fReader_2022, "Jet_nSVs"};
   TTreeReaderArray<int_or_short> Jet_electronIdx1 = {fReader_2022, "Jet_electronIdx1"};
   TTreeReaderArray<int_or_short> Jet_electronIdx2 = {fReader_2022, "Jet_electronIdx2"};
   TTreeReaderArray<int_or_short> Jet_muonIdx1 = {fReader_2022, "Jet_muonIdx1"};
   TTreeReaderArray<int_or_short> Jet_muonIdx2 = {fReader_2022, "Jet_muonIdx2"};
-  TTreeReaderArray<int_or_short> Jet_svIdx1 = {fReader_2022, "Jet_svIdx1"};
-  TTreeReaderArray<int_or_short> Jet_svIdx2 = {fReader_2022, "Jet_svIdx2"};
+  //TTreeReaderArray<int_or_short> Jet_svIdx1 = {fReader_2022, "Jet_svIdx1"};
+  //TTreeReaderArray<int_or_short> Jet_svIdx2 = {fReader_2022, "Jet_svIdx2"};
   //TTreeReaderArray<Int_t> Jet_hfadjacentEtaStripsSize = {fReader_2022, "Jet_hfadjacentEtaStripsSize"};
   //TTreeReaderArray<Int_t> Jet_hfcentralEtaStripSize = {fReader_2022, "Jet_hfcentralEtaStripSize"};
   //TTreeReaderArray<Float_t> Jet_PNetRegPtRawCorr = {fReader_2022, "Jet_PNetRegPtRawCorr"};
@@ -126,9 +126,9 @@ public :
   //TTreeReaderArray<Float_t> Jet_PNetRegPtRawRes = {fReader_2022, "Jet_PNetRegPtRawRes"};
   TTreeReaderArray<Float_t> Jet_area = {fReader_2022, "Jet_area"};
   TTreeReaderArray<Float_t> Jet_btagDeepFlavB = {fReader_2022, "Jet_btagDeepFlavB"};
-  TTreeReaderArray<Float_t> Jet_btagDeepFlavCvB = {fReader_2022, "Jet_btagDeepFlavCvB"};
-  TTreeReaderArray<Float_t> Jet_btagDeepFlavCvL = {fReader_2022, "Jet_btagDeepFlavCvL"};
-  TTreeReaderArray<Float_t> Jet_btagDeepFlavQG = {fReader_2022, "Jet_btagDeepFlavQG"};
+  //TTreeReaderArray<Float_t> Jet_btagDeepFlavCvB = {fReader_2022, "Jet_btagDeepFlavCvB"};
+  //TTreeReaderArray<Float_t> Jet_btagDeepFlavCvL = {fReader_2022, "Jet_btagDeepFlavCvL"};
+  //TTreeReaderArray<Float_t> Jet_btagDeepFlavQG = {fReader_2022, "Jet_btagDeepFlavQG"};
   //TTreeReaderArray<Float_t> Jet_btagPNetB = {fReader_2022, "Jet_btagPNetB"};
   //TTreeReaderArray<Float_t> Jet_btagPNetCvB = {fReader_2022, "Jet_btagPNetCvB"};
   //TTreeReaderArray<Float_t> Jet_btagPNetCvL = {fReader_2022, "Jet_btagPNetCvL"};
@@ -141,8 +141,8 @@ public :
   TTreeReaderArray<Float_t> Jet_chEmEF = {fReader_2022, "Jet_chEmEF"};
   TTreeReaderArray<Float_t> Jet_chHEF = {fReader_2022, "Jet_chHEF"};
   TTreeReaderArray<Float_t> Jet_eta = {fReader_2022, "Jet_eta"};
-  TTreeReaderArray<Float_t> Jet_hfsigmaEtaEta = {fReader_2022, "Jet_hfsigmaEtaEta"};
-  TTreeReaderArray<Float_t> Jet_hfsigmaPhiPhi = {fReader_2022, "Jet_hfsigmaPhiPhi"};
+  //TTreeReaderArray<Float_t> Jet_hfsigmaEtaEta = {fReader_2022, "Jet_hfsigmaEtaEta"};
+  //TTreeReaderArray<Float_t> Jet_hfsigmaPhiPhi = {fReader_2022, "Jet_hfsigmaPhiPhi"};
   TTreeReaderArray<Float_t> Jet_mass = {fReader_2022, "Jet_mass"};
   TTreeReaderArray<Float_t> Jet_muEF = {fReader_2022, "Jet_muEF"};
   TTreeReaderArray<Float_t> Jet_muonSubtrFactor = {fReader_2022, "Jet_muonSubtrFactor"};
@@ -188,7 +188,7 @@ public :
   TTreeReaderArray<Float_t> Muon_mass = {fReader_2022, "Muon_mass"};
   TTreeReaderArray<Float_t> Muon_miniPFRelIso_all = {fReader_2022, "Muon_miniPFRelIso_all"};
   TTreeReaderArray<Float_t> Muon_miniPFRelIso_chg = {fReader_2022, "Muon_miniPFRelIso_chg"};
-  TTreeReaderArray<Float_t> Muon_mvaMuID = {fReader_2022, "Muon_mvaMuID"};
+  //TTreeReaderArray<Float_t> Muon_mvaMuID = {fReader_2022, "Muon_mvaMuID"};
   TTreeReaderArray<Float_t> Muon_pfRelIso03_all = {fReader_2022, "Muon_pfRelIso03_all"};
   TTreeReaderArray<Float_t> Muon_pfRelIso03_chg = {fReader_2022, "Muon_pfRelIso03_chg"};
   TTreeReaderArray<Float_t> Muon_pfRelIso04_all = {fReader_2022, "Muon_pfRelIso04_all"};
@@ -362,6 +362,7 @@ public :
   TTreeReaderValue<Bool_t> Flag_METFilters = {fReader_2022, "Flag_METFilters"};
 
   //Rho (Run-3)
+
   TTreeReaderValue<Float_t> Rho_fixedGridRhoAll = {fReader_2022, "Rho_fixedGridRhoAll"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetAll = {fReader_2022, "Rho_fixedGridRhoFastjetAll"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentral = {fReader_2022, "Rho_fixedGridRhoFastjetCentral"};
@@ -401,7 +402,7 @@ public :
   //GenPart:
   TTreeReaderValue<iterator> nGenPart = {fReader_2022MC, "nGenPart"};
   TTreeReaderArray<int_or_short> GenPart_genPartIdxMother = {fReader_2022MC, "GenPart_genPartIdxMother"};
-  TTreeReaderArray<UShort_t> GenPart_statusFlags = {fReader_2022MC, "GenPart_statusFlags"};
+  TTreeReaderArray<int_or_ushort> GenPart_statusFlags = {fReader_2022MC, "GenPart_statusFlags"};
   TTreeReaderArray<Int_t> GenPart_pdgId = {fReader_2022MC, "GenPart_pdgId"};
   TTreeReaderArray<Int_t> GenPart_status = {fReader_2022MC, "GenPart_status"};
   TTreeReaderArray<Float_t> GenPart_eta = {fReader_2022MC, "GenPart_eta"};

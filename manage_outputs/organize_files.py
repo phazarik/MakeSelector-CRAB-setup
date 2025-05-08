@@ -23,30 +23,35 @@ if dryrun: print('[WARNING]: dryrun mode', style="red")
 print()
 
 basedir = "/eos/user/p/phazarik"
-jobdir  = "Run3Summer22_skim_Datav12"
-dumpdir = "skimmed_2LSS_Run3Summer22_v12"
+jobdir  = "Run3Summer22EE_skim_forTraining"
+dumpdir = "skimmed_2LSS_Run3Summer22EE_ForTraining"
+sample_file = '../samplelists/Run3Summer22EE.txt'
 
 # Job IDs for Data
 job_ids = {
     "EGamma_C": "250418_093035",
     "EGamma_D": "250418_093040",
+    "EGamma_E": "250424_073409",
+    "EGamma_F": "250424_073414",
+    "EGamma_G": "250424_073420",
     "Muon_C": "250418_093023",
-    "Muon_D": "250418_093030"
+    "Muon_D": "250418_093030",
+    "Muon_E": "250424_073352",
+    "Muon_F": "250424_073358",
+    "Muon_G": "250424_073403"
 }
 
-sample_file = '../samplelist_run3summer22.txt'
 with open(sample_file, 'r') as f: samples = ast.literal_eval(f.read())
 
 # Process each sample
 for fullsamplename, fulldasname, tag in samples:
+
     print(f'\033[033m\nProcessing {fullsamplename}\033[0m')
     sample    = fullsamplename.split('_')[0]
     subsample = fullsamplename.split('_')[1]
     dump = os.path.join(basedir, dumpdir, sample, subsample)
     dasname = fulldasname.split('/')[1]
     searchdir = os.path.join(basedir, jobdir, dasname)
-
-    if not dryrun: os.makedirs(dump, exist_ok=True)
 
     ### Exception for data:
     if fullsamplename in job_ids:
@@ -71,7 +76,9 @@ for fullsamplename, fulldasname, tag in samples:
                 src = os.path.join(rootdir, file)
                 dst = os.path.join(dump, file)
                 command = f'cp {src} {dst}'
-                if not dryrun: os.system(f'cp {src} {dst}')
+                if not dryrun:
+                    os.makedirs(dump, exist_ok=True)
+                    os.system(f'cp {src} {dst}')
                 if dryrun: print(f"{nfile} {command}", style="dim")
 
             print(f'Copied {nfile} files to {dump}', style='yellow')
