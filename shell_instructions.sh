@@ -7,13 +7,13 @@ sample=$2
 flag=$3
 
 #----------------- Testing block -----------------------
-#file1="DYto2L-4Jets_MLL-50.root"
+#file1="Run3Summer23_DYto2L-4Jets_MLL-50.root"
 #file2="Muon_D_22Sep2023.root"
 #file3="QCDEM_PT-10to30.root"
 #file4="QCD_MuEnriched_120to170_2018_UL.root"
 #infile="Skimmer/test_inputs/"$file1
 #outfile="Skimmer/test_outputs/test_"$file1".root"
-#campaign="Run3Summer22EE"
+#campaign="Run3Summer23"
 #sample="DY"
 #flag="dy" #For data, flag = "muon" or "egamma"
 #-------------------------------------------------------

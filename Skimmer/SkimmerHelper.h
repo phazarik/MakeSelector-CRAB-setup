@@ -199,8 +199,8 @@ void AnaScript::ReadBranch(){
   *Rho_fixedGridRhoFastjetCentralNeutral;
 
   //Additionl HLT branches:
-  *HLT_Ele27_WPTight_Gsf;
-  *HLT_Ele28_WPTight_Gsf;
+  //*HLT_Ele27_WPTight_Gsf;
+  //*HLT_Ele28_WPTight_Gsf;
   *HLT_Ele30_WPTight_Gsf;
   *HLT_Ele32_WPTight_Gsf;
   *HLT_Ele35_WPTight_Gsf;

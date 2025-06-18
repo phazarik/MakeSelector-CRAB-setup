@@ -7,15 +7,21 @@
 
 import os,sys
 import ast
+import argparse
+parser = argparse.ArgumentParser(description="Submit CRAB jobs in bulk.")
+parser.add_argument("--test",   type=ast.literal_eval, default=False, help="Run only one sample. Pass True or False.")
+parser.add_argument("--dryrun", type=ast.literal_eval, default=True,  help="Print the commands, don't run. Pass True or False.")
+args = parser.parse_args()
+args = parser.parse_args()
 
-campaign = "Run3Summer22EE"
-test   = False
-dryrun = False
+campaign = "Run3Summer23"
+test   = args.test
+dryrun = args.dryrun
 
 ### Note: For data, use flag == 'muon' or 'egamma'
 
 samples=[]
-with open("samplelists/Run3Summer22EE.txt", "r") as file: content = file.read().strip()
+with open("samplelists/Run3Summer23.txt", "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)
 
@@ -26,7 +32,7 @@ for samplename, dataset, flag in samples:
     requestname = jobname + '_' + samplename
 
     ### Exceptions:
-    if 'muon' in flag or 'egamma' in flag: continue
+    if not ('muon' in flag or 'egamma' in flag): continue
     #if not ('QCDMu' in samplename) or ('QCDEle' in samplename): continue
     #if not 'QCD' in samplename: continue
     
@@ -62,4 +68,7 @@ for samplename, dataset, flag in samples:
     # export CRAB_FLAG=dy
     # crab submit crab_config.py General.requestName=nanoSkim_DYTo2L-4Jets_MLL-50 Data.inputDataset=/DYto2L-4Jets_MLL-50_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Summer22NanoAODv12-130X_mcRun3_2022_realistic_v5-v2/NANOAODSIM 
 
-print(f"\nDone! Submitted {count} CRAB jobs.\n")
+print(f"\nDone!")
+command = f"python3 {os.path.basename(__file__)} --dryrun False"
+if dryrun: print(f"Run the following to submit:\n\033[93m{command}\033[0m\n")
+else: print(f"Submitted {count} CRAB jobs.\n")

@@ -11,7 +11,7 @@
 #include <TSystemFile.h>//representing files in a ROOT directory listing
 using namespace std;
 
-void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22EE_MC", TString find="nEvtTotal") {
+void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer22_MC", TString find="nEvtTotal") {
 
   TString path = gSystem->ConcatFileName("/eos/user/p/phazarik/", dumpdir);
   

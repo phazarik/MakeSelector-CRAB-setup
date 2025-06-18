@@ -1,4 +1,5 @@
 import os, subprocess
+import json
 
 def parse_crab_status_output(output):
     ### Initialize default values
@@ -16,7 +17,8 @@ def parse_crab_status_output(output):
 
 def check_status_all_jobs():
     submitted_dir = "submitted"
-    
+    jobid_dict = {}    
+
     ### Header for display with adjusted column widths
     print(f"\n\033[33m{'No':<3} {'jobname':<40} {'idle':<18} {'running':<18} {'transferring':<18} {'finished':<18} {'status':<18}\033[0m")
     
@@ -33,8 +35,20 @@ def check_status_all_jobs():
         elif status == "COMPLETED": status = f"\033[34m{status}\033[0m"
 
         print(f"{count:<3} {job_name:<40} {idle:<18} {running:<18} {transferring:<18} {finished:<18} {status:<18}")
+
+        # Extract sample name and job ID, and store it in a JSON
+        sample_name = folder.split("crab_nanoSkim_Run3_")[-1]
+        job_id = "-"
+        for line in output.splitlines():
+            if line.startswith("Task name:"):
+                job_id_full = line.split()[-1]
+                job_id = job_id_full.split(":")[0]
+                break
+        jobid_dict[sample_name] = job_id
+
         count += 1
-        
+
+    with open("jobIDs.json", "w") as f: json.dump(jobid_dict, f, indent=4)
     print("")
 
 def check_voms_proxy():

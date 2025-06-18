@@ -21,8 +21,8 @@ config.General.workArea='submitted'
 
 ### JobType:
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'PSet.py'
-config.JobType.scriptExe = 'crab_script.sh'
+config.JobType.psetName   = 'PSet.py'
+config.JobType.scriptExe  = 'crab_script.sh'
 config.JobType.scriptArgs = [f"campaign={campaign}", f"sample={samplename}", f"flag={flag}"]
 config.JobType.inputFiles = [
     'compile_and_run.C', 
@@ -45,7 +45,7 @@ config.JobType.outputFiles = ['skimFile.root']
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1  # Number of files per job
-config.Data.outLFNDirBase = '/store/user/phazarik/skim_2LSS_Run3Summer22EE_2025-05-08'
+config.Data.outLFNDirBase = '/store/user/phazarik/skim_2LSS_Run3Summer23_2025-06-18_Data'
 config.Data.publication = False
 config.Data.outputDatasetTag = f'run3Skim' ###subdirectory
 

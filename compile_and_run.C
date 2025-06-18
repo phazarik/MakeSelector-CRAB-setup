@@ -11,11 +11,11 @@
 using namespace std;
 
 void compile_and_run(
-	    TString infile  = "Skimmer/test_inputs/DYto2L-4Jets_MLL-50.root",
+	    TString infile  = "Skimmer/test_inputs/Run3Summer23_Muon0_C1.root",
 	    TString outfile = "Skimmer/test_outputs/test_crab.root",
 	    TString campaign = "Run3Summer22",
-	    TString sample = "DYJetsToLL_M50",
-	    TString flag = "dy"
+	    TString sample = "Muon_C",
+	    TString flag = "muon"
 	    )
 {
 

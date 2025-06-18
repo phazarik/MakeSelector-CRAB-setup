@@ -23,22 +23,28 @@ if dryrun: print('[WARNING]: dryrun mode', style="red")
 print()
 
 basedir = "/eos/user/p/phazarik"
-jobdir  = "Run3Summer22EE_skim_forTraining"
-dumpdir = "skimmed_2LSS_Run3Summer22EE_ForTraining"
-sample_file = '../samplelists/Run3Summer22EE.txt'
+jobdir  = "skim_forTraining_2018_UL"
+dumpdir = "skimmed_forTraining_2018_UL"
+sample_file = '../samplelists/2018_UL.txt'
 
 # Job IDs for Data
 job_ids = {
-    "EGamma_C": "250418_093035",
-    "EGamma_D": "250418_093040",
-    "EGamma_E": "250424_073409",
-    "EGamma_F": "250424_073414",
-    "EGamma_G": "250424_073420",
-    "Muon_C": "250418_093023",
-    "Muon_D": "250418_093030",
-    "Muon_E": "250424_073352",
-    "Muon_F": "250424_073358",
-    "Muon_G": "250424_073403"
+    "EGamma0_C1": "250618_102251",
+    "EGamma0_C2": "250618_102258",
+    "EGamma0_C3": "250618_102306",
+    "EGamma0_C4": "250618_102316",
+    "EGamma1_C1": "250618_102324",
+    "EGamma1_C2": "250618_102332",
+    "EGamma1_C3": "250618_102342",
+    "EGamma1_C4": "250618_102353",
+    "Muon0_C1": "250618_102155",
+    "Muon0_C2": "250618_102201",
+    "Muon0_C3": "250618_102216",
+    "Muon0_C4": "250618_102221",
+    "Muon1_C1": "250618_102227",
+    "Muon1_C2": "250618_102233",
+    "Muon1_C3": "250618_102240",
+    "Muon1_C4": "250618_102245"
 }
 
 with open(sample_file, 'r') as f: samples = ast.literal_eval(f.read())
@@ -49,6 +55,12 @@ for fullsamplename, fulldasname, tag in samples:
     print(f'\033[033m\nProcessing {fullsamplename}\033[0m')
     sample    = fullsamplename.split('_')[0]
     subsample = fullsamplename.split('_')[1]
+
+    ###Exception:
+    if "QCD_" in fullsamplename:
+        sample    = fullsamplename.split('_')[0]+"_"+fullsamplename.split('_')[1]
+        subsample = fullsamplename.split('_')[2]
+
     dump = os.path.join(basedir, dumpdir, sample, subsample)
     dasname = fulldasname.split('/')[1]
     searchdir = os.path.join(basedir, jobdir, dasname)

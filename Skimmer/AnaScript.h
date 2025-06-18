@@ -371,8 +371,8 @@ public :
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralNeutral = {fReader_2022, "Rho_fixedGridRhoFastjetCentralNeutral"};
 
   //HLT paths
-  TTreeReaderValue<Bool_t> HLT_Ele27_WPTight_Gsf = {fReader_2022, "HLT_Ele27_WPTight_Gsf"};
-  TTreeReaderValue<Bool_t> HLT_Ele28_WPTight_Gsf = {fReader_2022, "HLT_Ele28_WPTight_Gsf"};
+  //TTreeReaderValue<Bool_t> HLT_Ele27_WPTight_Gsf = {fReader_2022, "HLT_Ele27_WPTight_Gsf"};
+  //TTreeReaderValue<Bool_t> HLT_Ele28_WPTight_Gsf = {fReader_2022, "HLT_Ele28_WPTight_Gsf"};
   TTreeReaderValue<Bool_t> HLT_Ele30_WPTight_Gsf = {fReader_2022, "HLT_Ele30_WPTight_Gsf"};
   TTreeReaderValue<Bool_t> HLT_Ele32_WPTight_Gsf = {fReader_2022, "HLT_Ele32_WPTight_Gsf"};
   TTreeReaderValue<Bool_t> HLT_Ele35_WPTight_Gsf = {fReader_2022, "HLT_Ele35_WPTight_Gsf"};
