@@ -23,12 +23,14 @@ if dryrun: print('[WARNING]: dryrun mode', style="red")
 print()
 
 basedir = "/eos/user/p/phazarik"
-jobdir  = "skim_forTraining_2018_UL"
-dumpdir = "skimmed_forTraining_2018_UL"
-sample_file = '../samplelists/2018_UL.txt'
+jobdir  = "skim_2LSS_Run3Summer23_2025-06-18_Data"
+dumpdir = "skimmed_2LSS_Run3Summer23"
+sample_file = '../samplelists/Run3Summer23.txt'
 
 # Job IDs for Data
 job_ids = {
+    # 2023
+    '''
     "EGamma0_C1": "250618_102251",
     "EGamma0_C2": "250618_102258",
     "EGamma0_C3": "250618_102306",
@@ -44,7 +46,17 @@ job_ids = {
     "Muon1_C1": "250618_102227",
     "Muon1_C2": "250618_102233",
     "Muon1_C3": "250618_102240",
-    "Muon1_C4": "250618_102245"
+    "Muon1_C4": "250618_102245",
+    '''    
+    # 2023-BPix
+    "EGamma0_D1": "250619_065701",
+    "EGamma0_D2": "250619_065706",
+    "EGamma1_D1": "250619_065712",
+    "EGamma1_D2": "250619_065717",
+    "Muon0_D1": "250619_065639",
+    "Muon0_D2": "250619_065645",
+    "Muon1_D1": "250619_065650",
+    "Muon1_D2": "250619_065656"
 }
 
 with open(sample_file, 'r') as f: samples = ast.literal_eval(f.read())
@@ -52,15 +64,19 @@ with open(sample_file, 'r') as f: samples = ast.literal_eval(f.read())
 # Process each sample
 for fullsamplename, fulldasname, tag in samples:
 
+    if not ('Muon' in fullsamplename or 'EGamma' in fullsamplename): continue
+
     print(f'\033[033m\nProcessing {fullsamplename}\033[0m')
     sample    = fullsamplename.split('_')[0]
     subsample = fullsamplename.split('_')[1]
 
+    '''
     ###Exception:
     if "QCD_" in fullsamplename:
         sample    = fullsamplename.split('_')[0]+"_"+fullsamplename.split('_')[1]
         subsample = fullsamplename.split('_')[2]
-
+    '''
+    
     dump = os.path.join(basedir, dumpdir, sample, subsample)
     dasname = fulldasname.split('/')[1]
     searchdir = os.path.join(basedir, jobdir, dasname)
