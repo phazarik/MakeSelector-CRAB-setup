@@ -21,7 +21,7 @@ dryrun = args.dryrun
 ### Note: For data, use flag == 'muon' or 'egamma'
 
 samples=[]
-with open("samplelists/Run3Summer23BPix.txt", "r") as file: content = file.read().strip()
+with open("samplelists/failed_jobs.txt", "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)
 
@@ -32,7 +32,7 @@ for samplename, dataset, flag in samples:
     requestname = jobname + '_' + samplename
 
     ### Exceptions:
-    if not ('muon' in flag or 'egamma' in flag): continue
+    if ('muon' in flag or 'egamma' in flag): continue
     #if not ('QCDMu' in samplename) or ('QCDEle' in samplename): continue
     #if not 'QCD' in samplename: continue
     
@@ -48,12 +48,23 @@ for samplename, dataset, flag in samples:
     os.environ['CRAB_SAMPLENAME'] = samplename
     os.environ['CRAB_FLAG'] = flag
     
+    ### Verifying input DAS string:
+    nfiles=0
+    das_query = f'dasgoclient --query="file dataset={dataset}"'
+    try:
+        output = os.popen(das_query + " | wc -l").read().strip()
+        if not output.isdigit(): raise ValueError("Invalid dasgoclient output")
+        nfiles = int(output)
+    except Exception as e:
+        print(f'\033[31m[ERROR]\033[0m Failed to query DAS for {dataset}: {e}')
+        continue
+
     ### Main process line:
     processline = f'crab submit crab_config.py {arg3} {arg4}'
 
     count+=1
     print('-'*50)
-    print(f'\n{count}. Processing \033[33m{dataset}\033[0m')
+    print(f'\n{count}. Processing \033[33m{dataset}\033[0m (nfiles = {nfiles})')
     if dryrun :
         print('export CRAB_CAMPAIGN='+campaign)
         print('export CRAB_SAMPLENAME='+samplename)

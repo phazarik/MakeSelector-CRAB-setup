@@ -23,9 +23,9 @@ if dryrun: print('[WARNING]: dryrun mode', style="red")
 print()
 
 basedir = "/eos/user/p/phazarik"
-jobdir  = "skim_2LSS_Run3Summer23_2025-06-18_Data"
-dumpdir = "skimmed_2LSS_Run3Summer23"
-sample_file = '../samplelists/Run3Summer23.txt'
+jobdir  = "CRAB_skim_2LSS_Run3Summer23BPix_2025-06-20"
+dumpdir = "skimmed_2LSS_Run3Summer23BPix"
+sample_file = '../samplelists/failed_jobs.txt'
 
 # Job IDs for Data
 job_ids = {
@@ -64,7 +64,7 @@ with open(sample_file, 'r') as f: samples = ast.literal_eval(f.read())
 # Process each sample
 for fullsamplename, fulldasname, tag in samples:
 
-    if not ('Muon' in fullsamplename or 'EGamma' in fullsamplename): continue
+    if ('Muon' in fullsamplename or 'EGamma' in fullsamplename): continue
 
     print(f'\033[033m\nProcessing {fullsamplename}\033[0m')
     sample    = fullsamplename.split('_')[0]
