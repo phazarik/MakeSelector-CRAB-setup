@@ -35,6 +35,7 @@ mv run_locally.C Skimmer/
 mv CustomFunctions.h Setup/
 mv ProduceGenCollection.h Setup/
 mv ProduceRecoCollection.h Setup/
+mv veto3L4L.h Setup/
 
 echo "Verifying the directory structure after moving files..."
 ls -l Skimmer

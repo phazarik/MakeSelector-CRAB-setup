@@ -35,7 +35,8 @@ config.JobType.inputFiles = [
     'Skimmer/SkimmerHelper.h',
     'Setup/CustomFunctions.h',
     'Setup/ProduceGenCollection.h',
-    'Setup/ProduceRecoCollection.h'
+    'Setup/ProduceRecoCollection.h',
+    'Setup/veto3L4L.h'
 ]
 config.JobType.outputFiles = ['skimFile.root']
 #Make sure that this name is identical to the one in the shell script

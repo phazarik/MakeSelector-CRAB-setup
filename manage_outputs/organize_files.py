@@ -30,12 +30,12 @@ sample_file = '../samplelists/Run3Summer22EE.txt'
 # Job IDs for Data
 {
     #2022:
-    "EGamma_E": "250731_173544",
-    "EGamma_F": "250731_173550",
-    "EGamma_G": "250731_173558",
-    "Muon_E": "250731_173525",
-    "Muon_F": "250731_173531",
-    "Muon_G": "250731_173538"
+    "EGamma_E": "250731_175154",
+    "EGamma_F": "250731_175202",
+    "EGamma_G": "250731_175211",
+    "Muon_E": "250731_175129",
+    "Muon_F": "250731_175137",
+    "Muon_G": "250731_175146"
 }
 
 with open(sample_file, 'r') as f: samples = ast.literal_eval(f.read())
