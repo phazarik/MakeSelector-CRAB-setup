@@ -14,14 +14,14 @@ parser.add_argument("--dryrun", type=ast.literal_eval, default=True,  help="Prin
 args = parser.parse_args()
 args = parser.parse_args()
 
-campaign = "Run3Summer23BPix"
+campaign = "Run3Summer22EE"
 test   = args.test
 dryrun = args.dryrun
 
 ### Note: For data, use flag == 'muon' or 'egamma'
 
 samples=[]
-with open("samplelists/failed_jobs.txt", "r") as file: content = file.read().strip()
+with open(f"samplelists/{campaign}.txt", "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)
 
@@ -32,7 +32,7 @@ for samplename, dataset, flag in samples:
     requestname = jobname + '_' + samplename
 
     ### Exceptions:
-    if ('muon' in flag or 'egamma' in flag): continue
+    if not ('muon' in flag or 'egamma' in flag): continue #data-only
     #if not ('QCDMu' in samplename) or ('QCDEle' in samplename): continue
     #if not 'QCD' in samplename: continue
     

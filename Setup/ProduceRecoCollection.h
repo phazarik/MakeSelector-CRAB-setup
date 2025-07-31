@@ -174,8 +174,24 @@ void AnaScript::createJets(){
     if(passcut && cleaned_from_leptons){
       Jet.push_back(temp);
       if(Jet_btagDeepFlavB[i] > WPth) MediumbJet.push_back(temp);
-    }
-    
+    } 
   }
-
 }
+
+void AnaScript::createFatJets() {
+  unsigned int iterator_fatjet = (unsigned int)*nFatJet;
+  for (unsigned int i = 0; i < iterator_fatjet; i++) {
+    Particle temp;
+    temp.v.SetPtEtaPhiM(FatJet_pt[i], FatJet_eta[i], FatJet_phi[i], FatJet_mass[i]);
+    temp.ind = i;
+    temp.btagscore = -1;           
+    temp.hadronflavor = -1;
+    if (_data == 0) temp.hadronflavor = (int)FatJet_hadronFlavour[i];
+    bool ptetacut = temp.v.Pt() > 50 && fabs(temp.v.Eta()) < 2.4;
+    bool cleaned_from_leptons = clean_from_array(temp, LooseLepton, 0.8); //(since FatJets are large-cone)
+    bool fatjetID = _year == 2016 ? (int)FatJet_jetId[i] >= 1 : (int)FatJet_jetId[i] >= 2;
+    bool passcut = ptetacut && cleaned_from_leptons && fatjetID;
+    if (passcut) FatJet.push_back(temp);
+  }
+}
+

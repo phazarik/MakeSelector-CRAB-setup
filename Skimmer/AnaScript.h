@@ -86,7 +86,10 @@ public :
   TTreeReaderArray<Float_t> Electron_scEtOverPt = {fReader_2022, "Electron_scEtOverPt"};
   TTreeReaderArray<Float_t> Electron_sieie = {fReader_2022, "Electron_sieie"};
   TTreeReaderArray<Float_t> Electron_sip3d = {fReader_2022, "Electron_sip3d"};
-
+  TTreeReaderArray<Int_t> Electron_vidNestedWPBitmap =      {fReader_2022, "Electron_vidNestedWPBitmap"};
+  TTreeReaderArray<Int_t> Electron_vidNestedWPBitmapHEEP =  {fReader_2022, "Electron_vidNestedWPBitmapHEEP"};
+  TTreeReaderArray<int_or_short> Electron_jetIdx = {fReader_2022, "Electron_jetIdx"};
+  
   /*
   //IsoTrack
   TTreeReaderValue<iterator> nIsoTrack = {fReader_2022, "nIsoTrack"};
@@ -106,7 +109,7 @@ public :
   TTreeReaderArray<Float_t> IsoTrack_miniPFRelIso_all = {fReader_2022, "IsoTrack_miniPFRelIso_all"};
   TTreeReaderArray<Float_t> IsoTrack_miniPFRelIso_chg = {fReader_2022, "IsoTrack_miniPFRelIso_chg"};*/
 
-  //Jet
+  //Jets
   TTreeReaderValue<iterator> nJet = {fReader_2022, "nJet"};
   TTreeReaderArray<int_or_char> Jet_jetId = {fReader_2022, "Jet_jetId"};
   TTreeReaderArray<UChar_t> Jet_nConstituents = {fReader_2022, "Jet_nConstituents"};
@@ -152,6 +155,15 @@ public :
   TTreeReaderArray<Float_t> Jet_pt = {fReader_2022, "Jet_pt"};
   TTreeReaderArray<Float_t> Jet_rawFactor = {fReader_2022, "Jet_rawFactor"};
 
+  //FatJets:
+  TTreeReaderValue<iterator> nFatJet = {fReader_2022, "nFatJet"};
+  TTreeReaderArray<Float_t> FatJet_area = {fReader_2022, "FatJet_area"};
+  TTreeReaderArray<Float_t> FatJet_eta = {fReader_2022, "FatJet_eta"};
+  TTreeReaderArray<Float_t> FatJet_mass = {fReader_2022, "FatJet_mass"};
+  TTreeReaderArray<Float_t> FatJet_phi = {fReader_2022, "FatJet_phi"};
+  TTreeReaderArray<Float_t> FatJet_pt = {fReader_2022, "FatJet_pt"};
+  TTreeReaderArray<int_or_char> FatJet_jetId = {fReader_2022, "FatJet_jetId"};
+  
   //MET
   TTreeReaderValue<Float_t> MET_MetUnclustEnUpDeltaX = {fReader_2022, "MET_MetUnclustEnUpDeltaX"};
   TTreeReaderValue<Float_t> MET_MetUnclustEnUpDeltaY = {fReader_2022, "MET_MetUnclustEnUpDeltaY"};
@@ -196,7 +208,8 @@ public :
   TTreeReaderArray<Float_t> Muon_pt = {fReader_2022, "Muon_pt"};
   TTreeReaderArray<Float_t> Muon_ptErr = {fReader_2022, "Muon_ptErr"};
   TTreeReaderArray<Float_t> Muon_sip3d = {fReader_2022, "Muon_sip3d"};
-
+  TTreeReaderArray<int_or_short> Muon_jetIdx = {fReader_2022, "Muon_jetIdx"};
+  
   //Photon
   /*
   TTreeReaderValue<iterator> nPhoton = {fReader_2022, "nPhoton"};
@@ -362,13 +375,23 @@ public :
   TTreeReaderValue<Bool_t> Flag_METFilters = {fReader_2022, "Flag_METFilters"};
 
   //Rho (Run-3)
-
   TTreeReaderValue<Float_t> Rho_fixedGridRhoAll = {fReader_2022, "Rho_fixedGridRhoAll"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetAll = {fReader_2022, "Rho_fixedGridRhoFastjetAll"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentral = {fReader_2022, "Rho_fixedGridRhoFastjetCentral"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralCalo = {fReader_2022, "Rho_fixedGridRhoFastjetCentralCalo"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralChargedPileUp = {fReader_2022, "Rho_fixedGridRhoFastjetCentralChargedPileUp"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralNeutral = {fReader_2022, "Rho_fixedGridRhoFastjetCentralNeutral"};
+
+  //Rho (Run-2)
+  /*
+  TTreeReaderValue<Float_t> fixedGridRhoFastjetAll =            {fReader_MC, "fixedGridRhoFastjetAll"};
+  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentral =        {fReader_MC, "fixedGridRhoFastjetCentral"};
+  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralCalo =    {fReader_MC, "fixedGridRhoFastjetCentralCalo"};
+  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralChargedPileUp = {fReader_MC, "fixedGridRhoFastjetCentralChargedPileUp"};
+  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralNeutral = {fReader_MC, "fixedGridRhoFastjetCentralNeutral"};
+  //TTreeReaderArray<Float_t> Photon_pfRelIso03_all = {fReader_2022, "Photon_pfRelIso03_all"};
+  //TTreeReaderArray<Float_t> Photon_pfRelIso03_chg = {fReader_2022, "Photon_pfRelIso03_chg"};
+  TTreeReaderValue<Float_t> rho = fixedGridRhoFastjetAll;*/
 
   //HLT paths
   //TTreeReaderValue<Bool_t> HLT_Ele27_WPTight_Gsf = {fReader_2022, "HLT_Ele27_WPTight_Gsf"};
@@ -438,6 +461,7 @@ public :
 
   //Jetflavor:
   TTreeReaderArray<int_or_char> Jet_hadronFlavour = {fReader_2022MC, "Jet_hadronFlavour"};
+  TTreeReaderArray<int_or_char> FatJet_hadronFlavour = {fReader_2022MC, "FatJet_hadronFlavour"};
   
   AnaScript(TTree * /*tree*/ =0) { }
   virtual ~AnaScript() { }
@@ -497,6 +521,7 @@ public:
   //void createPhotons();
   //void createTaus();
   void createJets();
+  void createFatJets();
   void createGenLightLeptons();
   void createGenJets();
   void createSignalArrays();
@@ -521,6 +546,11 @@ public:
   void ReadBranch();
   void ActivateBranch(TTree *t);
 
+  //For 3L/4L veto:
+  int electronCustomID(Int_t bitmap,int quality, int skipCut);
+  bool Veto3L4L();
+  bool VetoHEM(vector<Particle> jet);
+  
   //-------------------------------------------------------------------------
   // Global variable declarations:
   //protected:
@@ -536,16 +566,17 @@ private:
 
   vector<Particle> genMuon, genElectron, genLightLepton, genJet;
   vector<Particle> vllep, vlnu;
-  vector<Particle> Muon, Electron, LightLepton, Photon, Tau, Jet, bJet, MediumbJet;
+  vector<Particle> Muon, Electron, LightLepton, Photon, Tau, Jet, FatJet, bJet, MediumbJet;
   vector<Particle> LooseLepton, LooseMuon, LooseElectron;
-
+  vector<Particle> yash_llep, yash_looseMuon; //For 3L/4L veto
+  
   //Flags:
   bool bad_event;
   bool GoodEvt, GoodEvt2016, GoodEvt2017, GoodEvt2018, GoodEvt2022, GoodEvt2023;
   bool triggerRes, muon_trigger, electron_trigger, overlapping_events;
   
   //Counters:
-  int nEvtTotal, nEvtRan, nEvtTrigger, nEvtPass, nEvtBad, nThrown;
+  int nEvtTotal, nEvtRan, nEvtTrigger, nEvtPass, nEvtBad, nThrown, nEvtVeto;
   float genEventsumw;
   time_t start, end, buffer;
   

@@ -14,6 +14,7 @@ void AnaScript::ActivateBranch(TTree *t){
 			      "nMuon","Muon_*",
 			      "nElectron","Electron_*",
 			      "nJet","Jet_*",
+			      "nFatJet","FatJet_*",
 			      "MET_*","PuppiMET_*",
 			      "*fixed*",
 			      "HLT_IsoMu*", "HLT_Ele*WPTight_Gsf"};
@@ -64,6 +65,9 @@ void AnaScript::ReadBranch(){
     Electron_charge[i];
     Electron_cutBased[i];
     Electron_pdgId[i];
+    Electron_vidNestedWPBitmap[i];
+    Electron_vidNestedWPBitmapHEEP[i];
+    Electron_jetIdx[i];
   }
   
   //Jets
@@ -89,6 +93,17 @@ void AnaScript::ReadBranch(){
     Jet_nElectrons[i];
     Jet_nMuons[i];
     if(_data==0) Jet_hadronFlavour[i];
+  }
+
+  *nFatJet;
+  for(unsigned int i=0; i<(unsigned int)*nJet;i++){
+    FatJet_area[i];
+    FatJet_eta[i];
+    FatJet_mass[i];
+    FatJet_phi[i];
+    FatJet_pt[i];
+    FatJet_jetId[i];
+    if(_data==0) FatJet_hadronFlavour[i];
   }
   
   //PFMET
@@ -133,7 +148,8 @@ void AnaScript::ReadBranch(){
     Muon_isTracker[i];
     Muon_looseId[i];
     Muon_mediumId[i];
-    Muon_mediumPromptId[i];   
+    Muon_mediumPromptId[i];
+    Electron_jetIdx[i];
   }
 
   //PuppiMET

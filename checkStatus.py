@@ -20,7 +20,7 @@ def check_status_all_jobs():
     jobid_dict = {}    
 
     ### Header for display with adjusted column widths
-    print(f"\n\033[33m{'No':<3} {'jobname':<40} {'idle':<18} {'running':<18} {'transferring':<18} {'finished':<18} {'status':<18}\033[0m")
+    print(f"\n\033[33m{'No':<3} {'jobname':<50} {'idle':<18} {'running':<18} {'transferring':<18} {'finished':<18} {'status':<18}\033[0m")
     
     ### Iterate over each folder in the submitted directory
     count = 1
@@ -34,7 +34,7 @@ def check_status_all_jobs():
         if   status == "FAILED":    status = f"\033[31m{status}\033[0m"
         elif status == "COMPLETED": status = f"\033[34m{status}\033[0m"
 
-        print(f"{count:<3} {job_name:<40} {idle:<18} {running:<18} {transferring:<18} {finished:<18} {status:<18}")
+        print(f"{count:<3} {job_name:<50} {idle:<18} {running:<18} {transferring:<18} {finished:<18} {status:<18}")
 
         # Extract sample name and job ID, and store it in a JSON
         sample_name = folder.split("crab_nanoSkim_Run3_")[-1]

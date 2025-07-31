@@ -38,7 +38,7 @@ void AnaScript::SlaveBegin(TTree *tree)
   
   //Initializing counters:
   nEvtTotal=0; nEvtRan=0;  nEvtTrigger=0;
-  nEvtPass=0;  nEvtBad=0;  nThrown=0;
+  nEvtPass=0;  nEvtBad=0;  nThrown=0; nEvtVeto=0;
   genEventsumw=0;
   
   //For skimmer
@@ -50,17 +50,19 @@ void AnaScript::SlaveBegin(TTree *tree)
 void AnaScript::SlaveTerminate()
 {
   //Storing event information in a histogram:
-  TH1D *hCount = new TH1D("hCount", "hCount;;",5, 0.5, 5.5);
+  TH1D *hCount = new TH1D("hCount", "hCount;;", 6, 0.5, 6.5);
   hCount->SetBinContent(1,genEventsumw);
   hCount->SetBinContent(2,nEvtTotal);
   hCount->SetBinContent(3,nEvtRan);
   hCount->SetBinContent(4,nEvtTrigger);
   hCount->SetBinContent(5,nEvtPass);
+  hCount->SetBinContent(6,nEvtVeto);
   hCount->GetXaxis()->SetBinLabel(1,"genEventSumW");
   hCount->GetXaxis()->SetBinLabel(2,"nEvtGen");
   hCount->GetXaxis()->SetBinLabel(3,"nEvtRan");
   hCount->GetXaxis()->SetBinLabel(4,"nEvtTrigger");
   hCount->GetXaxis()->SetBinLabel(5,"nEvtPass");
+  hCount->GetXaxis()->SetBinLabel(6,"nEvtVeto");
 
   //Write information in the output file:
   //_SkimFile->cd();
@@ -81,6 +83,7 @@ void AnaScript::SlaveTerminate()
   cout<<"nEvtTrigger = "<<nEvtTrigger<<" ("<<trigevtfrac*100<<" %)"<<endl;
   cout<<"nEvtPass = "<<nEvtPass<<" ("<<passevtfrac*100<<" %)"<<endl;
   cout<<"nEvtBad = "<<nEvtBad<<" ("<<badevtfrac*100<<" %)"<<endl;
+  cout<<"nEvtVeto = "<<nEvtVeto<<endl;
   if(_data==0) cout<<"genEventsumw = "<<(double)genEventsumw<<endl;
   if(_data!=0) cout<<"nEvents not in golden json = "<<nThrown<<" ("<<notgoldenevtfrac*100<<" %)"<<endl;
   cout<<"---------------------------------------------"<<endl;
@@ -171,20 +174,21 @@ Bool_t AnaScript::Process(Long64_t entry)
       metpt = *PuppiMET_pt;
       metphi = *PuppiMET_phi;
 
-      Muon.clear();    Electron.clear(); LightLepton.clear();
-      Photon.clear();  Tau.clear();      Jet.clear();
-      bJet.clear();    MediumbJet.clear();
+      Muon.clear();    Electron.clear();          LightLepton.clear();
+      Photon.clear();  Tau.clear();               Jet.clear();
+      bJet.clear();    MediumbJet.clear();        FatJet.clear();
       LooseLepton.clear(); LooseElectron.clear(); LooseMuon.clear();
-
+      
       createLightLeptons();
       //createTaus();
       createJets();
-
+      createFatJets();
+      
       SortRecoObjects();
 
-      //----------------------------------------------------------------------------------------------------------
+      //-------------------------------------------------------------------------------------------------------
       // Skimming
-      //----------------------------------------------------------------------------------------------------------
+      //-------------------------------------------------------------------------------------------------------
       float ptcut_mu  = 26;
       float ptcut_ele = 35; 
       if(_year==2016) {ptcut_ele = 30; ptcut_mu = 26;}
@@ -203,9 +207,18 @@ Bool_t AnaScript::Process(Long64_t entry)
 	}
 	bool reject_low_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 15;
 	if(trigger && reject_low_resonances && samesign) keep_this_event = true;
+
+	bool veto_3L4L_event = Veto3L4L();
+	bool veto_HEM_event  = VetoHEM(Jet);
+	bool veto_this_event = veto_3L4L_event || veto_HEM_event;
+	if(veto_this_event){
+	  nEvtVeto++;
+	  keep_this_event = false;
+	}
+	
       }
       if(bad_event) keep_this_event = false;
-
+      
       //-------------------
       
       if(keep_this_event){
