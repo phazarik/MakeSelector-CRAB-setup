@@ -74,11 +74,12 @@ def make_progress_bar(pct, length=25):
     running_len = round(float(pct['running'].replace('%', '')) / 100 * length)
     idle_len = length - (failed_len + finished_len + transf_len + running_len)
     bar = ""
-    if failed_len: bar += COLORS['failed'] + "#" * failed_len + RESET
-    if finished_len: bar += COLORS['finished'] + "#" * finished_len + RESET
-    if transf_len: bar += COLORS['transferring'] + "#" * transf_len + RESET
-    if running_len: bar += COLORS['running'] + "#" * running_len + RESET
-    if idle_len: bar += COLORS['idle'] + "#" * idle_len + RESET
+    character = "#"
+    if failed_len: bar += COLORS['failed'] + character * failed_len + RESET
+    if finished_len: bar += COLORS['finished'] + character * finished_len + RESET
+    if transf_len: bar += COLORS['transferring'] + character * transf_len + RESET
+    if running_len: bar += COLORS['running'] + character * running_len + RESET
+    if idle_len: bar += COLORS['idle'] + character * idle_len + RESET
     return f"{bar}{' ' * (30 - length)}"
 
 def colorize_aligned(text, color, width):
@@ -87,16 +88,22 @@ def colorize_aligned(text, color, width):
 
 def format_pct(pct):  return f"{pct:<8}"
 
+# helper to replace 0% with '-'
+def pct_or_dash(pct_value, color, width):
+    if pct_value == "0%": return f"{'-':<{width}}"
+    return colorize_aligned(format_pct(pct_value), color, width)
+
 def check_status_all_jobs():
     submitted_dir = "submitted"
     jobid_dict = {}
     failed_jobs = []
+    bar_length = 50
 
     all_folders = [f for f in os.listdir(submitted_dir) if os.path.isdir(os.path.join(submitted_dir, f))]
     max_jobname_len = max((len(f) for f in all_folders), default=10) + 4   # extra padding
 
     # header spacing widened for clarity
-    print(f"\n{YELLOW_BOLD}{'No':<4} {'Job Name':<{max_jobname_len}} {'Progress':<30} "
+    print(f"\n{YELLOW_BOLD}{'No':<4} {'Job Name':<{max_jobname_len}} {'Progress':<{bar_length+2}} "
           f"{'CRAB':<14} {'Scheduler':<14} {'Total':<8} {'Idle':<8} {'Running':<8} {'Transf':<8} {'Fin':<8} {'Failed':<10}{RESET}")
     
     count = 1
@@ -107,7 +114,7 @@ def check_status_all_jobs():
         job_info = parse_crab_status_output(output)
         if job_info["failed"] > 0: failed_jobs.append(folder_path)
 
-        bar = make_progress_bar(job_info['percentages'])
+        bar = make_progress_bar(job_info['percentages'], bar_length)+"  "
         pct = job_info["percentages"]
 
         job_id = "-"
@@ -125,18 +132,13 @@ def check_status_all_jobs():
         if scheduler_status_raw == "COMPLETED": scheduler_status = colorize_aligned("COMPLETED", BLUE, 13)
         else: scheduler_status = f"{scheduler_status_raw:<13}"
     
-        # widen percentage spacing
-        idle_colored  = colorize_aligned(format_pct(pct['idle']), COLORS["idle"], 9)
-        run_colored   = colorize_aligned(format_pct(pct['running']), COLORS["running"], 9)
-        trans_colored = colorize_aligned(format_pct(pct['transferring']), COLORS["transferring"], 9)
-        fin_colored   = colorize_aligned(format_pct(pct['finished']), COLORS["finished"], 9)
-        fail_text = f"{pct['failed']} ({job_info['failed']})"
-        fail_colored = colorize_aligned(fail_text, COLORS["failed"], 10)
-        if job_info['failed'] == 0:
-            fail_text = "-"
-            fail_colored = f"{fail_text:<10}" 
-
-        print(f"{count:<4} {folder:<{max_jobname_len}} {bar:<30} "
+        idle_colored  = pct_or_dash(pct['idle'],         COLORS["idle"],         9)
+        run_colored   = pct_or_dash(pct['running'],      COLORS["running"],      9)
+        trans_colored = pct_or_dash(pct['transferring'], COLORS["transferring"], 9)
+        fin_colored   = pct_or_dash(pct['finished'],     COLORS["finished"],     9)
+        fail_colored  = pct_or_dash(pct['failed'],       COLORS["failed"],       9)
+        
+        print(f"{count:<4} {folder:<{max_jobname_len}} {bar:<{bar_length+2}} "
               f"{crab_status}  {scheduler_status}  "
               f"{job_info['total']:<8} "
               f"{idle_colored}{run_colored}{trans_colored}{fin_colored}{fail_colored}")
