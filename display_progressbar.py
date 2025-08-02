@@ -51,8 +51,17 @@ def parse_crab_status_output(output):
     percentages = {"idle": "0%", "running": "0%", "transferring": "0%", "finished": "0%", "failed": "0%"}
 
     for line in output.splitlines():
-        if "Status on the CRAB server:" in line: job_info["CRAB"] = line.split("Status on the CRAB server:")[-1].strip()
-        elif "Status on the scheduler:" in line: job_info["Scheduler"] = line.split("Status on the scheduler:")[-1].strip()
+
+        if "Status on the CRAB server:" in line:
+            crab_raw = line.split("Status on the CRAB server:")[-1].strip()
+            if "on command" in crab_raw: crab_raw = crab_raw.split("on command")[0].strip()
+            job_info["CRAB"] = crab_raw
+
+        elif "Status on the scheduler:" in line:
+            sched_raw = line.split("Status on the scheduler:")[-1].strip()
+            if "on command" in sched_raw: sched_raw = sched_raw.split("on command")[0].strip()
+            job_info["Scheduler"] = sched_raw
+
         m = re.search(r"(finished|transferring|running|idle|failed)\s+(\d+\.?\d*)%\s+\((\s*\d+)\s*/\s*(\d+)\)", line)
         if m:
             state, pct, count, total = m.groups()
@@ -62,6 +71,11 @@ def parse_crab_status_output(output):
             percentages[state] = f"{pct}%"
             job_info[state] = count
             job_info["total"] = total
+
+        ## if total is still 0, mark all percentages as "-"
+        if job_info["total"] == 0:
+            for key in percentages:
+                percentages[key] = "0%"
 
     job_info["percentages"] = percentages
     return job_info
@@ -90,7 +104,7 @@ def format_pct(pct):  return f"{pct:<8}"
 
 # helper to replace 0% with '-'
 def pct_or_dash(pct_value, color, width):
-    if pct_value == "0%": return f"{'-':<{width}}"
+    if pct_value in ["0%"]: return f"{'-':<{width}}"
     return colorize_aligned(format_pct(pct_value), color, width)
 
 def check_status_all_jobs():
