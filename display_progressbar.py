@@ -81,20 +81,43 @@ def parse_crab_status_output(output):
     return job_info
 
 def make_progress_bar(pct, length=25):
-    """Build a colorized bar using percentages directly from CRAB output."""
+    # Convert percentages like '46.5%' into segment lengths
     failed_len = round(float(pct['failed'].replace('%', '')) / 100 * length)
     finished_len = round(float(pct['finished'].replace('%', '')) / 100 * length)
     transf_len = round(float(pct['transferring'].replace('%', '')) / 100 * length)
     running_len = round(float(pct['running'].replace('%', '')) / 100 * length)
     idle_len = length - (failed_len + finished_len + transf_len + running_len)
+
+    segments = [
+        ["failed", failed_len],
+        ["finished", finished_len],
+        ["transferring", transf_len],
+        ["running", running_len],
+        ["idle", idle_len]
+    ]
+
+    # Fix rounding: ensure total hashes == length
+    total_hashes = sum(s[1] for s in segments)
+    if total_hashes > length:  # too many hashes
+        midpoint = length // 2
+        count = 0
+        for seg in segments:
+            if count + seg[1] > midpoint:
+                seg[1] -= 1   # remove one # from the segment that crosses the midpoint
+                break
+        count += seg[1]
+    elif total_hashes < length:  # too few hashes
+        for seg in reversed(segments):
+            if seg[0] == "idle":
+                seg[1] += 1
+                break
+        
+    # Build the bar (fail first, idle last)
     bar = ""
-    character = "#"
-    if failed_len: bar += COLORS['failed'] + character * failed_len + RESET
-    if finished_len: bar += COLORS['finished'] + character * finished_len + RESET
-    if transf_len: bar += COLORS['transferring'] + character * transf_len + RESET
-    if running_len: bar += COLORS['running'] + character * running_len + RESET
-    if idle_len: bar += COLORS['idle'] + character * idle_len + RESET
-    return f"{bar}{' ' * (30 - length)}"
+    for name, count in segments:
+        if count > 0:
+            bar += COLORS[name] + "#" * count
+    return f"{bar}{RESET}{' ' * (30 - length)}"
 
 def colorize_aligned(text, color, width):
     visible_len = len(text)
@@ -102,10 +125,12 @@ def colorize_aligned(text, color, width):
 
 def format_pct(pct):  return f"{pct:<8}"
 
-# helper to replace 0% with '-'
 def pct_or_dash(pct_value, color, width):
     if pct_value in ["0%"]: return f"{'-':<{width}}"
     return colorize_aligned(format_pct(pct_value), color, width)
+
+def dash_if_zero(value, color, width):
+    return f"{'-':<{width}}" if value == 0 else colorize_aligned(str(value), color, width)
 
 def check_status_all_jobs():
     submitted_dir = "submitted"
@@ -128,8 +153,8 @@ def check_status_all_jobs():
         job_info = parse_crab_status_output(output)
         if job_info["failed"] > 0: failed_jobs.append(folder_path)
 
-        bar = make_progress_bar(job_info['percentages'], bar_length)+"  "
         pct = job_info["percentages"]
+        bar = make_progress_bar(pct, bar_length) + "  "
 
         job_id = "-"
         for line in output.splitlines():
@@ -141,16 +166,19 @@ def check_status_all_jobs():
         sample_name = folder.split("crab_nanoSkim_Run3_")[-1]
         jobid_dict[sample_name] = job_id
 
-        crab_status = f"{job_info['CRAB']:<13}"
+        crab_status_raw = job_info["CRAB"]
+        if crab_status_raw in ["SUBMITFAILED"]: crab_status = colorize_aligned(crab_status_raw, RED, 13)
+        else: crab_status = f"{crab_status_raw:<13}"
         scheduler_status_raw = job_info["Scheduler"]
-        if scheduler_status_raw == "COMPLETED": scheduler_status = colorize_aligned("COMPLETED", BLUE, 13)
+        if scheduler_status_raw == "COMPLETED": scheduler_status = colorize_aligned(scheduler_status_raw, BLUE, 13)
+        elif scheduler_status_raw == "FAILED":  scheduler_status = colorize_aligned(scheduler_status_raw, RED,  13)
         else: scheduler_status = f"{scheduler_status_raw:<13}"
-    
-        idle_colored  = pct_or_dash(pct['idle'],         COLORS["idle"],         9)
-        run_colored   = pct_or_dash(pct['running'],      COLORS["running"],      9)
-        trans_colored = pct_or_dash(pct['transferring'], COLORS["transferring"], 9)
-        fin_colored   = pct_or_dash(pct['finished'],     COLORS["finished"],     9)
-        fail_colored  = pct_or_dash(pct['failed'],       COLORS["failed"],       9)
+
+        idle_colored  = dash_if_zero(job_info['idle'], COLORS["idle"], 9)
+        run_colored   = dash_if_zero(job_info['running'], COLORS["running"], 9)
+        trans_colored = dash_if_zero(job_info['transferring'], COLORS["transferring"], 9)
+        fin_colored   = dash_if_zero(job_info['finished'], COLORS["finished"], 9)
+        fail_colored  = dash_if_zero(job_info['failed'], COLORS["failed"], 10)
         
         print(f"{count:<4} {folder:<{max_jobname_len}} {bar:<{bar_length+2}} "
               f"{crab_status}  {scheduler_status}  "
