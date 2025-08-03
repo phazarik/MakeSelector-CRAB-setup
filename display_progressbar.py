@@ -27,9 +27,14 @@
 # =============================================================================
 
 import os, subprocess, json, re
+import time
+from datetime import timedelta
+
 RESET = "\033[0m"
 RED = "\033[31m"
+RED_BOLD = "\033[1;31m"
 BLUE = "\033[34m"
+BLUE_BOLD = "\033[1;34m"
 YELLOW = "\033[33m"
 YELLOW_BOLD = "\033[93m"
 
@@ -41,6 +46,7 @@ COLORS = {
     "failed": "\033[31m"         # red
 }
 
+# ------------------------------------------------------------------------------------
 def parse_crab_status_output(output):
     job_info = {
         "total": 0,
@@ -80,66 +86,61 @@ def parse_crab_status_output(output):
     job_info["percentages"] = percentages
     return job_info
 
-def make_progress_bar(pct, length=25):
-    # Convert percentages like '46.5%' into segment lengths
-    failed_len = round(float(pct['failed'].replace('%', '')) / 100 * length)
-    finished_len = round(float(pct['finished'].replace('%', '')) / 100 * length)
-    transf_len = round(float(pct['transferring'].replace('%', '')) / 100 * length)
-    running_len = round(float(pct['running'].replace('%', '')) / 100 * length)
-    idle_len = length - (failed_len + finished_len + transf_len + running_len)
+# ------------------------------------------------------------------------------------
+def make_progress_bar(pct, length=50):
+    order = ["failed", "finished", "transferring", "running", "idle"]
 
-    segments = [
-        ["failed", failed_len],
-        ["finished", finished_len],
-        ["transferring", transf_len],
-        ["running", running_len],
-        ["idle", idle_len]
-    ]
+    # Step 1: calculate raw float sizes for each segment
+    raw = [float(pct[s][:-1]) / 100 * length for s in order]
 
-    # Fix rounding: ensure total hashes == length
-    total_hashes = sum(s[1] for s in segments)
-    if total_hashes > length:  # too many hashes
-        midpoint = length // 2
-        count = 0
-        for seg in segments:
-            if count + seg[1] > midpoint:
-                seg[1] -= 1   # remove one # from the segment that crosses the midpoint
-                break
-        count += seg[1]
-    elif total_hashes < length:  # too few hashes
-        for seg in reversed(segments):
-            if seg[0] == "idle":
-                seg[1] += 1
-                break
-        
-    # Build the bar (fail first, idle last)
+    # Step 2: take the floor for each segment
+    segs = [[name, int(val)] for name, val in zip(order, raw)]
+    total = sum(s[1] for s in segs)
+
+    # Step 3: calculate how many hashes are missing
+    missing = length - total
+
+    # Step 4: distribute missing hashes to segments with largest fractions
+    if missing > 0:
+        fractions = sorted([(raw[i] - segs[i][1], i) for i in range(len(order))], reverse=True)
+        for _, idx in fractions[:missing]: segs[idx][1] += 1
+
+    # Step 5: build the bar (exactly 'length' hashes)
     bar = ""
-    for name, count in segments:
-        if count > 0:
-            bar += COLORS[name] + "#" * count
-    return f"{bar}{RESET}{' ' * (30 - length)}"
+    for name, count in segs:
+        if count > 0: bar += COLORS[name] + "#" * count
+    return bar + RESET
 
+# ------------------------------------------------------------------------------------
 def colorize_aligned(text, color, width):
     visible_len = len(text)
     return f"{color}{text}{RESET}" + " " * (width - visible_len)
 
+# ------------------------------------------------------------------------------------
 def format_pct(pct):  return f"{pct:<8}"
 
+# ------------------------------------------------------------------------------------
 def pct_or_dash(pct_value, color, width):
     if pct_value in ["0%"]: return f"{'-':<{width}}"
     return colorize_aligned(format_pct(pct_value), color, width)
 
+# ------------------------------------------------------------------------------------
 def dash_if_zero(value, color, width):
     return f"{'-':<{width}}" if value == 0 else colorize_aligned(str(value), color, width)
 
+# ------------------------------------------------------------------------------------
 def check_status_all_jobs():
+    start_time = time.time()
+
     submitted_dir = "submitted"
     jobid_dict = {}
     failed_jobs = []
+    completed_jobs = []
     bar_length = 50
 
     all_folders = [f for f in os.listdir(submitted_dir) if os.path.isdir(os.path.join(submitted_dir, f))]
     max_jobname_len = max((len(f) for f in all_folders), default=10) + 4   # extra padding
+    print(f"Checking {len(all_folders)} jobs...")
 
     # header spacing widened for clarity
     print(f"\n{YELLOW_BOLD}{'No':<4} {'Job Name':<{max_jobname_len}} {'Progress':<{bar_length+2}} "
@@ -152,7 +153,8 @@ def check_status_all_jobs():
         output = os.popen(f"crab status -d {folder_path}").read()
         job_info = parse_crab_status_output(output)
         if job_info["failed"] > 0: failed_jobs.append(folder_path)
-
+        if job_info["Scheduler"] == "COMPLETED": completed_jobs.append(folder_path)
+        
         pct = job_info["percentages"]
         bar = make_progress_bar(pct, bar_length) + "  "
 
@@ -193,9 +195,23 @@ def check_status_all_jobs():
     if failed_jobs:
         print(f"\n{RED}[INFO] Found failed jobs. Suggested resubmit commands:{RESET}")
         for job in failed_jobs: print(f"crab resubmit -d {job}")
-    print("")
+        
+    # === Optionally remove COMPLETED jobs ===
+    if completed_jobs:
+        print(f"{BLUE_BOLD}[INFO] Found {len(completed_jobs)} COMPLETED job folders:{RESET}")
+        for job in completed_jobs: print(f" - {job}")
+        ans = input(f"\n{YELLOW_BOLD}Delete these COMPLETED job folders? [y/n]: {RESET}").strip().lower()
+        if ans in ["y", "yes"]:
+            for job in completed_jobs:
+                print(f"Deleting {job}...")
+                os.system(f"rm -rf '{job}'")
+            print(f"{RED_BOLD}Completed jobs removed.{RESET}")
 
+    
+    elapsed = time.time() - start_time
+    print(f"\nDone.\nTime taken: {timedelta(seconds=int(elapsed))}\n")
 
+# ------------------------------------------------------------------------------------
 def check_voms_proxy():
     result = subprocess.run("voms-proxy-info --timeleft", shell=True, capture_output=True, text=True)
     time_left = result.stdout.strip()
@@ -205,6 +221,7 @@ def check_voms_proxy():
         return False
     return True
 
+# ------------------------------------------------------------------------------------
 def check_cmssw():
     cmssw_base = os.environ.get("CMSSW_BASE")
     if not cmssw_base:
@@ -212,6 +229,7 @@ def check_cmssw():
         return False
     return True
 
+# ------------------------------------------------------------------------------------
 if __name__ == "__main__":
     if not check_cmssw() or not check_voms_proxy(): pass
     else: check_status_all_jobs()
