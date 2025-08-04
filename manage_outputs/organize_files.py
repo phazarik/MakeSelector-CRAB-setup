@@ -23,19 +23,57 @@ if dryrun: print('[WARNING]: dryrun mode', style="red")
 print()
 
 basedir = "/eos/user/p/phazarik"
-jobdir  = "CRAB_skim_2LSS_Run3Summer22EE_2025-08-01"
-dumpdir = "skimmed_2LSS_Run3Summer22EE"
-sample_file = '../samplelists/Run3Summer22EE.txt'
+jobdir  = "CRAB_skim_2LSS_Run3Summer23BPix_2025-08-02"
+dumpdir = "skimmed_2LSS_Run3Summer23BPix"
+sample_file = '../samplelists/Run3Summer23BPix.txt'
 
 # Job IDs for Data
-{
+job_ids={
+    #2018:
+    "EGamma_A": "250804_104023",
+    "EGamma_B": "250804_104042",
+    "EGamma_C": "250804_104057",
+    "EGamma_D": "250804_104117",
+    "Muon_A": "250804_103856",
+    "Muon_B": "250804_103922",
+    "Muon_C": "250804_103944",
+    "Muon_D": "250804_104003"
     #2022:
+    "EGamma_C": "250801_091720",
+    "EGamma_D": "250801_091725",
+    "Muon_C": "250801_091710",
+    "Muon_D": "250801_091715",
     "EGamma_E": "250731_175154",
     "EGamma_F": "250731_175202",
     "EGamma_G": "250731_175211",
     "Muon_E": "250731_175129",
     "Muon_F": "250731_175137",
-    "Muon_G": "250731_175146"
+    "Muon_G": "250731_175146",
+    #2023:
+    "EGamma0_C1": "250802_134637",
+    "EGamma0_C2": "250802_134642",
+    "EGamma0_C3": "250802_134647",
+    "EGamma0_C4": "250802_134652",
+    "EGamma0_D1": "250802_134819",
+    "EGamma0_D2": "250802_134824",
+    "EGamma1_C1": "250802_134657",
+    "EGamma1_C2": "250802_134702",
+    "EGamma1_C3": "250802_134707",
+    "EGamma1_C4": "250802_134712",
+    "EGamma1_D1": "250802_134829",
+    "EGamma1_D2": "250802_134835",
+    "Muon0_C1": "250802_134557",
+    "Muon0_C2": "250802_134602",
+    "Muon0_C3": "250802_134608",
+    "Muon0_C4": "250802_134613",
+    "Muon0_D1": "250802_134759",
+    "Muon0_D2": "250802_134804",
+    "Muon1_C1": "250802_134617",
+    "Muon1_C2": "250802_134622",
+    "Muon1_C3": "250802_134627",
+    "Muon1_C4": "250802_134632",
+    "Muon1_D1": "250802_134809",
+    "Muon1_D2": "250802_134814"
 }
 
 with open(sample_file, 'r') as f: samples = ast.literal_eval(f.read())

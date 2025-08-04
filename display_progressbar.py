@@ -68,14 +68,23 @@ def parse_crab_status_output(output):
             if "on command" in sched_raw: sched_raw = sched_raw.split("on command")[0].strip()
             job_info["Scheduler"] = sched_raw
 
-        m = re.search(r"(finished|transferring|running|idle|failed)\s+(\d+\.?\d*)%\s+\((\s*\d+)\s*/\s*(\d+)\)", line)
+        m = re.search(r"(finished|transferring|running|idle|failed|toRetry|unsubmitted)\s+(\d+\.?\d*)%\s+\((\s*\d+)\s*/\s*(\d+)\)", line)
         if m:
             state, pct, count, total = m.groups()
             state = state.strip()
             count = int(count.strip())
             total = int(total.strip())
-            percentages[state] = f"{pct}%"
-            job_info[state] = count
+
+            # Merge 'toRetry' counts into idle
+            if state in ["toRetry", "unsubmitted"]:
+                job_info["idle"] += count
+                # Add its percentage into idle percentage
+                idle_pct = float(percentages["idle"].replace("%", "")) + float(pct)
+                percentages["idle"] = f"{idle_pct:.1f}%"
+            else:
+                percentages[state] = f"{pct}%"
+                job_info[state] = count
+            
             job_info["total"] = total
 
         ## if total is still 0, mark all percentages as "-"

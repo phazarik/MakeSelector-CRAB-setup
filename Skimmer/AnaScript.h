@@ -30,18 +30,18 @@
 
 class AnaScript : public TSelector {
 private:
-  
+  /*
   //For NanoAODv12 and beyond:
   using iterator     = Int_t;
   using int_or_char  = UChar_t;
   using int_or_short = Short_t;
-  using int_or_ushort = UShort_t;
-  /*
+  using int_or_ushort = UShort_t;*/
+  
   //For NanoAODv11 and below
   using iterator     = UInt_t; 
   using int_or_char  = Int_t;
   using int_or_short = Int_t;
-  using int_or_ushort = Int_t;*/
+  using int_or_ushort = Int_t;
 
   //Note: Remove LHE weight branches in case of QCD samples
   
@@ -373,30 +373,29 @@ public :
   TTreeReaderValue<Bool_t> Flag_trkPOG_toomanystripclus53X = {fReader_2022, "Flag_trkPOG_toomanystripclus53X"};
   TTreeReaderValue<Bool_t> Flag_trkPOG_logErrorTooManyClusters = {fReader_2022, "Flag_trkPOG_logErrorTooManyClusters"};
   TTreeReaderValue<Bool_t> Flag_METFilters = {fReader_2022, "Flag_METFilters"};
-
+  /*
   //Rho (Run-3)
   TTreeReaderValue<Float_t> Rho_fixedGridRhoAll = {fReader_2022, "Rho_fixedGridRhoAll"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetAll = {fReader_2022, "Rho_fixedGridRhoFastjetAll"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentral = {fReader_2022, "Rho_fixedGridRhoFastjetCentral"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralCalo = {fReader_2022, "Rho_fixedGridRhoFastjetCentralCalo"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralChargedPileUp = {fReader_2022, "Rho_fixedGridRhoFastjetCentralChargedPileUp"};
-  TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralNeutral = {fReader_2022, "Rho_fixedGridRhoFastjetCentralNeutral"};
+  TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralNeutral = {fReader_2022, "Rho_fixedGridRhoFastjetCentralNeutral"};*/
 
   //Rho (Run-2)
-  /*
-  TTreeReaderValue<Float_t> fixedGridRhoFastjetAll =            {fReader_MC, "fixedGridRhoFastjetAll"};
-  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentral =        {fReader_MC, "fixedGridRhoFastjetCentral"};
-  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralCalo =    {fReader_MC, "fixedGridRhoFastjetCentralCalo"};
-  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralChargedPileUp = {fReader_MC, "fixedGridRhoFastjetCentralChargedPileUp"};
-  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralNeutral = {fReader_MC, "fixedGridRhoFastjetCentralNeutral"};
+  TTreeReaderValue<Float_t> fixedGridRhoFastjetAll =            {fReader_2022, "fixedGridRhoFastjetAll"};
+  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentral =        {fReader_2022, "fixedGridRhoFastjetCentral"};
+  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralCalo =    {fReader_2022, "fixedGridRhoFastjetCentralCalo"};
+  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralChargedPileUp = {fReader_2022, "fixedGridRhoFastjetCentralChargedPileUp"};
+  TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralNeutral = {fReader_2022, "fixedGridRhoFastjetCentralNeutral"};
   //TTreeReaderArray<Float_t> Photon_pfRelIso03_all = {fReader_2022, "Photon_pfRelIso03_all"};
   //TTreeReaderArray<Float_t> Photon_pfRelIso03_chg = {fReader_2022, "Photon_pfRelIso03_chg"};
-  TTreeReaderValue<Float_t> rho = fixedGridRhoFastjetAll;*/
+  TTreeReaderValue<Float_t> rho = fixedGridRhoFastjetAll;
 
   //HLT paths
   //TTreeReaderValue<Bool_t> HLT_Ele27_WPTight_Gsf = {fReader_2022, "HLT_Ele27_WPTight_Gsf"};
   //TTreeReaderValue<Bool_t> HLT_Ele28_WPTight_Gsf = {fReader_2022, "HLT_Ele28_WPTight_Gsf"};
-  TTreeReaderValue<Bool_t> HLT_Ele30_WPTight_Gsf = {fReader_2022, "HLT_Ele30_WPTight_Gsf"};
+  //TTreeReaderValue<Bool_t> HLT_Ele30_WPTight_Gsf = {fReader_2022, "HLT_Ele30_WPTight_Gsf"};
   TTreeReaderValue<Bool_t> HLT_Ele32_WPTight_Gsf = {fReader_2022, "HLT_Ele32_WPTight_Gsf"};
   TTreeReaderValue<Bool_t> HLT_Ele35_WPTight_Gsf = {fReader_2022, "HLT_Ele35_WPTight_Gsf"};
   TTreeReaderValue<Bool_t> HLT_Ele38_WPTight_Gsf = {fReader_2022, "HLT_Ele38_WPTight_Gsf"};

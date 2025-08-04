@@ -14,18 +14,20 @@ parser.add_argument("--dryrun", type=ast.literal_eval, default=True,  help="Prin
 args = parser.parse_args()
 args = parser.parse_args()
 
-campaign = "Run3Summer22EE"
+campaign = "2018_UL"
 test   = args.test
 dryrun = args.dryrun
 
 ### Note: For data, use flag == 'muon' or 'egamma'
 
 samples=[]
-with open(f"samplelists/{campaign}.txt", "r") as file: content = file.read().strip()
+samplefile = f"samplelists/{campaign}.txt"
+#samplefile = f"samplelists/failed_jobs.txt"
+with open(samplefile, "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)
 
-jobname ="nanoSkim_Run3"
+jobname ="nanoSkim_Run2"
 
 count=0
 for samplename, dataset, flag in samples:

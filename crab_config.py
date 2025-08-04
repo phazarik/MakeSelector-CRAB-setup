@@ -46,7 +46,7 @@ config.JobType.outputFiles = ['skimFile.root']
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1  # Number of files per job
-config.Data.outLFNDirBase = '/store/user/phazarik/CRAB_skim_2LSS_Run3Summer22EE_2025-08-01'
+config.Data.outLFNDirBase = '/store/user/phazarik/CRAB_skim_2LSS_2018_UL_2025-08-04'
 config.Data.publication = False
 config.Data.outputDatasetTag = f'run3Skim' ###subdirectory
 

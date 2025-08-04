@@ -206,18 +206,25 @@ void AnaScript::ReadBranch(){
   *Flag_trkPOG_toomanystripclus53X;
   *Flag_trkPOG_logErrorTooManyClusters;
   *Flag_METFilters;
-
+  /*
   //For Jet corrections: (Run3)
   *Rho_fixedGridRhoFastjetAll;
   *Rho_fixedGridRhoFastjetCentral;
   *Rho_fixedGridRhoFastjetCentralCalo;
   *Rho_fixedGridRhoFastjetCentralChargedPileUp;
-  *Rho_fixedGridRhoFastjetCentralNeutral;
+  *Rho_fixedGridRhoFastjetCentralNeutral;*/
+
+  //For Jet corrections: (Run2)
+  *fixedGridRhoFastjetAll;
+  *fixedGridRhoFastjetCentral;
+  *fixedGridRhoFastjetCentralCalo;
+  *fixedGridRhoFastjetCentralChargedPileUp;
+  *fixedGridRhoFastjetCentralNeutral;
 
   //Additionl HLT branches:
   //*HLT_Ele27_WPTight_Gsf;
   //*HLT_Ele28_WPTight_Gsf;
-  *HLT_Ele30_WPTight_Gsf;
+  //*HLT_Ele30_WPTight_Gsf;
   *HLT_Ele32_WPTight_Gsf;
   *HLT_Ele35_WPTight_Gsf;
   *HLT_Ele38_WPTight_Gsf;
