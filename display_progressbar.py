@@ -89,8 +89,7 @@ def parse_crab_status_output(output):
 
         ## if total is still 0, mark all percentages as "-"
         if job_info["total"] == 0:
-            for key in percentages:
-                percentages[key] = "0%"
+            for key in percentages: percentages[key] = "0%"
 
     job_info["percentages"] = percentages
     return job_info
@@ -113,6 +112,10 @@ def make_progress_bar(pct, length=50):
     if missing > 0:
         fractions = sorted([(raw[i] - segs[i][1], i) for i in range(len(order))], reverse=True)
         for _, idx in fractions[:missing]: segs[idx][1] += 1
+
+    # Handle missing percentage info
+    if all(pct[s] in ["0%", "0.0%"] for s in order):
+        return COLORS["idle"] + "#" * length + RESET
 
     # Step 5: build the bar (exactly 'length' hashes)
     bar = ""
