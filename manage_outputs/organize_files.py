@@ -1,7 +1,6 @@
-import os, sys
+import os
 import ast
 import argparse
-import time
 from datetime import date
 from tqdm import tqdm
 from rich.console import Console
@@ -15,21 +14,33 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--test', action='store_true')
 parser.add_argument('--dryrun', action='store_true')
 args = parser.parse_args()
-test   = args.test
+test = args.test
 dryrun = args.dryrun
 
-if test:   print('[WARNING]: test mode',   style="red")
+if test:   print('[WARNING]: test mode', style="red")
 if dryrun: print('[WARNING]: dryrun mode', style="red")
 print()
 
-basedir = "/eos/user/p/phazarik"
-jobdir  = "CRAB_skim_2LSS_Run3Summer23BPix_2025-08-02"
-dumpdir = "skimmed_2LSS_Run3Summer23BPix"
-sample_file = '../samplelists/Run3Summer23BPix.txt'
+campaign = "2017_UL"
+basedir  = "/eos/user/p/phazarik"
+jobdir   = f"CRAB_skim_2LSS_{campaign}_2025-08-05"
+dumpdir  = f"skimmed_2LSS_{campaign}"
+sample_file = f"../samplelists/{campaign}.txt"
 
 # Job IDs for Data
-job_ids={
-    #2018:
+job_ids_2017={
+    "EGamma_B": "250805_120919",
+    "EGamma_C": "250805_120924",
+    "EGamma_D": "250805_120929",
+    "EGamma_E": "250805_120934",
+    "EGamma_F": "250805_120939",
+    "Muon_B": "250805_120853",
+    "Muon_C": "250805_120858",
+    "Muon_D": "250805_120904",
+    "Muon_E": "250805_120909",
+    "Muon_F": "250805_120914"
+}
+job_ids_2018 = {
     "EGamma_A": "250804_104023",
     "EGamma_B": "250804_104042",
     "EGamma_C": "250804_104057",
@@ -38,18 +49,20 @@ job_ids={
     "Muon_B": "250804_103922",
     "Muon_C": "250804_103944",
     "Muon_D": "250804_104003"
-    #2022:
+}
+job_ids_2022 = {
     "EGamma_C": "250801_091720",
     "EGamma_D": "250801_091725",
-    "Muon_C": "250801_091710",
-    "Muon_D": "250801_091715",
     "EGamma_E": "250731_175154",
     "EGamma_F": "250731_175202",
     "EGamma_G": "250731_175211",
+    "Muon_C": "250801_091710",
+    "Muon_D": "250801_091715",
     "Muon_E": "250731_175129",
     "Muon_F": "250731_175137",
-    "Muon_G": "250731_175146",
-    #2023:
+    "Muon_G": "250731_175146"
+}
+job_ids_2023 = {
     "EGamma0_C1": "250802_134637",
     "EGamma0_C2": "250802_134642",
     "EGamma0_C3": "250802_134647",
@@ -76,32 +89,42 @@ job_ids={
     "Muon1_D2": "250802_134814"
 }
 
+job_ids = {}
+if "2017"     in campaign: job_ids = job_ids_2017
+if "2018"     in campaign: job_ids = job_ids_2018
+if "Summer22" in campaign: job_ids = job_ids_2022
+if "Summer23" in campaign: job_ids = job_ids_2023 
+
 with open(sample_file, 'r') as f: samples = ast.literal_eval(f.read())
 
 # Process each sample
 for fullsamplename, fulldasname, tag in samples:
-
-    if ('Muon' in fullsamplename or 'EGamma' in fullsamplename): continue
-
-    print(f'\033[033m\nProcessing {fullsamplename}\033[0m')
-    sample    = fullsamplename.split('_')[0]
-    subsample = fullsamplename.split('_')[1]
-
-    '''
-    ###Exception:
-    if "QCD_" in fullsamplename:
-        sample    = fullsamplename.split('_')[0]+"_"+fullsamplename.split('_')[1]
-        subsample = fullsamplename.split('_')[2]
-    '''
+    sample = fullsamplename.split('_')[0]
+    subsample = fullsamplename.split('_')[1] if '_' in fullsamplename else ''
+    foldername = sample
     
-    dump = os.path.join(basedir, dumpdir, sample, subsample)
-    dasname = fulldasname.split('/')[1]
-    searchdir = os.path.join(basedir, jobdir, dasname)
+    ### Exceptions:
+    #if not ("Muon" in fullsamplename or "EGamma" in fullsamplename): continue
+    if "Run3" not in campaign and 'Muon' in sample: foldername = 'SingleMuon'
+    if "Run3" not in campaign and 'EGamma' in sample and '2018' not in sample: foldername = 'SingleElectron'
+    
+    print(f'\033[033m\nProcessing {fullsamplename}\033[0m')
 
-    ### Exception for data:
-    if fullsamplename in job_ids:
-        job_id = job_ids[fullsamplename]
-        searchdir = os.path.join(basedir, jobdir, sample, "run3Skim", job_id)
+    # Output directory
+    dump = os.path.join(basedir, dumpdir, sample, subsample) if subsample else os.path.join(basedir, dumpdir, sample)
+
+    # Input directory
+    if 'Muon' in fullsamplename or 'EGamma' in fullsamplename:
+        if fullsamplename in job_ids:
+            job_id = job_ids[fullsamplename]
+            searchdir = os.path.join(basedir, jobdir, foldername, "run3Skim", job_id)
+        else:
+            print(f'WARNING: {fullsamplename} not in job_ids. Skipping.', style="red")
+            continue
+    else:
+        # For MC samples, use the dasname
+        dasname = fulldasname.split('/')[1]
+        searchdir = os.path.join(basedir, jobdir, dasname)
 
     if not os.path.exists(searchdir):
         print(f'WARNING: Path does not exist: {searchdir}. Skipping.', style="red")
@@ -123,12 +146,13 @@ for fullsamplename, fulldasname, tag in samples:
                 command = f'cp {src} {dst}'
                 if not dryrun:
                     os.makedirs(dump, exist_ok=True)
-                    os.system(f'cp {src} {dst}')
+                    os.system(command)
                 if dryrun: print(f"{nfile} {command}", style="dim")
+                if dryrun: break
 
             print(f'Copied {nfile} files to {dump}', style='yellow')
 
     if not files_found: print(f'WARNING: No root files in: {searchdir}, skipping.', style='red')
-    if test: break  ## Sample
+    if test: break  # Process only one sample in test mode
 
-print(f'\nAll files in {jobdir} copied to {dumpdir}\n', style='Yellow bold')
+print(f'\nAll files in {jobdir} copied to {dumpdir}\n', style='yellow bold')
