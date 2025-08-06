@@ -396,19 +396,25 @@ public :
   //TTreeReaderValue<Bool_t> HLT_Ele27_WPTight_Gsf = {fReader_2022, "HLT_Ele27_WPTight_Gsf"};
   //TTreeReaderValue<Bool_t> HLT_Ele28_WPTight_Gsf = {fReader_2022, "HLT_Ele28_WPTight_Gsf"};
   //TTreeReaderValue<Bool_t> HLT_Ele30_WPTight_Gsf = {fReader_2022, "HLT_Ele30_WPTight_Gsf"};
-  TTreeReaderValue<Bool_t> HLT_Ele32_WPTight_Gsf = {fReader_2022, "HLT_Ele32_WPTight_Gsf"};
-  TTreeReaderValue<Bool_t> HLT_Ele35_WPTight_Gsf = {fReader_2022, "HLT_Ele35_WPTight_Gsf"};
-  TTreeReaderValue<Bool_t> HLT_Ele38_WPTight_Gsf = {fReader_2022, "HLT_Ele38_WPTight_Gsf"};
-  TTreeReaderValue<Bool_t> HLT_Ele40_WPTight_Gsf = {fReader_2022, "HLT_Ele40_WPTight_Gsf"};
-  TTreeReaderValue<Bool_t> HLT_IsoMu20 = {fReader_2022, "HLT_IsoMu20"};
-  TTreeReaderValue<Bool_t> HLT_IsoMu24 = {fReader_2022, "HLT_IsoMu24"};
-  TTreeReaderValue<Bool_t> HLT_IsoMu24_eta2p1 = {fReader_2022, "HLT_IsoMu24_eta2p1"};
-  TTreeReaderValue<Bool_t> HLT_IsoMu27 = {fReader_2022, "HLT_IsoMu27"};
+  //TTreeReaderValue<Bool_t> HLT_Ele32_WPTight_Gsf = {fReader_2022, "HLT_Ele32_WPTight_Gsf"};
+  //TTreeReaderValue<Bool_t> HLT_Ele35_WPTight_Gsf = {fReader_2022, "HLT_Ele35_WPTight_Gsf"};
+  //TTreeReaderValue<Bool_t> HLT_Ele38_WPTight_Gsf = {fReader_2022, "HLT_Ele38_WPTight_Gsf"};
+  //TTreeReaderValue<Bool_t> HLT_Ele40_WPTight_Gsf = {fReader_2022, "HLT_Ele40_WPTight_Gsf"};
+  //TTreeReaderValue<Bool_t> HLT_IsoMu20 = {fReader_2022, "HLT_IsoMu20"};
+  //TTreeReaderValue<Bool_t> HLT_IsoMu24 = {fReader_2022, "HLT_IsoMu24"};
+  //TTreeReaderValue<Bool_t> HLT_IsoMu24_eta2p1 = {fReader_2022, "HLT_IsoMu24_eta2p1"};
+  //TTreeReaderValue<Bool_t> HLT_IsoMu27 = {fReader_2022, "HLT_IsoMu27"};
 
   // HLT paths that I am interested in:
-  // For 2018 and 2022 and 2023:
-  TTreeReaderValue<Bool_t> HLT_SingleMuon  = {fReader_2022, "HLT_IsoMu24"};
-  TTreeReaderValue<Bool_t> HLT_SingleEle   = {fReader_2022, "HLT_Ele32_WPTight_Gsf"};
+  //For 2016:
+  TTreeReaderValue<Bool_t> HLT_SingleMuon = {fReader_2022, "HLT_IsoMu24"};
+  TTreeReaderValue<Bool_t> HLT_SingleEle  = {fReader_2022, "HLT_Ele27_WPTight_Gsf"};
+  //For 2017:
+  //TTreeReaderValue<Bool_t> HLT_SingleMuon  = {fReader_2022, "HLT_IsoMu24"};
+  //TTreeReaderValue<Bool_t> HLT_SingleEle   = {fReader_2022, "HLT_Ele35_WPTight_Gsf"};
+  //For 2018, 2022 and 2023:
+  //TTreeReaderValue<Bool_t> HLT_SingleMuon  = {fReader_2022, "HLT_IsoMu24"};
+  //TTreeReaderValue<Bool_t> HLT_SingleEle   = {fReader_2022, "HLT_Ele32_WPTight_Gsf"};
 
   //--------------------
   // Gen-level branches:

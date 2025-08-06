@@ -225,14 +225,14 @@ void AnaScript::ReadBranch(){
   //*HLT_Ele27_WPTight_Gsf;
   //*HLT_Ele28_WPTight_Gsf;
   //*HLT_Ele30_WPTight_Gsf;
-  *HLT_Ele32_WPTight_Gsf;
-  *HLT_Ele35_WPTight_Gsf;
-  *HLT_Ele38_WPTight_Gsf;
-  *HLT_Ele40_WPTight_Gsf;
-  *HLT_IsoMu20;
-  *HLT_IsoMu24;
-  *HLT_IsoMu24_eta2p1;
-  *HLT_IsoMu27;
+  //*HLT_Ele32_WPTight_Gsf;
+  //*HLT_Ele35_WPTight_Gsf;
+  //*HLT_Ele38_WPTight_Gsf;
+  //*HLT_Ele40_WPTight_Gsf;
+  //*HLT_IsoMu20;
+  // *HLT_IsoMu24;
+  //*HLT_IsoMu24_eta2p1;
+  //*HLT_IsoMu27;
 
   //for MC:
   if(_data==0){
