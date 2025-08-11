@@ -30,19 +30,19 @@
 
 class AnaScript : public TSelector {
 private:
-  /*
+  /*  
   //For NanoAODv12 and beyond:
   using iterator     = Int_t;
   using int_or_char  = UChar_t;
   using int_or_short = Short_t;
-  using int_or_ushort = UShort_t;*/
-  
+  using int_or_ushort = UShort_t;
+  */
   //For NanoAODv11 and below
   using iterator     = UInt_t; 
   using int_or_char  = Int_t;
   using int_or_short = Int_t;
   using int_or_ushort = Int_t;
-
+  
   //Note: Remove LHE weight branches in case of QCD samples
   
 public :
@@ -380,8 +380,8 @@ public :
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentral = {fReader_2022, "Rho_fixedGridRhoFastjetCentral"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralCalo = {fReader_2022, "Rho_fixedGridRhoFastjetCentralCalo"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralChargedPileUp = {fReader_2022, "Rho_fixedGridRhoFastjetCentralChargedPileUp"};
-  TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralNeutral = {fReader_2022, "Rho_fixedGridRhoFastjetCentralNeutral"};*/
-
+  TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralNeutral = {fReader_2022, "Rho_fixedGridRhoFastjetCentralNeutral"};
+  */
   //Rho (Run-2)
   TTreeReaderValue<Float_t> fixedGridRhoFastjetAll =            {fReader_2022, "fixedGridRhoFastjetAll"};
   TTreeReaderValue<Float_t> fixedGridRhoFastjetCentral =        {fReader_2022, "fixedGridRhoFastjetCentral"};
@@ -410,7 +410,7 @@ public :
   TTreeReaderValue<Bool_t> HLT_SingleMuon = {fReader_2022, "HLT_IsoMu24"};
   TTreeReaderValue<Bool_t> HLT_SingleEle  = {fReader_2022, "HLT_Ele27_WPTight_Gsf"};
   //For 2017:
-  //TTreeReaderValue<Bool_t> HLT_SingleMuon  = {fReader_2022, "HLT_IsoMu24"};
+  //TTreeReaderValue<Bool_t> HLT_SingleMuon  = {fReader_2022, "HLT_IsoMu27"};
   //TTreeReaderValue<Bool_t> HLT_SingleEle   = {fReader_2022, "HLT_Ele35_WPTight_Gsf"};
   //For 2018, 2022 and 2023:
   //TTreeReaderValue<Bool_t> HLT_SingleMuon  = {fReader_2022, "HLT_IsoMu24"};

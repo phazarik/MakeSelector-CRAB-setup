@@ -18,13 +18,14 @@ bool alphaNumCompare(const TString &a, const TString &b) {
   return strlen(ca) < strlen(cb);
 }
 
-void find_nevents(TString dumpdir = "skimmed_2LSS_2017_UL", TString find="nEvtTotal") {
+void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer23", TString find="nEvtTotal") {
 
   TString path = gSystem->ConcatFileName("/eos/user/p/phazarik/", dumpdir);
   TSystemDirectory dir(path, path);
   TList* allsamples = dir.GetListOfFiles();
   if (!allsamples) {cerr << "\033[031mError: Cannot open directory "<<path<<"\033[0m"<<endl; return;}
-
+  cout<<"Searching in "<<path<<endl;
+  
   // collect sample names
   vector<TString> sampleNames;
   for (TObject* obj : *allsamples) {
@@ -46,6 +47,8 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_2017_UL", TString find="nEvtTo
   // loop over sorted sampleNames instead of allsamples
   sort(sampleNames.begin(), sampleNames.end(), alphaNumCompare);
   for (auto &sample : sampleNames) {
+
+    //if(!sample.Contains("QCD")) continue;
 
     TString path2 = path + "/" + sample;
     TSystemDirectory subdir(path2, path2);

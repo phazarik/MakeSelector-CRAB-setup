@@ -202,7 +202,8 @@ def check_status_all_jobs():
         count += 1
 
     with open("jobIDs.json", "w") as f: json.dump(jobid_dict, f, indent=4)
-
+    elapsed = time.time() - start_time
+    
     # === Print resubmit commands if needed ===
     if failed_jobs:
         print(f"\n{RED}[INFO] Found failed jobs. Suggested resubmit commands:{RESET}")
@@ -219,8 +220,6 @@ def check_status_all_jobs():
                 os.system(f"rm -rf '{job}'")
             print(f"{RED_BOLD}Completed jobs removed.{RESET}")
 
-    
-    elapsed = time.time() - start_time
     print(f"\nDone.\nTime taken: {timedelta(seconds=int(elapsed))}\n")
 
 # ------------------------------------------------------------------------------------

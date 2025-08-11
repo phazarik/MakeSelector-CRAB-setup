@@ -124,7 +124,9 @@ def main():
     results = {}
     for name, path in mc_entries:
         #exceptions:
-        if "QCD" not in name: continue
+        #if "QCD" not in name: continue
+        #if "VLL" not in name: continue
+        if "WtoLNu" not in name: continue
 
         name, xsec = process_dataset(name, path)
         results[name] = xsec

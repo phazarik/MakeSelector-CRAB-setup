@@ -21,22 +21,22 @@ dryrun = args.dryrun
 ### Note: For data, use flag == 'muon' or 'egamma'
 
 samples=[]
-samplefile = f"samplelists/{campaign}.txt"
-#samplefile = f"samplelists/failed_jobs.txt"
+#samplefile = f"samplelists/{campaign}.txt"
+samplefile = f"samplelists/failed_jobs.txt"
 #samplefile = f"samplelists/training_{campaign}.txt"
 with open(samplefile, "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)
 
-jobname ="nanoSkim_Run2"
+jobname ="nanoSkim_2016pre"
 
 count=0
 for samplename, dataset, flag in samples:
     requestname = jobname + '_' + samplename
 
     ### Exceptions:
-    if not ('muon' in flag or 'egamma' in flag): continue
-    if "VLL" in samplename: continue
+    #if ('muon' in flag or 'egamma' in flag): continue
+    #if "VLL" in samplename: continue
     #if not ('QCDMu' in samplename) or ('QCDEle' in samplename): continue
     #if not 'QCD' in samplename: continue
     

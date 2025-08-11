@@ -212,8 +212,8 @@ void AnaScript::ReadBranch(){
   *Rho_fixedGridRhoFastjetCentral;
   *Rho_fixedGridRhoFastjetCentralCalo;
   *Rho_fixedGridRhoFastjetCentralChargedPileUp;
-  *Rho_fixedGridRhoFastjetCentralNeutral;*/
-
+  *Rho_fixedGridRhoFastjetCentralNeutral;
+  */
   //For Jet corrections: (Run2)
   *fixedGridRhoFastjetAll;
   *fixedGridRhoFastjetCentral;
@@ -230,7 +230,7 @@ void AnaScript::ReadBranch(){
   //*HLT_Ele38_WPTight_Gsf;
   //*HLT_Ele40_WPTight_Gsf;
   //*HLT_IsoMu20;
-  // *HLT_IsoMu24;
+  //*HLT_IsoMu24;
   //*HLT_IsoMu24_eta2p1;
   //*HLT_IsoMu27;
 

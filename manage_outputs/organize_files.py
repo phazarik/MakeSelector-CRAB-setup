@@ -23,22 +23,44 @@ print()
 
 campaign = "2017_UL"
 basedir  = "/eos/user/p/phazarik"
-jobdir   = f"CRAB_skim_2LSS_{campaign}_2025-08-05"
+jobdir   = f"CRAB_skim_2LSS_{campaign}_2025-08-10"
+#jobdir   = f"CRAB_skim_2LSS_{campaign}_forTraining"
 dumpdir  = f"skimmed_2LSS_{campaign}"
+#dumpdir  = f"training_2LSS_{campaign}"
 sample_file = f"../samplelists/{campaign}.txt"
 
 # Job IDs for Data
+job_ids_2016 = {
+    "EGamma_B1": "250806_110227",
+    "EGamma_B2": "250806_110233",
+    "EGamma_C":  "250806_110239",
+    "EGamma_D":  "250806_110244",
+    "EGamma_E":  "250806_110250",
+    "EGamma_FHIPM": "250806_110256",
+    "EGamma_F":  "250806_111437",
+    "EGamma_G":  "250806_111442",
+    "EGamma_H":  "250806_111447",
+    "Muon_B1": "250806_110150",
+    "Muon_B2": "250806_110157",
+    "Muon_C":  "250806_110203",
+    "Muon_D":  "250806_110209",
+    "Muon_E":  "250806_110216",
+    "Muon_FHIPM": "250806_110221",
+    "Muon_F":  "250806_111418",
+    "Muon_G":  "250806_111424",
+    "Muon_H":  "250806_111430"
+}
 job_ids_2017={
-    "EGamma_B": "250805_120919",
-    "EGamma_C": "250805_120924",
-    "EGamma_D": "250805_120929",
-    "EGamma_E": "250805_120934",
-    "EGamma_F": "250805_120939",
-    "Muon_B": "250805_120853",
-    "Muon_C": "250805_120858",
-    "Muon_D": "250805_120904",
-    "Muon_E": "250805_120909",
-    "Muon_F": "250805_120914"
+    "EGamma_B": "250810_145146",
+    "EGamma_C": "250810_145152",
+    "EGamma_D": "250810_145157",
+    "EGamma_E": "250810_145202",
+    "EGamma_F": "250810_145207",
+    "Muon_B": "250810_145130",
+    "Muon_C": "250810_145046",
+    "Muon_D": "250810_145052",
+    "Muon_E": "250810_145057",
+    "Muon_F": "250810_145103"
 }
 job_ids_2018 = {
     "EGamma_A": "250804_104023",
@@ -90,6 +112,7 @@ job_ids_2023 = {
 }
 
 job_ids = {}
+if "2016"     in campaign: job_ids = job_ids_2016
 if "2017"     in campaign: job_ids = job_ids_2017
 if "2018"     in campaign: job_ids = job_ids_2018
 if "Summer22" in campaign: job_ids = job_ids_2022
@@ -117,7 +140,8 @@ for fullsamplename, fulldasname, tag in samples:
     if 'Muon' in fullsamplename or 'EGamma' in fullsamplename:
         if fullsamplename in job_ids:
             job_id = job_ids[fullsamplename]
-            searchdir = os.path.join(basedir, jobdir, foldername, "run3Skim", job_id)
+            #searchdir = os.path.join(basedir, jobdir, foldername, "run3Skim", job_id)
+            searchdir = os.path.join(basedir, jobdir, foldername, "skimmed", job_id)
         else:
             print(f'WARNING: {fullsamplename} not in job_ids. Skipping.', style="red")
             continue
