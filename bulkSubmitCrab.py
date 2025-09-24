@@ -14,7 +14,7 @@ parser.add_argument("--dryrun", type=ast.literal_eval, default=True,  help="Prin
 args = parser.parse_args()
 args = parser.parse_args()
 
-campaign = "2016preVFP_UL"
+campaign = "2018_UL"
 test   = args.test
 dryrun = args.dryrun
 
@@ -22,13 +22,14 @@ dryrun = args.dryrun
 
 samples=[]
 #samplefile = f"samplelists/{campaign}.txt"
-samplefile = f"samplelists/failed_jobs.txt"
+#samplefile = f"samplelists/failed_jobs.txt"
 #samplefile = f"samplelists/training_{campaign}.txt"
+samplefile = f"samplelists/signal_{campaign}.txt"
 with open(samplefile, "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)
 
-jobname ="nanoSkim_2016pre"
+jobname ="nanoSkim_2018"
 
 count=0
 for samplename, dataset, flag in samples:

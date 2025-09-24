@@ -50,19 +50,21 @@ void AnaScript::SlaveBegin(TTree *tree)
 void AnaScript::SlaveTerminate()
 {
   //Storing event information in a histogram:
-  TH1D *hCount = new TH1D("hCount", "hCount;;", 6, 0.5, 6.5);
+  TH1D *hCount = new TH1D("hCount", "hCount;;", 7, 0.5, 7.5);
   hCount->SetBinContent(1,genEventsumw);
   hCount->SetBinContent(2,nEvtTotal);
   hCount->SetBinContent(3,nEvtRan);
   hCount->SetBinContent(4,nEvtTrigger);
   hCount->SetBinContent(5,nEvtPass);
   hCount->SetBinContent(6,nEvtVeto);
+  hCount->SetBinContent(7,nEvtBad);
   hCount->GetXaxis()->SetBinLabel(1,"genEventSumW");
   hCount->GetXaxis()->SetBinLabel(2,"nEvtGen");
   hCount->GetXaxis()->SetBinLabel(3,"nEvtRan");
   hCount->GetXaxis()->SetBinLabel(4,"nEvtTrigger");
   hCount->GetXaxis()->SetBinLabel(5,"nEvtPass");
   hCount->GetXaxis()->SetBinLabel(6,"nEvtVeto");
+  hCount->GetXaxis()->SetBinLabel(6,"nEvtBad");
 
   //Write information in the output file:
   //_SkimFile->cd();

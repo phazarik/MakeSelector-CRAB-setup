@@ -141,6 +141,10 @@ def dash_if_zero(value, color, width):
     return f"{'-':<{width}}" if value == 0 else colorize_aligned(str(value), color, width)
 
 # ------------------------------------------------------------------------------------
+def alphanum_key(s):
+    return [int(t) if t.isdigit() else t for t in re.split("([0-9]+)", s)]
+
+# ------------------------------------------------------------------------------------
 def check_status_all_jobs():
     start_time = time.time()
 
@@ -159,7 +163,7 @@ def check_status_all_jobs():
           f"{'CRAB':<14} {'Scheduler':<14} {'Total':<8} {'Idle':<8} {'Running':<8} {'Transf':<8} {'Fin':<8} {'Failed':<10}{RESET}")
     
     count = 1
-    for folder in sorted(all_folders):
+    for folder in sorted(all_folders, key=alphanum_key):
         folder_path = os.path.join(submitted_dir, folder)
 
         output = os.popen(f"crab status -d {folder_path}").read()

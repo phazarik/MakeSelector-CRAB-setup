@@ -21,13 +21,13 @@ if test:   print('[WARNING]: test mode', style="red")
 if dryrun: print('[WARNING]: dryrun mode', style="red")
 print()
 
-campaign = "2017_UL"
+campaign = "2018_UL"
 basedir  = "/eos/user/p/phazarik"
-jobdir   = f"CRAB_skim_2LSS_{campaign}_2025-08-10"
+jobdir   = f"CRAB_skim_2LSS_signal_{campaign}_2025-09-24"
 #jobdir   = f"CRAB_skim_2LSS_{campaign}_forTraining"
-dumpdir  = f"skimmed_2LSS_{campaign}"
+dumpdir  = f"skimmed_2LSS_signal_{campaign}"
 #dumpdir  = f"training_2LSS_{campaign}"
-sample_file = f"../samplelists/{campaign}.txt"
+sample_file = f"../samplelists/signal_{campaign}.txt"
 
 # Job IDs for Data
 job_ids_2016 = {
