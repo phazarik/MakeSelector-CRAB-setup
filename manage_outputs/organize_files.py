@@ -23,7 +23,7 @@ print()
 
 campaign = "2018_UL"
 basedir  = "/eos/user/p/phazarik"
-jobdir   = f"CRAB_skim_2LSS_signal_{campaign}_2025-09-24"
+jobdir   = f"CRAB_skim_2LSS_2018_UL_2025-10-06"
 #jobdir   = f"CRAB_skim_2LSS_{campaign}_forTraining"
 dumpdir  = f"skimmed_2LSS_signal_{campaign}"
 #dumpdir  = f"training_2LSS_{campaign}"
@@ -63,14 +63,14 @@ job_ids_2017={
     "Muon_F": "250810_145103"
 }
 job_ids_2018 = {
-    "EGamma_A": "250804_104023",
-    "EGamma_B": "250804_104042",
-    "EGamma_C": "250804_104057",
-    "EGamma_D": "250804_104117",
-    "Muon_A": "250804_103856",
-    "Muon_B": "250804_103922",
-    "Muon_C": "250804_103944",
-    "Muon_D": "250804_104003"
+    "EGamma_A": "251006_055824",
+    "EGamma_B": "251006_055830",
+    "EGamma_C": "251006_055835",
+    "EGamma_D": "251006_055840",
+    "Muon_A": "251006_055802",
+    "Muon_B": "251006_055808",
+    "Muon_C": "251006_055814",
+    "Muon_D": "251006_055819",
 }
 job_ids_2022 = {
     "EGamma_C": "250801_091720",

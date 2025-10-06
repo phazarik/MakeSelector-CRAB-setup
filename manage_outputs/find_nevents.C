@@ -86,7 +86,7 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer23", TString find="n
 
         TH1D* hist = dynamic_cast<TH1D*>(file->Get("hCount"));
         if (hist) {
-          int bin = (find=="nEvtTotal") ? 2 : 5;
+          int bin = (find=="nEvtTotal") ? 1 : 5;
           nEvtTotal += hist->GetBinContent(bin);
         } else {
           cerr << "\033[031mError: Histogram 'hCount' not found in " << filepath<<"\033[0m"<<endl;

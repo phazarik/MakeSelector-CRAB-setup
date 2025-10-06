@@ -171,7 +171,7 @@ bool AnaScript::Veto3L4L(){
 
   //Final veto:
   bool veto_this_event = event_4L || event_3L;
-  if(veto_this_event) cout<<"Vetoing 3L/4L event: "<<nEvtTotal<<endl;
+  //if(veto_this_event) cout<<"Vetoing 3L/4L event: "<<nEvtTotal<<endl;
   return veto_this_event;
 }
 

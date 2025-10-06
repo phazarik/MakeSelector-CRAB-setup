@@ -89,6 +89,7 @@ public :
   TTreeReaderArray<Int_t> Electron_vidNestedWPBitmap =      {fReader_2022, "Electron_vidNestedWPBitmap"};
   TTreeReaderArray<Int_t> Electron_vidNestedWPBitmapHEEP =  {fReader_2022, "Electron_vidNestedWPBitmapHEEP"};
   TTreeReaderArray<int_or_short> Electron_jetIdx = {fReader_2022, "Electron_jetIdx"};
+  TTreeReaderArray<int_or_char> Electron_tightCharge = {fReader_2022, "Electron_tightCharge"};
   
   /*
   //IsoTrack
@@ -209,6 +210,7 @@ public :
   TTreeReaderArray<Float_t> Muon_ptErr = {fReader_2022, "Muon_ptErr"};
   TTreeReaderArray<Float_t> Muon_sip3d = {fReader_2022, "Muon_sip3d"};
   TTreeReaderArray<int_or_short> Muon_jetIdx = {fReader_2022, "Muon_jetIdx"};
+  TTreeReaderArray<int_or_char> Muon_tightCharge = {fReader_2022, "Muon_tightCharge"};
   
   //Photon
   /*

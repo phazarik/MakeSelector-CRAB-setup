@@ -50,25 +50,28 @@ void AnaScript::SlaveBegin(TTree *tree)
 void AnaScript::SlaveTerminate()
 {
   //Storing event information in a histogram:
-  TH1D *hCount = new TH1D("hCount", "hCount;;", 7, 0.5, 7.5);
-  hCount->SetBinContent(1,genEventsumw);
-  hCount->SetBinContent(2,nEvtTotal);
-  hCount->SetBinContent(3,nEvtRan);
-  hCount->SetBinContent(4,nEvtTrigger);
+  TH1D *hCount = new TH1D("hCount", "hCount;;", 6, 0.5, 6.5);
+  hCount->SetBinContent(1,nEvtTotal);
+  hCount->SetBinContent(2,nEvtRan);
+  hCount->SetBinContent(3,nEvtTrigger);
+  hCount->SetBinContent(4,nEvtVeto);
   hCount->SetBinContent(5,nEvtPass);
-  hCount->SetBinContent(6,nEvtVeto);
-  hCount->SetBinContent(7,nEvtBad);
-  hCount->GetXaxis()->SetBinLabel(1,"genEventSumW");
-  hCount->GetXaxis()->SetBinLabel(2,"nEvtGen");
-  hCount->GetXaxis()->SetBinLabel(3,"nEvtRan");
-  hCount->GetXaxis()->SetBinLabel(4,"nEvtTrigger");
+  hCount->SetBinContent(6,nEvtBad);
+  hCount->GetXaxis()->SetBinLabel(1,"nEvtGen");
+  hCount->GetXaxis()->SetBinLabel(2,"nEvtRan");
+  hCount->GetXaxis()->SetBinLabel(3,"nEvtTrigger");
+  hCount->GetXaxis()->SetBinLabel(4,"nEvtVeto");
   hCount->GetXaxis()->SetBinLabel(5,"nEvtPass");
-  hCount->GetXaxis()->SetBinLabel(6,"nEvtVeto");
   hCount->GetXaxis()->SetBinLabel(6,"nEvtBad");
+
+  TH1D *hWt = new TH1D("hWt", "hWt;;", 1, 0, 1);
+  hWt->SetBinContent(1,genEventsumw);
+  hWt->GetXaxis()->SetBinLabel(1,"genEventSumW");
 
   //Write information in the output file:
   //_SkimFile->cd();
-  hCount->Write();    cout<<"Event histogram written to file."<<endl;
+  hCount->Write();    cout<<"Event counts written to file."<<endl;
+  hWt->Write();       cout<<"Event weights written to file."<<endl;
   skimTree->Write();  cout<<"Skimmed tree written to file."<<endl;
   _SkimFile->Close(); cout<<"File written to disk."<<endl;
 
@@ -197,7 +200,8 @@ Bool_t AnaScript::Process(Long64_t entry)
       if(_year==2017) {ptcut_ele = 37; ptcut_mu = 29;}
 
       bool keep_this_event = false;
-      
+
+      //------------ baseline selections -------------
       if((int)LightLepton.size()==2){
 	bool samesign = LightLepton.at(0).charge == LightLepton.at(1).charge;
 	bool trigger = false;
@@ -208,7 +212,10 @@ Bool_t AnaScript::Process(Long64_t entry)
 	  if(lepton_id == 13 && lepton_pt > ptcut_mu)  trigger = true;
 	}
 	bool reject_low_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 15;
-	if(trigger && reject_low_resonances && samesign) keep_this_event = true;
+	bool reject_most_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 150;
+
+	//if(trigger && reject_low_resonances && samesign) keep_this_event = true; //2LSS
+	if(trigger && reject_most_resonances && !samesign) keep_this_event = true; //2LOS
 
 	bool veto_3L4L_event = Veto3L4L();
 	bool veto_HEM_event  = VetoHEM(Jet);
@@ -216,9 +223,9 @@ Bool_t AnaScript::Process(Long64_t entry)
 	if(veto_this_event){
 	  nEvtVeto++;
 	  keep_this_event = false;
-	}
-	
+	}	
       }
+            
       if(bad_event) keep_this_event = false;
       
       //-------------------

@@ -21,10 +21,10 @@ dryrun = args.dryrun
 ### Note: For data, use flag == 'muon' or 'egamma'
 
 samples=[]
-#samplefile = f"samplelists/{campaign}.txt"
+samplefile = f"samplelists/{campaign}.txt"
 #samplefile = f"samplelists/failed_jobs.txt"
 #samplefile = f"samplelists/training_{campaign}.txt"
-samplefile = f"samplelists/signal_{campaign}.txt"
+#samplefile = f"samplelists/signal_{campaign}.txt"
 with open(samplefile, "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)

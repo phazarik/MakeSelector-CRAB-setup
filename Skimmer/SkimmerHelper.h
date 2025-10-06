@@ -67,7 +67,8 @@ void AnaScript::ReadBranch(){
     Electron_pdgId[i];
     Electron_vidNestedWPBitmap[i];
     Electron_vidNestedWPBitmapHEEP[i];
-    Electron_jetIdx[i];
+    //Electron_jetIdx[i];
+    Electron_tightCharge[i];
   }
   
   //Jets
@@ -118,7 +119,7 @@ void AnaScript::ReadBranch(){
   *MET_sumEt;
   *MET_sumPtUnclustered;
 
-    //Muon Branches
+  //Muon Branches
   *nMuon;
   for(unsigned int i=0;i<(unsigned int)*nMuon;i++){
     Muon_dxy[i];
@@ -149,7 +150,7 @@ void AnaScript::ReadBranch(){
     Muon_looseId[i];
     Muon_mediumId[i];
     Muon_mediumPromptId[i];
-    Electron_jetIdx[i];
+    Muon_tightCharge[i];
   }
 
   //PuppiMET
