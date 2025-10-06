@@ -443,16 +443,6 @@ public :
   //GenWeights:
   TTreeReaderValue<Float_t> Generator_weight = {fReader_2022MC, "Generator_weight"};
   TTreeReaderValue<Float_t> genWeight = {fReader_2022MC, "genWeight"};
-  /*
-  TTreeReaderValue<Float_t> LHEWeight_originalXWGTUP = {fReader_2022MC, "LHEWeight_originalXWGTUP"};
-  TTreeReaderValue<iterator> nLHEPdfWeight = {fReader_2022MC, "nLHEPdfWeight"};
-  TTreeReaderArray<Float_t> LHEPdfWeight = {fReader_2022MC, "LHEPdfWeight"};
-  TTreeReaderValue<iterator> nLHEReweightingWeight = {fReader_2022MC, "nLHEReweightingWeight"};
-  TTreeReaderArray<Float_t> LHEReweightingWeight = {fReader_2022MC, "LHEReweightingWeight"};
-  TTreeReaderValue<iterator> nLHEScaleWeight = {fReader_2022MC, "nLHEScaleWeight"};
-  TTreeReaderArray<Float_t> LHEScaleWeight = {fReader_2022MC, "LHEScaleWeight"};
-  TTreeReaderValue<iterator> nPSWeight = {fReader_2022MC, "nPSWeight"};
-  TTreeReaderArray<Float_t> PSWeight = {fReader_2022MC, "PSWeight"};*/
 
   //GenMET
   TTreeReaderValue<Float_t> GenMET_phi = {fReader_2022MC, "GenMET_phi"};
@@ -469,6 +459,17 @@ public :
   //Jetflavor:
   TTreeReaderArray<int_or_char> Jet_hadronFlavour = {fReader_2022MC, "Jet_hadronFlavour"};
   TTreeReaderArray<int_or_char> FatJet_hadronFlavour = {fReader_2022MC, "FatJet_hadronFlavour"};
+  /*
+  //Non-QCD branches:
+  TTreeReaderValue<Float_t> LHEWeight_originalXWGTUP = {fReader_2022MC, "LHEWeight_originalXWGTUP"};
+  TTreeReaderValue<iterator> nLHEPdfWeight = {fReader_2022MC, "nLHEPdfWeight"};
+  TTreeReaderArray<Float_t> LHEPdfWeight = {fReader_2022MC, "LHEPdfWeight"};
+  TTreeReaderValue<iterator> nLHEReweightingWeight = {fReader_2022MC, "nLHEReweightingWeight"};
+  TTreeReaderArray<Float_t> LHEReweightingWeight = {fReader_2022MC, "LHEReweightingWeight"};
+  TTreeReaderValue<iterator> nLHEScaleWeight = {fReader_2022MC, "nLHEScaleWeight"};
+  TTreeReaderArray<Float_t> LHEScaleWeight = {fReader_2022MC, "LHEScaleWeight"};
+  TTreeReaderValue<iterator> nPSWeight = {fReader_2022MC, "nPSWeight"};
+  TTreeReaderArray<Float_t> PSWeight = {fReader_2022MC, "PSWeight"};*/
   
   AnaScript(TTree * /*tree*/ =0) { }
   virtual ~AnaScript() { }

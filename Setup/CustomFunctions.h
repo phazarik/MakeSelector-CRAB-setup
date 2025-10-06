@@ -1,4 +1,4 @@
-void AnaScript::SortPt(vector<Particle> part){
+void AnaScript::SortPt(vector<Particle> &part){
   //Note: This function is problematic.
   //It fails at some instances (not all).
   //Don't use it until it gets fixed.

@@ -47,9 +47,17 @@ void AnaScript::ReadBranch(){
   *luminosityBlock;
   *event;
 
-  //HLT;
+  //HLT:
   *HLT_SingleMuon;
   *HLT_SingleEle;
+
+  //Non-QCD:
+  /*
+  *LHEWeight_originalXWGTUP = {fReader_2022MC, "LHEWeight_originalXWGTUP"};
+  *nLHEPdfWeight;for(unsigned int i=0; i<(unsigned int)*nLHEPdfWeight;i++){LHEPdfWeight[i];}
+  *nLHEReweightingWeight;for(unsigned int i=0; i<(unsigned int)*nLHEReweightingWeight;i++){LHEReweightingWeight[i];}
+  *nLHEScaleWeight; for(unsigned int i=0; i<(unsigned int)*nLHEScaleWeight;i++){LHEScaleWeight[i];}
+  *nPSWeight; for(unsigned int i=0; i<(unsigned int)*nPSWeight;i++){PSWeight[i];}*/
   
   //Electron Branches:
   *nElectron;

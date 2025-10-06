@@ -29,7 +29,7 @@ with open(samplefile, "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)
 
-jobname ="nanoSkim_2018"
+jobname ="nanoSkim_2018OS"
 
 count=0
 for samplename, dataset, flag in samples:
@@ -38,7 +38,7 @@ for samplename, dataset, flag in samples:
     ### Exceptions:
     #if ('muon' in flag or 'egamma' in flag): continue
     #if "VLL" in samplename: continue
-    #if not ('QCDMu' in samplename) or ('QCDEle' in samplename): continue
+    #if ('QCDMu' in samplename) or ('QCDEle' in samplename): continue
     #if not 'QCD' in samplename: continue
     
     ### Setting up the arguments for crab_config:
