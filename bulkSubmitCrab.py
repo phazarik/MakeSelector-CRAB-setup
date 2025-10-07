@@ -39,7 +39,7 @@ for samplename, dataset, flag in samples:
     #if ('muon' in flag or 'egamma' in flag): continue
     #if "VLL" in samplename: continue
     #if ('QCDMu' in samplename) or ('QCDEle' in samplename): continue
-    #if not 'QCD' in samplename: continue
+    if not ('QCD' in samplename or 'VLL' in samplename): continue
     
     ### Setting up the arguments for crab_config:
     arg3 = 'General.requestName=' + requestname # Name of the sub-directory in the output area.

@@ -20,7 +20,8 @@
 
 #--------------- CRAB job failure ----------------------
 #In case some CRAB jobs fail, bring those files manually.
-infile="/eos/home-p/phazarik/xrdcp_samples/RunIISummer20UL18NanoAODv9/VLLD_ele_M100_TuneCP5_13TeV-madgraph-pythia8/A61B7946-A810-F64A-A712-835B943C287B.root"
+infile="/eos/home-p/phazarik/xrdcp_samples/RunIISummer20UL18NanoAODv9/VLLD_mu_M400_TuneCP5_13TeV-madgraph-pythia8/F54E0E1D-24AF-684D-9B5A-7FE4E37F018D.root"
+#infile="/eos/home-p/phazarik/xrdcp_samples/RunIISummer20UL18NanoAODv9/VLLD_ele_M100_TuneCP5_13TeV-madgraph-pythia8/A61B7946-A810-F64A-A712-835B943C287B.root"
 outfile="skimFile_VLLD_ele_M100_2LOS.root"
 campaign="2018_UL"
 sample="VLLD_ele_M100"

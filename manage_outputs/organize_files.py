@@ -24,9 +24,7 @@ print()
 campaign = "2018_UL"
 basedir  = "/eos/user/p/phazarik"
 jobdir   = f"CRAB_skim_2LOS_2018_UL_2025-10-06"
-#jobdir   = f"CRAB_skim_2LSS_{campaign}_forTraining"
 dumpdir  = f"skimmed_2LOS_{campaign}_2025-10-06"
-#dumpdir  = f"training_2LSS_{campaign}"
 sample_file = f"../samplelists/{campaign}.txt"
 
 # Job IDs for Data
@@ -63,14 +61,14 @@ job_ids_2017={
     "Muon_F": "250810_145103"
 }
 job_ids_2018 = {
-    "EGamma_A": "251006_132331",
-    "EGamma_B": "251006_132337",
-    "EGamma_C": "251006_132344",
-    "EGamma_D": "251006_132351",
-    "Muon_A": "251006_132306",
-    "Muon_B": "251006_132313",
-    "Muon_C": "251006_132319",
-    "Muon_D": "251006_132325",
+    "EGamma_A": "251006_055824",
+    "EGamma_B": "251006_055830",
+    "EGamma_C": "251006_055835", 
+    "EGamma_D": "251006_055840",
+    "Muon_A": "251006_055802",
+    "Muon_B": "251006_055808",
+    "Muon_C": "251006_055814",
+    "Muon_D": "251006_055819"
 }
 job_ids_2022 = {
     "EGamma_C": "250801_091720",
@@ -125,11 +123,12 @@ for fullsamplename, fulldasname, tag in samples:
     sample = fullsamplename.split('_')[0]
     subsample = fullsamplename.split('_')[1] if '_' in fullsamplename else ''
     foldername = sample
-    
+
+    if not ("QCD" in sample or "VLL" in sample): continue
     ### Exceptions:
     #if not ("Muon" in fullsamplename or "EGamma" in fullsamplename): continue
     if "Run3" not in campaign and 'Muon' in sample: foldername = 'SingleMuon'
-    if "Run3" not in campaign and 'EGamma' in sample and '2018' not in sample: foldername = 'SingleElectron'
+    if "Run3" not in campaign and 'EGamma' in sample and '2018' not in campaign: foldername = 'SingleElectron'
     
     print(f'\033[033m\nProcessing {fullsamplename}\033[0m')
 

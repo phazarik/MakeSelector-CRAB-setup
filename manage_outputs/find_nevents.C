@@ -18,7 +18,7 @@ bool alphaNumCompare(const TString &a, const TString &b) {
   return strlen(ca) < strlen(cb);
 }
 
-void find_nevents(TString dumpdir = "skimmed_2LSS_Run3Summer23", TString find="nEvtTotal") {
+void find_nevents(TString dumpdir = "skimmed_2LSS_2018_UL_2025-10-06", TString find="nEvtTotal") {
 
   TString path = gSystem->ConcatFileName("/eos/user/p/phazarik/", dumpdir);
   TSystemDirectory dir(path, path);
