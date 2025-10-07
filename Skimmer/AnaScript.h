@@ -538,7 +538,7 @@ public:
   void SortRecoObjects();
   void SortGenObjects();
   void SortVLL();
-  void SortPt(vector<Particle> part);
+  void SortPt(vector<Particle> &part);
 
   //Others:
   float delta_phi(float phi1, float phi2);

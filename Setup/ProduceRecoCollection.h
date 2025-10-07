@@ -24,7 +24,8 @@ void AnaScript::createLightLeptons(){
     bool promptmuon = fabs(Muon_dxy[i])<0.05 && fabs(Muon_dz[i])<0.1;
     bool passcut_loosemuon  = ptetacut && promptmuon && Muon_looseId[i] &&  Muon_pfRelIso03_all[i]<1.00;
     bool passcut_mediummuon = ptetacut && promptmuon && Muon_mediumId[i] && Muon_pfRelIso03_all[i]<0.15; //warning
-
+    //passcut_mediummuon = passcut_mediummuon && Muon_tightCharge[i]>1;
+    
     if(passcut_mediummuon){
       Muon.push_back(temp);
       LightLepton.push_back(temp);
@@ -63,6 +64,7 @@ void AnaScript::createLightLeptons(){
     }
     bool passcut_looseele  = ptetacut && isprompt && (int)Electron_cutBased[i]>1 && Electron_pfRelIso03_all[i] < 1.0;
     bool passcut_mediumele = ptetacut && isprompt && (int)Electron_cutBased[i]>2 && cleaned_from_muons && Electron_pfRelIso03_all[i] < 0.15; //warning
+    passcut_mediumele = passcut_mediumele && Electron_tightCharge[i]>1;
 
     if(passcut_mediumele){
       Electron.push_back(temp);
