@@ -40,6 +40,7 @@ void AnaScript::SlaveBegin(TTree *tree)
   cout<<"Data   = "  << _data <<"\n"<<endl;
 
   //Initializing counters:
+  nEvtGen=tree->GetEntries();
   nEvtTotal=0; nEvtRan=0;  nEvtTrigger=0;
   nEvtPass=0;  nEvtBad=0;  nThrown=0; nEvtVeto=0;
 
@@ -64,15 +65,20 @@ void AnaScript::SlaveBegin(TTree *tree)
   bad_event = false;
   evt_trigger = false;
 
-  cout<<"\nn-events time(sec)"<<endl;
+  cout << "\n"
+     << right << setw(8) << "Progress"
+     << right << setw(12) << "nEvents"
+     << right << setw(8) << "Time" << endl;
+
 }
 void AnaScript::SlaveTerminate()
 {
   //For TreeMaker:
-  _TreeFile->cd();
-  _mytree->Write();
-  _TreeFile->Close();
-
+  //_TreeFile->cd();
+  //_mytree->Write("", TObject::kOverwrite);
+  //_TreeFile->Close();
+  if (_mytree) _mytree->AutoSave("SaveSelf");
+  
   float goodevtfrac = ((float)nEvtRan)/((float)nEvtTotal);
   float trigevtfrac = ((float)nEvtTrigger)/((float)nEvtTotal);
   float passevtfrac = ((float)nEvtPass)/((float)nEvtTotal);
@@ -80,7 +86,7 @@ void AnaScript::SlaveTerminate()
   float notgoldenevtfrac  = ((float)nThrown)/((float)nEvtTotal);
 
   cout<<"---------------------------------------------"<<endl;
-  cout<<"Summary:"<<endl;
+  cout<<"Summary:"<<fixed << setprecision(6)<<endl;
   cout<<"nEvtTotal = "<<nEvtTotal<<endl;
   cout<<"nEvtRan = "<<nEvtRan<<" ("<<goodevtfrac*100<<" %)"<<endl;
   cout<<"nEvtTrigger = "<<nEvtTrigger<<" ("<<trigevtfrac*100<<" %)"<<endl;
@@ -98,7 +104,14 @@ void AnaScript::SlaveTerminate()
 }
 void AnaScript::Terminate()
 {
-
+  if (_TreeFile && _mytree) {
+    _TreeFile->cd();
+    _mytree->Write("", TObject::kOverwrite);
+    _TreeFile->Close();
+    delete _TreeFile;
+    _TreeFile = nullptr;
+    _mytree = nullptr;
+  }
 }
 
 Bool_t AnaScript::Process(Long64_t entry)
@@ -110,10 +123,16 @@ Bool_t AnaScript::Process(Long64_t entry)
   if(_data==0) fReader_MC.SetLocalEntry(entry);
 
   //Setting verbosity:
-  time(&buffer);
-  double time_buff = double(buffer-start);
-  if (nEvtTotal % 10000 == 0) cout << setw(10) << left << nEvtTotal << " " << time_buff << endl;
-
+  if (nEvtTotal % 10000 == 0) {
+    time(&buffer);
+    double time_buff = double(buffer-start);
+    double frac = (double)nEvtTotal / nEvtGen * 100.0;
+    string progress = (ostringstream() << fixed << setprecision(2) << frac << "%").str();
+    cout << right << setw(8) << progress
+	 << right << setw(12) << nEvtTotal
+	 << right << setw(8) << fixed << setprecision(0) << time_buff <<endl;
+  }
+  
   //Filtering bad events:
   bool common  = *Flag_goodVertices && *Flag_globalSuperTightHalo2016Filter && *Flag_HBHENoiseFilter &&
     *Flag_HBHENoiseIsoFilter && *Flag_EcalDeadCellTriggerPrimitiveFilter && *Flag_BadPFMuonFilter;

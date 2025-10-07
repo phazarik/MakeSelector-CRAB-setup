@@ -519,7 +519,7 @@ private:
   bool bad_event;
 
   //Counters:
-  int nEvtTotal,nEvtRan,nEvtTrigger,nEvtPass,nEvtBad,nThrown,nEvtVeto;
+  int nEvtTotal,nEvtRan,nEvtTrigger,nEvtPass,nEvtBad,nThrown,nEvtVeto,nEvtGen;
 
   //json:
   json jsondata;
@@ -593,8 +593,13 @@ void AnaScript::Init(TTree *tree)
   _TreeFile->SetCompressionAlgorithm(2);
   _TreeFile->SetCompressionLevel(9);
   _TreeFile->SetCompressionSettings(209);
+
+  // Create memory-resident tree to avoid multiple copies
   _mytree = new TTree("myEvents", "myEvents");
-  _mytree->SetDirectory(nullptr);  // prevent auto-registration
+  //_mytree->SetDirectory(nullptr); // prevent auto-registration
+  _mytree->SetDirectory(_TreeFile); // attach to file
+  _mytree->SetAutoSave(300000000);  // autosave every ~300 MB (tune if needed)
+  
   InitializeBranches(_mytree);
 }
 

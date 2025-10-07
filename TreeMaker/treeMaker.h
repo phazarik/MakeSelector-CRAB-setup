@@ -102,7 +102,7 @@ void AnaScript::FillTree(TTree *tree){
     bool SS = samesign  && reject_low_resonances;
     bool OS = !samesign && reject_most_resonances;
     
-    if(SS){
+    if(OS){
       
       int flav0 = fabs(LightLepton.at(0).id);
       int flav1 = fabs(LightLepton.at(1).id);
