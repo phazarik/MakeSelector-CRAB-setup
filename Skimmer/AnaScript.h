@@ -586,7 +586,7 @@ private:
   bool triggerRes, muon_trigger, electron_trigger, overlapping_events;
   
   //Counters:
-  int nEvtTotal, nEvtRan, nEvtTrigger, nEvtPass, nEvtBad, nThrown, nEvtVeto;
+  int nEvtTotal, nEvtRan, nEvtTrigger, nEvtPass, nEvtBad, nThrown, nEvtVeto, nEvtGen;
   float genEventsumw;
   time_t start, end, buffer;
   

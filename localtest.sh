@@ -8,10 +8,12 @@
 #--------------- CRAB job failure ----------------------
 
 #In case some CRAB jobs fail, bring those files manually.
-infile="Skimmer/test_inputs/DYto2L_MLL-50_2022EE.root"
+#infile="Skimmer/test_inputs/MuonE_2022EE.root"
+#outfile="Skimmer/test_outputs/skim_$(basename $infile)"
+infile="Skimmer/test_outputs/skim_MuonE_2022EE.root"
 outfile="TreeMaker/test_outputs/tree_$(basename $infile)"
 campaign="Run3Summer22EE"
-sample="DY"
+sample="Muon"
 flag="mc" #For data, flag = "muon" or "egamma"
 #-------------------------------------------------------
 

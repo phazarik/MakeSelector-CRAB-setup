@@ -217,9 +217,10 @@ def check_status_all_jobs():
     if completed_jobs:
         print(f"{BLUE_BOLD}[INFO] Found {len(completed_jobs)} COMPLETED job folders:{RESET}")
         for job in completed_jobs: print(f" - {job}")
-        ans = input(f"\n{YELLOW_BOLD}Delete these COMPLETED job folders? [y/n]: {RESET}").strip().lower()
+        ans = input(f"\n{YELLOW_BOLD}Delete these COMPLETED job folders? (except data) [y/n]: {RESET}").strip().lower()
         if ans in ["y", "yes"]:
             for job in completed_jobs:
+                if "Muon" in job or "EGamma" in job: continue
                 print(f"Deleting {job}...")
                 os.system(f"rm -rf '{job}'")
             print(f"{RED_BOLD}Completed jobs removed.{RESET}")

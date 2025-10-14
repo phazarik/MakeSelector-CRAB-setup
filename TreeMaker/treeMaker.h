@@ -167,7 +167,6 @@ void AnaScript::FillTree(TTree *tree){
   //-------------------------------------------
 
   if(basic_evt_selection){
-    gen_weight = *Generator_weight;
     
     //-------------- EVENT WEIGHTS with systematic variations ------------------------
     sf_lepIdIso   = sf_lepIdIso_up   = sf_lepIdIso_down   = 1.0;
@@ -178,6 +177,8 @@ void AnaScript::FillTree(TTree *tree){
     sf_qcdscale   = sf_qcdscale_up   = sf_qcdscale_down   = 1.0;
     
     if(_data==0){
+      
+      gen_weight = *Generator_weight;
 
       auto safeSF = [](double sf){ return (sf<0) ? 1.0 : sf; }; //avoid negatives, just in case
       std::vector<std::string> modes = {"nom", "systup", "systdown"};

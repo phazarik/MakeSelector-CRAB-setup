@@ -37,6 +37,7 @@ void AnaScript::SlaveBegin(TTree *tree)
   cout<<"Data   = "<<_data<<"\n"<<endl;
   
   //Initializing counters:
+  nEvtGen=tree->GetEntries();
   nEvtTotal=0; nEvtRan=0;  nEvtTrigger=0;
   nEvtPass=0;  nEvtBad=0;  nThrown=0; nEvtVeto=0;
   genEventsumw=0;
@@ -44,7 +45,10 @@ void AnaScript::SlaveBegin(TTree *tree)
   //For skimmer
   ActivateBranch(tree);
 
-  cout<<"n-events time(sec)"<<endl;
+  cout << "\n"
+     << right << setw(8) << "Progress"
+     << right << setw(12) << "nEvents"
+     << right << setw(8) << "Time" << endl;
 }
 
 void AnaScript::SlaveTerminate()
@@ -95,7 +99,7 @@ void AnaScript::SlaveTerminate()
   
   time(&end);
   double time_taken = double(end - start);
-  cout<<"\033[34mTime taken to process = " << (int)time_taken << " secconds.\033[0m"<< endl;
+  cout<<"\n\033[34mTime taken to process = " << (int)time_taken << " seconds.\033[0m"<< endl;
 }
 
 void AnaScript::Terminate()
@@ -119,11 +123,17 @@ Bool_t AnaScript::Process(Long64_t entry)
   nEvtTotal++;
   if(_data==0) genEventsumw += (float)*Generator_weight;
   
-  //Buffer display:
-  time(&buffer);
-  double time_buff = double(buffer-start);
-  if (nEvtTotal % 100000 == 0) cout << setw(10) << left << nEvtTotal << " " << time_buff << endl;
-
+  //Setting verbosity:
+  if (nEvtTotal % 10000 == 0) {
+    time(&buffer);
+    double time_buff = double(buffer-start);
+    double frac = (double)nEvtTotal / nEvtGen * 100.0;
+    string progress = (ostringstream() << fixed << setprecision(2) << frac << "%").str();
+    cout << right << setw(8) << progress
+	 << right << setw(12) << nEvtTotal
+	 << right << setw(8) << fixed << setprecision(0) << time_buff <<endl;
+  }
+  
   //Using flags:
   bool common  = *Flag_goodVertices && *Flag_globalSuperTightHalo2016Filter && *Flag_HBHENoiseFilter &&
     *Flag_HBHENoiseIsoFilter && *Flag_EcalDeadCellTriggerPrimitiveFilter && *Flag_BadPFMuonFilter;
@@ -209,7 +219,8 @@ Bool_t AnaScript::Process(Long64_t entry)
       bool evt_2LOS = false;
       
       if((int)LightLepton.size()==2){
-	bool samesign = LightLepton.at(0).charge == LightLepton.at(1).charge;
+	
+	//Check offline trigger:
 	bool trigger = false;
 	for(int i=0; i<(int)LightLepton.size(); i++){
 	  int lepton_id = fabs(LightLepton.at(i).id);
@@ -217,20 +228,29 @@ Bool_t AnaScript::Process(Long64_t entry)
 	  if(lepton_id == 11 && lepton_pt > ptcut_ele) trigger = true;
 	  if(lepton_id == 13 && lepton_pt > ptcut_mu)  trigger = true;
 	}
+	if(LooseLepton.size() > 2) trigger = false; //Veto additional loose leptons
+
+	//Check resonance-cut:
 	bool reject_low_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 15;
 	bool reject_most_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 150;
 
+	//Check lepton charges:
+	bool samesign = LightLepton.at(0).charge == LightLepton.at(1).charge;
+
+	//Define events:
 	if(trigger && reject_low_resonances && samesign)   evt_2LSS = true; //2LSS
 	if(trigger && reject_most_resonances && !samesign) evt_2LOS = true; //2LOS
-
 	if(evt_2LSS || evt_2LOS) keep_this_event = true; //keep both 2LSS and 2LOS
 	
+	//Veto additional events
 	bool veto_3L4L_event = Veto3L4L();
 	bool veto_HEM_event  = VetoHEM(Jet);
 	bool veto_this_event = veto_3L4L_event || veto_HEM_event;
 	if(veto_this_event){
 	  nEvtVeto++;
 	  keep_this_event = false;
+	  evt_2LSS = false;
+	  evt_2LOS = false;
 	}	
       }
             

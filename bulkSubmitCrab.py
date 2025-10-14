@@ -14,7 +14,7 @@ parser.add_argument("--dryrun", type=ast.literal_eval, default=True,  help="Prin
 args = parser.parse_args()
 args = parser.parse_args()
 
-campaign = "2018_UL"
+campaign = "Run3Summer22EE"
 test   = args.test
 dryrun = args.dryrun
 
@@ -29,7 +29,7 @@ with open(samplefile, "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)
 
-jobname ="nanoSkim_2018OS"
+jobname ="nanoSkim_2022EE"
 
 count=0
 for samplename, dataset, flag in samples:
@@ -37,9 +37,9 @@ for samplename, dataset, flag in samples:
 
     ### Exceptions:
     #if ('muon' in flag or 'egamma' in flag): continue
-    #if "VLL" in samplename: continue
+    if "VLL" in samplename: continue
     #if ('QCDMu' in samplename) or ('QCDEle' in samplename): continue
-    if not ('QCD' in samplename or 'VLL' in samplename): continue
+    #if not ('QCD' in samplename or 'VLL' in samplename): continue
     
     ### Setting up the arguments for crab_config:
     arg3 = 'General.requestName=' + requestname # Name of the sub-directory in the output area.

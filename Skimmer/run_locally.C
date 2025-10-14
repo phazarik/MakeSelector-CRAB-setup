@@ -33,6 +33,11 @@ void run_locally(
   m_selec.SetSkimFileName(skimfilename);
   m_selec.SetCampaign(campaign);
   m_selec.SetSampleName(sample);
+
+  //Override parameters:
+  if(sample.Contains("Muon")  || sample.Contains("EGamma")) flag = "muon";
+  if(sample.Contains("QCDMu") || sample.Contains("QCDEM"))  flag = "qcd";
+  
   m_selec.SetFlag(flag);
   if((flag == "egamma")||(flag =="muon")) m_selec.SetData(1);
   else m_selec.SetData(0);

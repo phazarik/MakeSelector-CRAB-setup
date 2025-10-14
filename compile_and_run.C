@@ -19,8 +19,8 @@ void compile_and_run(
 	    )
 {
 
-  //TString sourceCodeDir = "Skimmer";  //Set code directory here.
-  TString sourceCodeDir = "TreeMaker";  //Set code directory here.
+  TString sourceCodeDir = "Skimmer";  //Set code directory here.
+  //TString sourceCodeDir = "TreeMaker";  //Set code directory here.
   
   TString arguments = "\""+infile+"\",\""+outfile+"\",\""+campaign+"\",\""+sample+"\",\""+flag+"\"";
   TString processline = ".x "+sourceCodeDir+"/run_locally.C(" + arguments + ")"; //testing purposes
