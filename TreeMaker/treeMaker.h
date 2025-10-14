@@ -51,33 +51,37 @@ void AnaScript::InitializeBranches(TTree *tree){
   tree->Branch("STfrac",       &STfrac,       "STfrac/F",       32000);
   tree->Branch("metpt",        &metpt_tree,   "metpt/F",        32000);
   tree->Branch("metphi",       &metphi_tree,  "metphi/F",       32000);
-
   tree->Branch("dphi_metlep0",   &dphi_metlep0,   "dphi_metlep0/F",   32000);
   tree->Branch("dphi_metlep1",   &dphi_metlep1,   "dphi_metlep1/F",   32000);
   tree->Branch("dphi_metdilep",  &dphi_metdilep,  "dphi_metdilep/F",  32000);
   tree->Branch("dphi_metlep_max",&dphi_metlep_max,"dphi_metlep_max/F",32000);
   tree->Branch("dphi_metlep_min",&dphi_metlep_min,"dphi_metlep_min/F",32000);
 
-  //Corrections:
   tree->Branch("jec",           &jec,           "jec/F",           32000);
   tree->Branch("jer",           &jer,           "jer/F",           32000);
-  tree->Branch("wt_leptonSF",   &sf_lepIdIso,   "sf_lepIdIso/D",   32000);
-  tree->Branch("wt_trig",       &sf_lepTrigEff, "sf_lepTrigEff/D", 32000);
-  tree->Branch("wt_pileup",     &wt_pileup,     "wt_pileup/D",     32000);
-  tree->Branch("wt_bjet",       &sf_btagEff,    "sf_btagEff/D",    32000);
-  tree->Branch("weight",        &event_weight,  "event_weight/D",  32000);
-  // Up variations
-  tree->Branch("wt_leptonSF_up",   &sf_lepIdIso_up,   "sf_lepIdIso_up/D",     32000);
-  tree->Branch("wt_trig_up",       &sf_lepTrigEff_up, "sf_lepTrigEff_up/D",   32000);
-  tree->Branch("wt_pileup_up",     &wt_pileup_up,     "wt_pileup_up/D",       32000);
-  tree->Branch("wt_bjet_up",       &sf_btagEff_up,    "sf_btagEff_up/D",      32000);
-  tree->Branch("weight_up",        &event_weight_up,  "event_weight_up/D",    32000);
-  // Down variations
-  tree->Branch("wt_leptonSF_down", &sf_lepIdIso_down, "sf_lepIdIso_down/D",   32000);
-  tree->Branch("wt_trig_down",     &sf_lepTrigEff_down,"sf_lepTrigEff_down/D",32000);
-  tree->Branch("wt_pileup_down",   &wt_pileup_down,   "wt_pileup_down/D",     32000);
-  tree->Branch("wt_bjet_down",     &sf_btagEff_down,  "sf_btagEff_down/D",    32000);
-  tree->Branch("weight_down",      &event_weight_down,"event_weight_down/D",  32000);
+  tree->Branch("gen_weight",    &gen_weight,       "gen_weight/D",        32000);
+  
+  // Nominal corrections:
+  tree->Branch("wt_leptonSF",   &sf_lepIdIso,      "wt_leptonSF/D",       32000);
+  tree->Branch("wt_trig",       &sf_lepTrigEff,    "wt_trig/D",           32000);
+  tree->Branch("wt_pileup",     &sf_pileup,        "wt_pileup/D",         32000);
+  tree->Branch("wt_bjet",       &sf_btagEff,       "wt_bjet/D",           32000);
+  tree->Branch("wt_pdf",        &sf_pdf,           "wt_pdf/D",            32000);
+  tree->Branch("wt_qcdscale",   &sf_qcdscale,      "wt_qcdscale/D",       32000);
+  // Up variations:
+  tree->Branch("wt_leptonSF_up",   &sf_lepIdIso_up,    "wt_leptonSF_up/D",    32000);
+  tree->Branch("wt_trig_up",       &sf_lepTrigEff_up,  "wt_trig_up/D",        32000);
+  tree->Branch("wt_pileup_up",     &sf_pileup_up,      "wt_pileup_up/D",      32000);
+  tree->Branch("wt_bjet_up",       &sf_btagEff_up,     "wt_bjet_up/D",        32000);
+  tree->Branch("wt_pdf_up",        &sf_pdf_up,         "wt_pdf_up/D",         32000);
+  tree->Branch("wt_qcdscale_up",   &sf_qcdscale_up,    "wt_qcdscale_up/D",    32000);
+  // Down variations:
+  tree->Branch("wt_leptonSF_down", &sf_lepIdIso_down,  "wt_leptonSF_down/D",  32000);
+  tree->Branch("wt_trig_down",     &sf_lepTrigEff_down,"wt_trig_down/D",      32000);
+  tree->Branch("wt_pileup_down",   &sf_pileup_down,    "wt_pileup_down/D",    32000);
+  tree->Branch("wt_bjet_down",     &sf_btagEff_down,   "wt_bjet_down/D",      32000);
+  tree->Branch("wt_pdf_down",      &sf_pdf_down,       "wt_pdf_down/D",       32000);
+  tree->Branch("wt_qcdscale_down", &sf_qcdscale_down,  "wt_qcdscale_down/D",  32000);
  
 }
 
@@ -91,41 +95,61 @@ void AnaScript::FillTree(TTree *tree){
   bool mm = false;
   
   //Offline cuts on the leptons:
-  float ptcut_mu  = 26; if(_year==2017) ptcut_mu  = 29;
-  float ptcut_ele = 35; if(_year==2017) ptcut_ele = 37; if(_year==2016) ptcut_ele = 30;
-  
-  if(LightLepton.size() == 2){
+  float ptcut_mu  = 26;
+  float ptcut_ele = 35; 
+  if(_year==2016) {ptcut_ele = 30; ptcut_mu = 26;}
+  if(_year==2017) {ptcut_ele = 37; ptcut_mu = 29;}
 
-    bool samesign = LightLepton.at(0).charge == LightLepton.at(1).charge;
+  bool evt_2LSS = false;
+  bool evt_2LOS = false;
+
+  //Baseline selection
+  if((int)LightLepton.size()==2){
+
+    //Check offline trigger:
+    bool trigger = false;
+    for(int i=0; i<(int)LightLepton.size(); i++){
+      int lepton_id = fabs(LightLepton.at(i).id);
+      float lepton_pt = LightLepton.at(i).v.Pt();
+      if(lepton_id == 11 && lepton_pt > ptcut_ele) trigger = true;
+      if(lepton_id == 13 && lepton_pt > ptcut_mu)  trigger = true;
+    }    
+    if(LooseLepton.size() > 2) trigger = false; //Veto additional loose leptons:
+
+    //Check resonance-cut:
     bool reject_low_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 15;
     bool reject_most_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 150;
-    bool SS = samesign  && reject_low_resonances;
-    bool OS = !samesign && reject_most_resonances;
+
+    //Check lepton charges:
+    bool samesign = LightLepton.at(0).charge == LightLepton.at(1).charge;
+
+    //Define events:
+    if(trigger && reject_low_resonances && samesign)   evt_2LSS = true; //2LSS
+    if(trigger && reject_most_resonances && !samesign) evt_2LOS = true; //2LOS
+
+    //Veto additional events
+    bool veto_3L4L_event = Veto3L4L();
+    bool veto_HEM_event  = VetoHEM(Jet);
+    bool veto_this_event = veto_3L4L_event || veto_HEM_event;
+    if(veto_this_event){
+      nEvtVeto++;
+      evt_2LSS = false;
+      evt_2LOS = false;
+      return;
+    }
     
-    if(OS){
+    if(evt_2LOS){
       
       int flav0 = fabs(LightLepton.at(0).id);
       int flav1 = fabs(LightLepton.at(1).id);
 
-      //At least one of these two leptons must satisfy the offline trigger cut.
-      bool offline_trigger = false;
-      if(      flav0 == 13 && LightLepton.at(0).v.Pt() > ptcut_mu)  offline_trigger = true;
-      else if (flav0 == 11 && LightLepton.at(0).v.Pt() > ptcut_ele) offline_trigger = true;
-      if(      flav1 == 13 && LightLepton.at(1).v.Pt() > ptcut_mu)  offline_trigger = true;
-      else if (flav1 == 11 && LightLepton.at(1).v.Pt() > ptcut_ele) offline_trigger = true;
-
-      //Veto additional loose leptons:
-      if(LooseLepton.size() > 2) offline_trigger = false;
-      
-      if(offline_trigger){
-	if(     flav0 == 13 && flav1 == 13){ mm = true; }
-	else if(flav0 == 13 && flav1 == 11){ me = true; }
-	else if(flav0 == 11 && flav1 == 13){ em = true; }
-	else if(flav0 == 11 && flav1 == 11){ ee = true; }
-      }
+      if(     flav0 == 13 && flav1 == 13){ mm = true; }
+      else if(flav0 == 13 && flav1 == 11){ me = true; }
+      else if(flav0 == 11 && flav1 == 13){ em = true; }
+      else if(flav0 == 11 && flav1 == 11){ ee = true; }
     }
   }
-
+  
   if(mm)      channel = (UInt_t)0;
   else if(me) channel = (UInt_t)1;
   else if(em) channel = (UInt_t)2;
@@ -137,90 +161,62 @@ void AnaScript::FillTree(TTree *tree){
   else if(*HLT_SingleMuon==0 && *HLT_SingleEle==0) trigger = (UInt_t)3; //None fire
   else cout<<"Something is wrong with triggers"<<endl;
   
-  //#######################
+  //-------------------------------------------
   // Select the channel :
-  //
   basic_evt_selection = mm || me || em || ee ;
-  //
-  //#######################
+  //-------------------------------------------
 
   if(basic_evt_selection){
-
-    bool veto_3L4L_event = Veto3L4L();
-    bool veto_HEM_event  = VetoHEM(Jet);
-    bool veto_this_event = veto_3L4L_event || veto_HEM_event;
-    if(veto_this_event){
-      nEvtVeto++;
-      return;
-    }
-
-    //Calculating event weights:
-    double wt = 1.0;
-    double lepIdIsoSF = 1.0, lepIdIsoSF_up = 1.0, lepIdIsoSF_down = 1.0;
-    double triggerEff = 1.0, triggerEff_up = 1.0, triggerEff_down = 1.0;
-    double pileupwt = 1.0,   pileupwt_up = 1.0,   pileupwt_down = 1.0;
-    double bjetSF = 1.0,     bjetSF_up = 1.0,     bjetSF_down = 1.0;
-
-    //Extracting SF from text files:
+    gen_weight = *Generator_weight;
+    
+    //-------------- EVENT WEIGHTS with systematic variations ------------------------
+    sf_lepIdIso   = sf_lepIdIso_up   = sf_lepIdIso_down   = 1.0;
+    sf_lepTrigEff = sf_lepTrigEff_up = sf_lepTrigEff_down = 1.0;
+    sf_pileup     = sf_pileup_up     = sf_pileup_down     = 1.0;
+    sf_btagEff    = sf_btagEff_up    = sf_btagEff_down    = 1.0;
+    sf_pdf        = sf_pdf_up        = sf_pdf_down        = 1.0;
+    sf_qcdscale   = sf_qcdscale_up   = sf_qcdscale_down   = 1.0;
+    
     if(_data==0){
 
-      //Nominal weights:
-      double sf0 = returnLeptonSF(LightLepton.at(0), "nom"); if(sf0<0) sf0=1.0;
-      double sf1 = returnLeptonSF(LightLepton.at(1), "nom"); if(sf1<0) sf1=1.0;
-      lepIdIsoSF = sf0*sf1;
-      double ef0 = GetLeptonTriggerEfficiency(LightLepton.at(0), "nom"); 
-      double ef1 = GetLeptonTriggerEfficiency(LightLepton.at(1), "nom");
-      triggerEff = 1-((1-ef0)*(1-ef1));
-      bjetSF = returnbJetCorrection(Jet, "nom"); if(bjetSF<1.0) bjetSF=1.0;
-      pileupwt = returnPileUpWt("nom"); if(pileupwt<0) pileupwt=1.0;
+      auto safeSF = [](double sf){ return (sf<0) ? 1.0 : sf; }; //avoid negatives, just in case
+      std::vector<std::string> modes = {"nom", "systup", "systdown"};
 
-      //Systematic up variations:
-      double sf0_up = returnLeptonSF(LightLepton.at(0), "systup"); if(sf0_up<0) sf0_up=1.0;
-      double sf1_up = returnLeptonSF(LightLepton.at(1), "systup"); if(sf1_up<0) sf1_up=1.0;
-      lepIdIsoSF_up = sf0_up * sf1_up;
-      double ef0_up = GetLeptonTriggerEfficiency(LightLepton.at(0), "systup"); 
-      double ef1_up = GetLeptonTriggerEfficiency(LightLepton.at(1), "systup");
-      triggerEff_up = 1-((1-ef0_up)*(1-ef1_up));
-      bjetSF_up = returnbJetCorrection(Jet, "systup"); if(bjetSF_up<1.0) bjetSF_up=1.0;
-      pileupwt_up = returnPileUpWt("systup"); if(pileupwt_up<0) pileupwt_up=1.0;
-      
-      //Systematic down variations:
-      double sf0_down = returnLeptonSF(LightLepton.at(0), "systdown"); if(sf0_down<0) sf0_down=1.0;
-      double sf1_down = returnLeptonSF(LightLepton.at(1), "systdown"); if(sf1_down<0) sf1_down=1.0;
-      lepIdIsoSF_down = sf0_down * sf1_down;
-      double ef0_down = GetLeptonTriggerEfficiency(LightLepton.at(0), "systdown"); 
-      double ef1_down = GetLeptonTriggerEfficiency(LightLepton.at(1), "systdown");
-      triggerEff_down = 1-((1-ef0_down)*(1-ef1_down));
-      bjetSF_down = returnbJetCorrection(Jet, "systdown"); if(bjetSF_down<1.0) bjetSF_down=1.0;
-      pileupwt_down = returnPileUpWt("systdown"); if(pileupwt_down<0) pileupwt_down=1.0;
-      
-    }
-    
-    //-------------------------
-    // If some variables need 
-    // corrections, do it here
-    //-------------------------
-
-    // Nominal weights:
-    sf_lepIdIso   = lepIdIsoSF;
-    sf_lepTrigEff = triggerEff;
-    wt_pileup     = pileupwt;
-    sf_btagEff    = bjetSF;
-    event_weight  = lepIdIsoSF*triggerEff*pileupwt;
-
-    // Up variations
-    sf_lepIdIso_up   = lepIdIsoSF_up;
-    sf_lepTrigEff_up = triggerEff_up;
-    wt_pileup_up     = pileupwt_up;
-    sf_btagEff_up    = bjetSF_up;
-    event_weight_up  = lepIdIsoSF_up * triggerEff_up * pileupwt_up;
-
-    // Down variations
-    sf_lepIdIso_down   = lepIdIsoSF_down;
-    sf_lepTrigEff_down = triggerEff_down;
-    wt_pileup_down     = pileupwt_down;
-    sf_btagEff_down    = bjetSF_down;
-    event_weight_down  = lepIdIsoSF_down * triggerEff_down * pileupwt_down;
+      for(const auto& mode: modes){
+	double sf0 = safeSF(returnLeptonSF(LightLepton.at(0), mode));
+	double sf1 = safeSF(returnLeptonSF(LightLepton.at(1), mode));
+	double ef0 = GetLeptonTriggerEfficiency(LightLepton.at(0), mode);
+	double ef1 = GetLeptonTriggerEfficiency(LightLepton.at(1), mode);
+	double bSF = returnbJetCorrection(Jet, mode);
+	double pu  = safeSF(returnPileUpWt(mode));
+	double pdf = returnPDFweight(mode);
+	double qcd = returnQCDscaleWeight(mode);
+	if(mode=="nom"){
+	  sf_lepIdIso   = sf0*sf1;
+	  sf_lepTrigEff = 1-(1-ef0)*(1-ef1);
+	  sf_btagEff    = bSF;
+	  sf_pileup     = pu;
+	  sf_pdf        = pdf;
+	  sf_qcdscale   = qcd;
+	}
+	else if(mode=="systup"){
+	  sf_lepIdIso_up   = sf0*sf1;
+	  sf_lepTrigEff_up = 1-(1-ef0)*(1-ef1);
+	  sf_btagEff_up    = bSF;
+	  sf_pileup_up     = pu;
+	  sf_pdf_up        = pdf;
+	  sf_qcdscale_up   = qcd;
+	}
+	else if(mode=="systdown"){
+	  sf_lepIdIso_down   = sf0*sf1;
+	  sf_lepTrigEff_down = 1-(1-ef0)*(1-ef1);
+	  sf_btagEff_down    = bSF;
+	  sf_pileup_down     = pu;
+	  sf_pdf_down        = pdf;
+	  sf_qcdscale_down   = qcd;
+	}
+      }//modes
+    }//MC    
     
     //Integers:
     nlep    = (UInt_t)LightLepton.size();

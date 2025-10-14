@@ -9,7 +9,7 @@
 
 #In case some CRAB jobs fail, bring those files manually.
 infile="Skimmer/test_inputs/DYto2L_MLL-50_2022EE.root"
-outfile="Skimmer/test_outputs/skim_$(basename $infile)"
+outfile="TreeMaker/test_outputs/tree_$(basename $infile)"
 campaign="Run3Summer22EE"
 sample="DY"
 flag="mc" #For data, flag = "muon" or "egamma"

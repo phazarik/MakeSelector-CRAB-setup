@@ -22,6 +22,34 @@ double AnaScript::returnLeptonSF(Particle lepton, TString mode){
 }
 
 //----------------------------
+// PDF and QCD scale corrections
+//----------------------------
+
+double AnaScript::returnPDFweight(string mode){
+  double weight = 1.0;
+  if(_data==0 && _flag!="qcd"){
+    vector<double> pdfweights(LHEPdfWeight.begin()+1, LHEPdfWeight.end());
+    double pdf_up   = *max_element(pdfweights.begin(), pdfweights.end());
+    double pdf_down = *min_element(pdfweights.begin(), pdfweights.end());
+    if(mode=="systup")        weight = pdf_up;
+    else if(mode=="systdown") weight = pdf_down;
+  }
+  return weight;
+}
+
+double AnaScript::returnQCDscaleWeight(string mode){
+  double weight = 1.0;
+  if(_data==0 && _flag!="qcd"){
+    vector<double> weights = {LHEScaleWeight[1], LHEScaleWeight[3], LHEScaleWeight[5], LHEScaleWeight[7]};
+    double qcd_up   = *max_element(weights.begin(), weights.end());
+    double qcd_down = *min_element(weights.begin(), weights.end());
+    if(mode=="systup")        weight = qcd_up;
+    else if(mode=="systdown") weight = qcd_down;
+  }
+  return weight;
+}
+
+//----------------------------
 // Jet resolution corrections
 //----------------------------
 double AnaScript::returnJetResolutionCorrection(Particle jet, TString mode){

@@ -44,10 +44,6 @@ void AnaScript::SlaveBegin(TTree *tree)
   nEvtTotal=0; nEvtRan=0;  nEvtTrigger=0;
   nEvtPass=0;  nEvtBad=0;  nThrown=0; nEvtVeto=0;
 
-  //For Skimmer:
-  //tree->SetBranchStatus("*",0);
-  //ActivateBranch(tree);
-
   //For TreeMaker: Loading offline data (json, text):
   jsondata = loadJson();
   LoadCorrectionsFromPOG();
@@ -120,7 +116,10 @@ Bool_t AnaScript::Process(Long64_t entry)
 
   //Initializing fReaders:
   fReader                .SetLocalEntry(entry);
-  if(_data==0) fReader_MC.SetLocalEntry(entry);
+  if (_data == 0){
+    fReader_MC.SetLocalEntry(entry);
+    if (_flag!="qcd") fReader_nonQCD.SetLocalEntry(entry);
+  } 
 
   //Setting verbosity:
   if (nEvtTotal % 10000 == 0) {
@@ -173,9 +172,9 @@ Bool_t AnaScript::Process(Long64_t entry)
     if(triggerRes){
       nEvtTrigger++;
 
-      //----------------------------------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------------------------------
       // OBJECT DEFINITIONS
-      //----------------------------------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------------------------------
 
       //----------------
       // Gen-Particles
@@ -259,11 +258,11 @@ Bool_t AnaScript::Process(Long64_t entry)
 	}
       }
 
-      //----------------------------------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------------------------------
       // Writing to tree
-      //----------------------------------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------------------------------
       
-      if(!bad_event) FillTree(_mytree);     
+      if(!bad_event) FillTree(_mytree);
       
     }//Triggered Events
   }//GoodEvt
