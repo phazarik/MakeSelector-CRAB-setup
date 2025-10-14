@@ -89,7 +89,7 @@ void AnaScript::SlaveTerminate()
   cout<<"nEvtPass = "<<nEvtPass<<" ("<<passevtfrac*100<<" %)"<<endl;
   cout<<"nEvtBad = "<<nEvtBad<<" ("<<badevtfrac*100<<" %)"<<endl;
   cout<<"nEvtVeto = "<<nEvtVeto<<endl;
-  if(_data==0) cout<<"genEventsumw = "<<(double)genEventsumw<<endl;
+  if(_data==0) cout<<"genEventsumw = "<<fixed<<setprecision(2)<<genEventsumw<<endl;
   if(_data!=0) cout<<"nEvents not in golden json = "<<nThrown<<" ("<<notgoldenevtfrac*100<<" %)"<<endl;
   cout<<"---------------------------------------------"<<endl;
   
@@ -109,8 +109,11 @@ void AnaScript::Terminate()
 Bool_t AnaScript::Process(Long64_t entry)
 {
   //Branch management:
-  fReader_2022.SetLocalEntry(entry);
-  if (_data == 0) fReader_2022MC.SetLocalEntry(entry); 
+  fReader.SetLocalEntry(entry);
+  if (_data == 0){
+    fReader_MC.SetLocalEntry(entry);
+    if (_flag!="qcd") fReader_nonQCD.SetLocalEntry(entry);
+  } 
   ReadBranch(); //for skimmer
 
   nEvtTotal++;
@@ -202,6 +205,9 @@ Bool_t AnaScript::Process(Long64_t entry)
       bool keep_this_event = false;
 
       //------------ baseline selections -------------
+      bool evt_2LSS = false;
+      bool evt_2LOS = false;
+      
       if((int)LightLepton.size()==2){
 	bool samesign = LightLepton.at(0).charge == LightLepton.at(1).charge;
 	bool trigger = false;
@@ -214,9 +220,11 @@ Bool_t AnaScript::Process(Long64_t entry)
 	bool reject_low_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 15;
 	bool reject_most_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 150;
 
-	//if(trigger && reject_low_resonances && samesign) keep_this_event = true; //2LSS
-	if(trigger && reject_most_resonances && !samesign) keep_this_event = true; //2LOS
+	if(trigger && reject_low_resonances && samesign)   evt_2LSS = true; //2LSS
+	if(trigger && reject_most_resonances && !samesign) evt_2LOS = true; //2LOS
 
+	if(evt_2LSS || evt_2LOS) keep_this_event = true; //keep both 2LSS and 2LOS
+	
 	bool veto_3L4L_event = Veto3L4L();
 	bool veto_HEM_event  = VetoHEM(Jet);
 	bool veto_this_event = veto_3L4L_event || veto_HEM_event;

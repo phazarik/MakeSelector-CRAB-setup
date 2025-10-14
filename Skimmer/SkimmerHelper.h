@@ -9,23 +9,19 @@ void AnaScript::ActivateBranch(TTree *t){
 
   //Option2:
   //Common branches:
-  vector<TString> branches = {"run","luminosityBlock","event",
-			      "Flag_*",
-			      "nMuon","Muon_*",
-			      "nElectron","Electron_*",
-			      "nJet","Jet_*",
-			      "nFatJet","FatJet_*",
-			      "MET_*","PuppiMET_*",
-			      "*fixed*",
-			      "HLT_IsoMu*", "HLT_Ele*WPTight_Gsf"};
-  vector<TString> branches_mc = {"nGenPart","GenPart_*",
-				 "nGenJet","GenJet_*",
-				 //"nGenVisTau","GenVisTau_*",
-				 "GenMET_phi","GenMET_pt",
-				 //"*LHE*Weight*",//non-QCD only
-				 "Pileup*"};
-  if (_data == 0) branches.insert(branches.end(), branches_mc.begin(), branches_mc.end());
-
+  vector<TString> branches = {
+    "run","luminosityBlock","event",
+    "nMuon","Muon_*","nElectron","Electron_*","nJet","Jet_*","nFatJet","FatJet_*","MET_*","PuppiMET_*",
+    "*fixed*","Flag_*","HLT_IsoMu*","HLT_Ele*WPTight_Gsf"
+  };
+  vector<TString> branches_mc = {
+    "nGenPart","GenPart_*","nGenJet","GenJet_*","GenMET_phi","GenMET_pt","Pileup*","Generator_weight"
+  };
+  if (_data == 0){
+    if(_flag != "qcd") branches_mc.push_back("*LHE*Weight*");
+    branches.insert(branches.end(), branches_mc.begin(), branches_mc.end());
+  }
+  
   cout<<"Keeping these branches:"<<endl;
   t->SetBranchStatus("*", 0); //Deactivate all and activate only the selected ones:
   for(auto activeBranchName : branches){
@@ -51,14 +47,33 @@ void AnaScript::ReadBranch(){
   *HLT_SingleMuon;
   *HLT_SingleEle;
 
-  //Non-QCD:
+  //------------------------------- EXCEPTIONS --------------------------------
   /*
-  *LHEWeight_originalXWGTUP = {fReader_2022MC, "LHEWeight_originalXWGTUP"};
-  *nLHEPdfWeight;for(unsigned int i=0; i<(unsigned int)*nLHEPdfWeight;i++){LHEPdfWeight[i];}
-  *nLHEReweightingWeight;for(unsigned int i=0; i<(unsigned int)*nLHEReweightingWeight;i++){LHEReweightingWeight[i];}
-  *nLHEScaleWeight; for(unsigned int i=0; i<(unsigned int)*nLHEScaleWeight;i++){LHEScaleWeight[i];}
-  *nPSWeight; for(unsigned int i=0; i<(unsigned int)*nPSWeight;i++){PSWeight[i];}*/
+  //Jet correction variables (Run-2 only)
+  *fixedGridRhoFastjetAll;
+  *fixedGridRhoFastjetCentral;
+  *fixedGridRhoFastjetCentralCalo;
+  *fixedGridRhoFastjetCentralChargedPileUp;
+  *fixedGridRhoFastjetCentralNeutral;*/
+
+  //Jet correction variables (Run-3 only)
+  *Rho_fixedGridRhoFastjetAll;
+  *Rho_fixedGridRhoFastjetCentral;
+  *Rho_fixedGridRhoFastjetCentralCalo;
+  *Rho_fixedGridRhoFastjetCentralChargedPileUp;
+  *Rho_fixedGridRhoFastjetCentralNeutral;
   
+  //Non-QCD MC branches:
+  if(_data==0){
+    // Non-QCD branches:
+    if (_flag!="qcd") {
+      *LHEWeight_originalXWGTUP;
+      *nLHEPdfWeight;         for(unsigned int i=0; i<(unsigned int)*nLHEPdfWeight; i++) LHEPdfWeight[i];
+      *nLHEReweightingWeight; for(unsigned int i=0; i<(unsigned int)*nLHEReweightingWeight; i++) LHEReweightingWeight[i];
+      *nLHEScaleWeight;       for(unsigned int i=0; i<(unsigned int)*nLHEScaleWeight; i++) LHEScaleWeight[i];
+    }
+  }
+  //------------------------------------------------------------------------
   //Electron Branches:
   *nElectron;
   for(unsigned int i=0; i<(unsigned int)*nElectron;i++){
@@ -75,7 +90,7 @@ void AnaScript::ReadBranch(){
     Electron_pdgId[i];
     Electron_vidNestedWPBitmap[i];
     Electron_vidNestedWPBitmapHEEP[i];
-    //Electron_jetIdx[i];
+    Electron_jetIdx[i];
     Electron_tightCharge[i];
   }
   
@@ -159,6 +174,7 @@ void AnaScript::ReadBranch(){
     Muon_mediumId[i];
     Muon_mediumPromptId[i];
     Muon_tightCharge[i];
+    Muon_jetIdx[i];
   }
 
   //PuppiMET
@@ -215,21 +231,7 @@ void AnaScript::ReadBranch(){
   *Flag_trkPOG_toomanystripclus53X;
   *Flag_trkPOG_logErrorTooManyClusters;
   *Flag_METFilters;
-  /*
-  //For Jet corrections: (Run3)
-  *Rho_fixedGridRhoFastjetAll;
-  *Rho_fixedGridRhoFastjetCentral;
-  *Rho_fixedGridRhoFastjetCentralCalo;
-  *Rho_fixedGridRhoFastjetCentralChargedPileUp;
-  *Rho_fixedGridRhoFastjetCentralNeutral;
-  */
-  //For Jet corrections: (Run2)
-  *fixedGridRhoFastjetAll;
-  *fixedGridRhoFastjetCentral;
-  *fixedGridRhoFastjetCentralCalo;
-  *fixedGridRhoFastjetCentralChargedPileUp;
-  *fixedGridRhoFastjetCentralNeutral;
-
+  
   //Additionl HLT branches:
   //*HLT_Ele27_WPTight_Gsf;
   //*HLT_Ele28_WPTight_Gsf;
