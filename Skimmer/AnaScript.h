@@ -495,7 +495,7 @@ public :
   void SetCampaign(TString campaign){_campaign = campaign;}
   void SetFlag(TString flag){_flag=flag;}
   void SetSampleName(TString samplename){_samplename=samplename;}
-
+  
 public:
   struct Particle {
     TLorentzVector v;
@@ -544,10 +544,10 @@ public:
 
   //Others:
   float delta_phi(float phi1, float phi2);
-  int  MotherID(int partindex, int momindex);
+  int   MotherID(int partindex, int momindex);
   float transv_mass(float lepE, float lepphi, float met, float metphi);
-  bool clean_from_array(Particle target, vector<Particle> array, float dRcut);
-  bool isMatchingWithGen(Particle reco, vector<Particle> gencollection);
+  bool  clean_from_array(Particle target, vector<Particle> array, float dRcut);
+  bool  isMatchingWithGen(Particle reco, vector<Particle> gencollection);
 
   //Object Corrections:
   //Put here

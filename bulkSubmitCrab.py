@@ -6,6 +6,7 @@
 #---------------------------------------------
 
 import os,sys
+import subprocess
 import ast
 import argparse
 parser = argparse.ArgumentParser(description="Submit CRAB jobs in bulk.")
@@ -14,29 +15,51 @@ parser.add_argument("--dryrun", type=ast.literal_eval, default=True,  help="Prin
 args = parser.parse_args()
 args = parser.parse_args()
 
-campaign = "Run3Summer22EE"
+campaign = "Run3Summer22"
 test   = args.test
 dryrun = args.dryrun
 
 ### Note: For data, use flag == 'muon' or 'egamma'
 
 samples=[]
-samplefile = f"samplelists/{campaign}.txt"
-#samplefile = f"samplelists/failed_jobs.txt"
+#samplefile = f"samplelists/{campaign}.txt"
+samplefile = f"samplelists/failed_jobs.txt"
 #samplefile = f"samplelists/training_{campaign}.txt"
 #samplefile = f"samplelists/signal_{campaign}.txt"
 with open(samplefile, "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)
 
-jobname ="nanoSkim_2022EE"
+jobname ="nanoSkim_2022"
+
+# ------------------------------------------------------------------------------------
+def check_voms_proxy():
+    result = subprocess.run("voms-proxy-info --timeleft", shell=True, capture_output=True, text=True)
+    time_left = result.stdout.strip()
+    if result.returncode != 0 or not time_left.isdigit() or int(time_left) <= 0:
+        print(f"\n{RED}[WARNING] CMS VOMS proxy not found or expired! Please run the following.{RESET}")
+        print("voms-proxy-init -voms cms\n")
+        return False
+    return True
+
+# ------------------------------------------------------------------------------------
+def check_cmssw():
+    cmssw_base = os.environ.get("CMSSW_BASE")
+    if not cmssw_base:
+        print(f"\n{RED}[WARNING] No CMSSW environment detected! Please set up CMSSW before running.{RESET}\n")
+        return False
+    return True
+
+# ------------------------------------------------------------------------------------
+if not check_cmssw() or not check_voms_proxy(): sys.exit(1)
 
 count=0
 for samplename, dataset, flag in samples:
     requestname = jobname + '_' + samplename
-
+    
     ### Exceptions:
-    #if ('muon' in flag or 'egamma' in flag): continue
+    #if "Muon" in samplename or "EGamma" in samplename: events = -1
+    if ('muon' in flag or 'egamma' in flag): continue
     if "VLL" in samplename: continue
     #if ('QCDMu' in samplename) or ('QCDEle' in samplename): continue
     #if not ('QCD' in samplename or 'VLL' in samplename): continue
@@ -48,11 +71,6 @@ for samplename, dataset, flag in samples:
     arg6 = samplename
     arg7 = flag
 
-    ### Set ENV here
-    os.environ['CRAB_CAMPAIGN'] = campaign
-    os.environ['CRAB_SAMPLENAME'] = samplename
-    os.environ['CRAB_FLAG'] = flag
-    
     ### Verifying input DAS string:
     nfiles=0
     das_query = f'dasgoclient --query="file dataset={dataset}"'
@@ -64,17 +82,29 @@ for samplename, dataset, flag in samples:
         print(f'\033[31m[ERROR]\033[0m Failed to query DAS for {dataset}: {e}')
         continue
 
+    ## Caclualte how many events to process per file.
+    events_per_file = -1 ## all events
+    #if events > 0: events_per_file = -(-events // nfiles) ## rounds up (ceiling division)
+    
+    ### Set ENV here
+    os.environ['CRAB_CAMPAIGN']   = campaign
+    os.environ['CRAB_SAMPLENAME'] = samplename
+    os.environ['CRAB_FLAG']       = flag
+    os.environ['CRAB_EVENTS']     = str(int(events_per_file))
+    
     ### Main process line:
     processline = f'crab submit crab_config.py {arg3} {arg4}'
 
     count+=1
     print('-'*50)
     print(f'\n{count}. Processing \033[33m{dataset}\033[0m (nfiles = {nfiles})')
-    if dryrun :
-        print('export CRAB_CAMPAIGN='+campaign)
-        print('export CRAB_SAMPLENAME='+samplename)
-        print('export CRAB_FLAG='+flag)
-        print(processline)
+
+    print("\033[2;33m")
+    print('export CRAB_CAMPAIGN='+campaign)
+    print('export CRAB_SAMPLENAME='+samplename)
+    print('export CRAB_FLAG='+flag)
+    print('export CRAB_EVENTS='+str(int(events_per_file))+f" ## (per file, for {nfiles} files)\033[0m")
+    if dryrun: print(processline)
     else: os.system(processline)
     if test: break
 

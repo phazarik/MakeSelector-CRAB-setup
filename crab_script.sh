@@ -49,7 +49,8 @@ echo "Other parameters from crab_config.py: "
 echo "campaign = "$campaign
 echo "sample = "$sample
 echo "flag = "$flag
+echo "maxevents = "$maxevents
 echo "=========================================================="
 
 # Run the shell_instructions.sh, which will use the parameters directly from PSet
-bash shell_instructions.sh "$campaign" "$sample" "$flag"
+bash shell_instructions.sh "$campaign" "$sample" "$flag" "$maxevents"

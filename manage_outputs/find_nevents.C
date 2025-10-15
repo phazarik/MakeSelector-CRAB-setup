@@ -18,9 +18,13 @@ bool alphaNumCompare(const TString &a, const TString &b) {
   return strlen(ca) < strlen(cb);
 }
 
-void find_nevents(TString dumpdir = "skimmed_2LSS_2018_UL_2025-10-06", TString find="nEvtTotal") {
-
-  TString path = gSystem->ConcatFileName("/eos/user/p/phazarik/", dumpdir);
+void find_nevents(
+		  TString dumpdir = "skimmed_2L_Run3Summer22_2025-10-15_test",
+		  TString find="nEvtTotal"
+		  //TString find="genEventSumW"
+		  )
+{
+  TString path = gSystem->ConcatFileName("/eos/user/p/phazarik/SKIMDUMP", dumpdir);
   TSystemDirectory dir(path, path);
   TList* allsamples = dir.GetListOfFiles();
   if (!allsamples) {cerr << "\033[031mError: Cannot open directory "<<path<<"\033[0m"<<endl; return;}
@@ -71,7 +75,7 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_2018_UL_2025-10-06", TString f
       TList* files = filedir.GetListOfFiles();
       if (!files) continue;
 
-      double nEvtTotal = 0;
+      double count = 0;
       for (TObject* f : *files) {
         TString filename = f->GetName();
         if (!filename.EndsWith(".root")) continue;
@@ -84,10 +88,12 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_2018_UL_2025-10-06", TString f
           continue;
         }
 
-        TH1D* hist = dynamic_cast<TH1D*>(file->Get("hCount"));
+	TString histname = "hCount";
+	if(find=="genEventSumW") histname = "hWt";
+        TH1D* hist = dynamic_cast<TH1D*>(file->Get(histname));
         if (hist) {
-          int bin = (find=="nEvtTotal") ? 1 : 5;
-          nEvtTotal += hist->GetBinContent(bin);
+          double bin = (find=="nEvtTotal" || find=="genEventSumW") ? 1 : 5;
+          count += hist->GetBinContent((int)bin);
         } else {
           cerr << "\033[031mError: Histogram 'hCount' not found in " << filepath<<"\033[0m"<<endl;
         }
@@ -96,7 +102,7 @@ void find_nevents(TString dumpdir = "skimmed_2LSS_2018_UL_2025-10-06", TString f
 
       cout<< setw(12) << left << sample;
       cout<< setw(20) << left << subsample;
-      cout<< setw(12) << right << fixed << setprecision(0) << nEvtTotal <<endl;
+      cout<< setw(12) << right << fixed << setprecision(0) << count <<endl;
     }
   }
 

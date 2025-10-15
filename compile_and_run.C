@@ -11,18 +11,23 @@
 using namespace std;
 
 void compile_and_run(
-	    TString infile  = "Skimmer/test_inputs/2017_UL_Muon_B_66_failed.root",
-	    TString outfile = "Skimmer/test_outputs/skim_2017_UL_Muon_B_66_failed.root",
-	    TString campaign = "2017_UL",
-	    TString sample = "Data",
-	    TString flag = "muon"
+	    TString infile  = "Skimmer/test_inputs/DYto2L_MLL-50_2022EE.root",
+	    TString outfile = "TreeMaker/test_outputs/tree_DYto2L_MLL-50_2022EE.root",
+	    TString campaign = "Run3Summer22EE",
+	    TString sample = "DYto2L_50toInf",
+	    TString flag = "mc",
+	    TString maxevents = "-1" //Used only in the skimmer; -1 = all
 	    )
 {
 
+  //Skimmer setup:
   TString sourceCodeDir = "Skimmer";  //Set code directory here.
-  //TString sourceCodeDir = "TreeMaker";  //Set code directory here.
+  TString arguments = "\""+infile+"\",\""+outfile+"\",\""+campaign+"\",\""+sample+"\",\""+flag+"\",\""+maxevents+"\"";
   
-  TString arguments = "\""+infile+"\",\""+outfile+"\",\""+campaign+"\",\""+sample+"\",\""+flag+"\"";
+  //TreeMaker setup:
+  //TString sourceCodeDir = "TreeMaker";  //Set code directory here.
+  //TString arguments = "\""+infile+"\",\""+outfile+"\",\""+campaign+"\",\""+sample+"\",\""+flag+"\"";
+  
   TString processline = ".x "+sourceCodeDir+"/run_locally.C(" + arguments + ")"; //testing purposes
 
   //Compiling and loading the source code:

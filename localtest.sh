@@ -8,18 +8,18 @@
 #--------------- CRAB job failure ----------------------
 
 #In case some CRAB jobs fail, bring those files manually.
-#infile="Skimmer/test_inputs/MuonE_2022EE.root"
-#outfile="Skimmer/test_outputs/skim_$(basename $infile)"
-infile="Skimmer/test_outputs/skim_MuonE_2022EE.root"
-outfile="TreeMaker/test_outputs/tree_$(basename $infile)"
+infile="Skimmer/test_inputs/MuonE_2022EE.root"
+outfile="Skimmer/test_outputs/skim_$(basename $infile)"
+#infile="Skimmer/test_outputs/skim_MuonE_2022EE.root"
+#outfile="TreeMaker/test_outputs/tree_$(basename $infile)"
 campaign="Run3Summer22EE"
 sample="Muon"
 flag="mc" #For data, flag = "muon" or "egamma"
+maxevents=1000
 #-------------------------------------------------------
 
-root_command="compile_and_run.C(\"$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\")"
-#root_command="compile_and_run.C(\"root://cms-xrd-global.cern.ch//$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\")"
-#root_command="compile_and_run.C(\"root://cmsxrootd.fnal.gov//$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\")"
+#root_command="compile_and_run.C(\"$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\")"
+root_command="compile_and_run.C(\"$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\", \"$maxevents\")"
 
 # Echo the command for copy-paste testing
 echo "Running ROOT command:"

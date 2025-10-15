@@ -34,7 +34,7 @@ void AnaScript::SlaveBegin(TTree *tree)
   cout<<"Year   = "<<_year<<endl;
   cout<<"Sample = "<<_samplename<<endl;
   cout<<"Flag   = "<<_flag<<endl;
-  cout<<"Data   = "<<_data<<"\n"<<endl;
+  cout<<"Data   = "<<_data<<endl;
   
   //Initializing counters:
   nEvtGen=tree->GetEntries();
@@ -119,7 +119,7 @@ Bool_t AnaScript::Process(Long64_t entry)
     if (_flag!="qcd") fReader_nonQCD.SetLocalEntry(entry);
   } 
   ReadBranch(); //for skimmer
-
+  
   nEvtTotal++;
   if(_data==0) genEventsumw += (float)*Generator_weight;
   

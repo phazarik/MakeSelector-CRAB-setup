@@ -15,7 +15,8 @@ void run_locally(
 		 TString outfile = "test_outputs/skimtest.root",
 		 TString campaign = "Run3Summer22",
 		 TString sample = "DYJetsToLL_M50",
-		 TString flag = "dy"
+		 TString flag = "dy",
+		 TString maxevents = "-1"
 		 )
 {
   // Suppress warnings (optional)
@@ -34,14 +35,23 @@ void run_locally(
   m_selec.SetCampaign(campaign);
   m_selec.SetSampleName(sample);
 
-  //Override parameters:
+  //---- Override flag ----
   if(sample.Contains("Muon")  || sample.Contains("EGamma")) flag = "muon";
   if(sample.Contains("QCDMu") || sample.Contains("QCDEM"))  flag = "qcd";
-  
+  //-----------------------
+
   m_selec.SetFlag(flag);
   if((flag == "egamma")||(flag =="muon")) m_selec.SetData(1);
   else m_selec.SetData(0);
-  
+
   chain->Process(&m_selec);
+  /*
+  //Put an upper-cap on nEntries:
+  Long64_t nEntries = chain->GetEntries();
+  Long64_t nMax     = (Long64_t)maxevents.Atoi();
+  if(nMax > 0) nEntries = std::min(nEntries, nMax);
+  
+  cout<<"Events to be processed = "<<nEntries<<endl;
+  chain->Process(&m_selec, "", nEntries);*/
   cout<<"Done."<<endl;
 }

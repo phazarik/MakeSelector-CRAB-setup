@@ -5,9 +5,11 @@ infile=$(python3 -c "import PSet; print(PSet.process.source.fileNames[0])")
 campaign=$1
 sample=$2
 flag=$3
+maxevents=$4
 
 #root_command="compile_and_run.C(\"root://cms-xrd-global.cern.ch//$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\")"
-root_command="compile_and_run.C(\"root://cmsxrootd.fnal.gov//$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\")"
+#root_command="compile_and_run.C(\"root://cmsxrootd.fnal.gov//$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\")"
+root_command="compile_and_run.C(\"root://cmsxrootd.fnal.gov//$infile\", \"$outfile\", \"$campaign\", \"$sample\", \"$flag\", \"$maxevents\")"
 
 # Echo the command for copy-paste testing
 echo "Running ROOT command:"
