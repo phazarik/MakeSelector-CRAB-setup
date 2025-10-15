@@ -9,13 +9,13 @@ parser.add_argument('--dryrun', action='store_true', help='Check if everything i
 parser.add_argument('--test', action='store_true', help='Check one job')
 args=parser.parse_args()
 
+finalstate = "2LOS"
+campaign = "Run3Summer22EE"
+jobname = f"skimmed_2L_{campaign}_2025-10-14"
+outdir  = f"tree_{finalstate}_baseline_{campaign}"
 
-jobname = "skimmed_2LOS_2018_UL_2025-10-06"
-outdir  = "tree_2LOS_baseline_2018_UL"
-campaign = "2018_UL"
-
-outdir  = os.path.join("/eos/user/p/phazarik/", outdir)
-indir   = os.path.join("/eos/user/p/phazarik/", jobname)
+outdir  = os.path.join("/eos/user/p/phazarik/TREEDUMP", outdir)
+indir   = os.path.join("/eos/user/p/phazarik/SKIMDUMP", jobname)
 samples = os.listdir(indir)
 if not args.dryrun: os.makedirs(outdir, exist_ok=True)
 
@@ -50,7 +50,7 @@ for sample in samples:
         nsubsample += 1
         
         fullsamplename = f"{sample}_{subsample}"
-        if "TT_TTto2L2Nu" not in fullsamplename: continue
+        #if "TT_TTto2L2Nu" not in fullsamplename: continue
         #if "TT_TTtoLNu2Q" not in fullsamplename: continue
         print(f'\n\033[93m({nsample}/{len(samples)}) \033[94m({nsubsample}/{len(subsamples)}) Processing {fullsamplename} ... \033[0m')
         

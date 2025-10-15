@@ -59,7 +59,11 @@ void AnaScript::InitializeBranches(TTree *tree){
 
   tree->Branch("jec",           &jec,           "jec/F",           32000);
   tree->Branch("jer",           &jer,           "jer/F",           32000);
-  tree->Branch("gen_weight",    &gen_weight,       "gen_weight/D",        32000);
+
+  // Weights:
+  tree->Branch("gen_weight",      &gen_weight,       "gen_weight/D",        32000);
+  tree->Branch("gen_weight_evt",  &gen_weight_evt,   "gen_weight_evt/D",    32000);
+  tree->Branch("lumi_weight_evt", &lumi_weight_evt,   "lumi_weight_evt/D",   32000);
   
   // Nominal corrections:
   tree->Branch("wt_leptonSF",   &sf_lepIdIso,      "wt_leptonSF/D",       32000);
@@ -138,7 +142,7 @@ void AnaScript::FillTree(TTree *tree){
       return;
     }
     
-    if(evt_2LOS){
+    if(evt_2LOS){ //IMPORTANT: SELECT ONLY ONE FINAL STATE
       
       int flav0 = fabs(LightLepton.at(0).id);
       int flav1 = fabs(LightLepton.at(1).id);
@@ -175,11 +179,15 @@ void AnaScript::FillTree(TTree *tree){
     sf_btagEff    = sf_btagEff_up    = sf_btagEff_down    = 1.0;
     sf_pdf        = sf_pdf_up        = sf_pdf_down        = 1.0;
     sf_qcdscale   = sf_qcdscale_up   = sf_qcdscale_down   = 1.0;
+    gen_weight_evt=1.0;
     
     if(_data==0){
       
       gen_weight = *Generator_weight;
-
+      gen_weight_evt = *Generator_weight/avggenweight; //per_event
+      lumi_weight_evt = lumiweight;                    //per_event
+      //cout<<"Test: gen_weight_evt = "<<gen_weight_evt<<endl;
+      
       auto safeSF = [](double sf){ return (sf<0) ? 1.0 : sf; }; //avoid negatives, just in case
       std::vector<std::string> modes = {"nom", "systup", "systdown"};
 

@@ -8,6 +8,7 @@
 #include "../Setup/json_setup.h"
 #include "../Corrections/calculateCorrections.h"
 #include "../Corrections/TriggerEfficiency.h"
+#include "../Corrections/loadJSONweights.h"
 #include "treeMaker.h"
 
 void AnaScript::Begin(TTree * /*tree*/)
@@ -37,7 +38,7 @@ void AnaScript::SlaveBegin(TTree *tree)
   cout<<"Sample = "  << _samplename <<endl;
   cout<<"Flag   = "  << _flag <<endl;
   cout<<"btagWP = "  << _btagWP <<endl;
-  cout<<"Data   = "  << _data <<"\n"<<endl;
+  cout<<"Data   = "  << _data <<endl;
 
   //Initializing counters:
   nEvtGen=tree->GetEntries();
@@ -47,6 +48,12 @@ void AnaScript::SlaveBegin(TTree *tree)
   //For TreeMaker: Loading offline data (json, text):
   jsondata = loadJson();
   LoadCorrectionsFromPOG();
+  avggenweight =  LoadAvgGenWeights(_campaign, _samplename);
+  lumiweight = LoadLumiWeights(_campaign, _samplename);
+
+  cout << fixed << setprecision(3);
+  cout << "Lumi weight    = "  << lumiweight << endl;
+  cout << "Avg gen weight = "  << avggenweight << endl;
 
   /*
   //Debugging json files:

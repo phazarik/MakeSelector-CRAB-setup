@@ -11,19 +11,18 @@
 using namespace std;
 
 void compile_and_run(
-		     //TString infile  = "/eos/home-p/phazarik/GitHub/MakeSelector-CRAB-setup/Skimmer/test_inputs/2018_UL_DYJetsToLL_M-50.root",
-		     TString infile = "/eos/home-p/phazarik/xrdcp_samples/RunIISummer20UL18NanoAODv9/VLLD_mu_M400_TuneCP5_13TeV-madgraph-pythia8/F54E0E1D-24AF-684D-9B5A-7FE4E37F018D.root",
+		     TString infile = "../Skimmer/test_inputs/DYto2L_MLL-50_2022EE.root",
 		     TString outfile = "test_outputs/tree_testcompile.root",
-		     TString campaign = "2018_UL",
-		     TString sample = "vlld",
-		     TString flag = "doublet"
+		     TString campaign = "Run3Summer22EE",
+		     TString sample = "DYto2L_50toInf",
+		     TString flag = "mc"
 		     )
 {
 
   TString sourceCodeDir = gSystem->DirName(__FILE__);  // directory of this macro
   
   TString arguments = "\""+infile+"\",\""+outfile+"\",\""+campaign+"\",\""+sample+"\",\""+flag+"\"";
-  TString processline = ".x "+sourceCodeDir+"/run.C(" + arguments + ")"; //testing purposes
+  TString processline = ".x "+sourceCodeDir+"/run_locally.C(" + arguments + ")"; //testing purposes
 
   //Compiling and loading the source code:
   time_t compile_start, compile_end;

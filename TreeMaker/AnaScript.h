@@ -466,6 +466,10 @@ public :
   //Pileup correction:
   double returnPileUpWt(TString mode);
 
+  //Weights from JSONs:
+  double LoadLumiWeights(TString campaign, TString fullsamplename) ;
+  double LoadAvgGenWeights(TString campaign, TString fullsamplename);
+
   //------------------------------------------
   //For Skimmer:
   void ReadBranch();
@@ -522,6 +526,7 @@ private:
 
   //json:
   json jsondata;
+  double lumiweight, avggenweight;
 
   //For TreeMaker:
   TTree *_mytree;
@@ -570,13 +575,15 @@ private:
   Float_t jec;
   Float_t jer;
   Double_t gen_weight;
+  Double_t gen_weight_evt;
+  Double_t lumi_weight_evt;
   Double_t sf_lepIdIso,   sf_lepIdIso_up,   sf_lepIdIso_down;
   Double_t sf_lepTrigEff, sf_lepTrigEff_up, sf_lepTrigEff_down;
   Double_t sf_pileup,     sf_pileup_up,     sf_pileup_down;
   Double_t sf_btagEff,    sf_btagEff_up,    sf_btagEff_down;
   Double_t sf_pdf,        sf_pdf_up,        sf_pdf_down;
   Double_t sf_qcdscale,   sf_qcdscale_up,   sf_qcdscale_down;
-  
+
   ClassDef(AnaScript,0);
 
 };

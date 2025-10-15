@@ -10,9 +10,9 @@
 using namespace std;
 
 void run_locally(
-		 TString infile  = "test_inputs/DYto2L-4Jets_MLL-50.root",
+		 TString infile  = "../Skimmer/test_inputs/DYto2L_MLL-50_2022EE.root",
 		 TString outfile = "test_outputs/skimtest.root",
-		 TString campaign = "Run3Summer22",
+		 TString campaign = "Run3Summer22EE",
 		 TString sample = "DYJetsToLL_M50",
 		 TString flag = "dy"
 		 )
