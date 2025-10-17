@@ -15,22 +15,22 @@ parser.add_argument("--dryrun", type=ast.literal_eval, default=True,  help="Prin
 args = parser.parse_args()
 args = parser.parse_args()
 
-campaign = "Run3Summer22"
+campaign = "Run3Summer23BPix"
 test   = args.test
 dryrun = args.dryrun
 
 ### Note: For data, use flag == 'muon' or 'egamma'
 
 samples=[]
-#samplefile = f"samplelists/{campaign}.txt"
-samplefile = f"samplelists/failed_jobs.txt"
+samplefile = f"samplelists/{campaign}.txt"
+#samplefile = f"samplelists/failed_jobs.txt"
 #samplefile = f"samplelists/training_{campaign}.txt"
 #samplefile = f"samplelists/signal_{campaign}.txt"
 with open(samplefile, "r") as file: content = file.read().strip()
 
 samples = ast.literal_eval(content)
 
-jobname ="nanoSkim_2022"
+jobname ="nanoSkim_2023BPixdata"
 
 # ------------------------------------------------------------------------------------
 def check_voms_proxy():
@@ -59,8 +59,8 @@ for samplename, dataset, flag in samples:
     
     ### Exceptions:
     #if "Muon" in samplename or "EGamma" in samplename: events = -1
-    if ('muon' in flag or 'egamma' in flag): continue
-    if "VLL" in samplename: continue
+    if not ('muon' in flag or 'egamma' in flag): continue
+    #if "VLL" in samplename: continue
     #if ('QCDMu' in samplename) or ('QCDEle' in samplename): continue
     #if not ('QCD' in samplename or 'VLL' in samplename): continue
     

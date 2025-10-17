@@ -11,12 +11,16 @@
 using namespace std;
 
 void compile_and_run(
-	    TString infile  = "Skimmer/test_inputs/DYto2L_MLL-50_2022EE.root",
-	    TString outfile = "TreeMaker/test_outputs/tree_DYto2L_MLL-50_2022EE.root",
-	    TString campaign = "Run3Summer22EE",
-	    TString sample = "DYto2L_50toInf",
-	    TString flag = "mc",
-	    TString maxevents = "-1" //Used only in the skimmer; -1 = all
+		     TString infile = "Skimmer/test_inputs/EGamma_E_2022EE.root",
+		     //TString infile  = "Skimmer/test_inputs/VLLD-mu_400_2018.root",
+		     //TString infile  = "TreeMaker/test_inputs/*.root",
+		     TString outfile = "Skimmer/test_outputs/test.root",
+		     //TString infile = "FailedJobs/File_204_stuck.root",
+		     //TString outfile = "FailedJobs/skimFile_204_stuck.root",
+		     TString campaign = "Run3Summer22EE",
+		     TString sample = "EGamma_C",
+		     TString flag = "egamma",
+		     TString maxevents = "-1" //Used only in the skimmer; -1 = all
 	    )
 {
 

@@ -30,7 +30,7 @@
 
 class AnaScript : public TSelector {
 private:
-
+  
   //For NanoAODv12 and beyond:
   using iterator     = Int_t;
   using int_or_char  = UChar_t;
@@ -65,7 +65,6 @@ public :
   TTreeReaderValue<Bool_t> HLT_SingleEle   = {fReader, "HLT_Ele32_WPTight_Gsf"};
 
   // Jet correction variables:
-    
   //Rho (Run-3)
   TTreeReaderValue<Float_t> Rho_fixedGridRhoAll = {fReader, "Rho_fixedGridRhoAll"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetAll = {fReader, "Rho_fixedGridRhoFastjetAll"};
@@ -80,8 +79,8 @@ public :
   TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralCalo =    {fReader, "fixedGridRhoFastjetCentralCalo"};
   TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralChargedPileUp = {fReader, "fixedGridRhoFastjetCentralChargedPileUp"};
   TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralNeutral = {fReader, "fixedGridRhoFastjetCentralNeutral"};
-  TTreeReaderValue<Float_t> rho = fixedGridRhoFastjetAll;*/
-  
+  TTreeReaderValue<Float_t> rho = fixedGridRhoFastjetAll;
+  */
   //Non-QCD branches:
   TTreeReaderValue<Float_t>  LHEWeight_originalXWGTUP = {fReader_nonQCD, "LHEWeight_originalXWGTUP"};
   TTreeReaderValue<iterator> nLHEPdfWeight            = {fReader_nonQCD, "nLHEPdfWeight"};
@@ -587,6 +586,7 @@ private:
   
   //Counters:
   int nEvtTotal, nEvtRan, nEvtTrigger, nEvtPass, nEvtBad, nThrown, nEvtVeto, nEvtGen;
+  int nevt_mm, nevt_me, nevt_em, nevt_ee;
   float genEventsumw;
   time_t start, end, buffer;
   

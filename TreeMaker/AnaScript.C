@@ -44,7 +44,8 @@ void AnaScript::SlaveBegin(TTree *tree)
   nEvtGen=tree->GetEntries();
   nEvtTotal=0; nEvtRan=0;  nEvtTrigger=0;
   nEvtPass=0;  nEvtBad=0;  nThrown=0; nEvtVeto=0;
-
+  nevt_mm = nevt_me = nevt_em = nevt_ee = 0;
+  
   //For TreeMaker: Loading offline data (json, text):
   jsondata = loadJson();
   LoadCorrectionsFromPOG();
@@ -102,7 +103,11 @@ void AnaScript::SlaveTerminate()
   time(&end);
   double time_taken = double(end-start);
   cout<<"\033[34m\nTime taken to process = " << (int)time_taken << " seconds.\033[0m"<< endl;
-  cout << "Final tree entries: " << _mytree->GetEntries() << endl;
+  cout<< "Final tree entries: " << _mytree->GetEntries() << endl;
+  cout<<"mm = "<<nevt_mm<<endl;
+  cout<<"me = "<<nevt_me<<endl;
+  cout<<"em = "<<nevt_em<<endl;
+  cout<<"ee = "<<nevt_ee<<endl;
 }
 void AnaScript::Terminate()
 {

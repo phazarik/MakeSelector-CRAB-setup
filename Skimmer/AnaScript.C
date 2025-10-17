@@ -40,6 +40,7 @@ void AnaScript::SlaveBegin(TTree *tree)
   nEvtGen=tree->GetEntries();
   nEvtTotal=0; nEvtRan=0;  nEvtTrigger=0;
   nEvtPass=0;  nEvtBad=0;  nThrown=0; nEvtVeto=0;
+  nevt_mm = nevt_me = nevt_em = nevt_ee = 0;
   genEventsumw=0;
   
   //For skimmer
@@ -96,6 +97,11 @@ void AnaScript::SlaveTerminate()
   if(_data==0) cout<<"genEventsumw = "<<fixed<<setprecision(2)<<genEventsumw<<endl;
   if(_data!=0) cout<<"nEvents not in golden json = "<<nThrown<<" ("<<notgoldenevtfrac*100<<" %)"<<endl;
   cout<<"---------------------------------------------"<<endl;
+
+  cout<<"mm = "<<nevt_mm<<endl;
+  cout<<"me = "<<nevt_me<<endl;
+  cout<<"em = "<<nevt_em<<endl;
+  cout<<"ee = "<<nevt_ee<<endl;
   
   time(&end);
   double time_taken = double(end - start);
@@ -207,12 +213,14 @@ Bool_t AnaScript::Process(Long64_t entry)
       //-------------------------------------------------------------------------------------------------------
       // Skimming
       //-------------------------------------------------------------------------------------------------------
+
+      bool keep_this_event = false;
+
+      /*
       float ptcut_mu  = 26;
       float ptcut_ele = 35; 
       if(_year==2016) {ptcut_ele = 30; ptcut_mu = 26;}
       if(_year==2017) {ptcut_ele = 37; ptcut_mu = 29;}
-
-      bool keep_this_event = false;
 
       //------------ baseline selections -------------
       bool evt_2LSS = false;
@@ -253,7 +261,81 @@ Bool_t AnaScript::Process(Long64_t entry)
 	  evt_2LOS = false;
 	}	
       }
-            
+      */
+
+      // New skim logic:
+      // This function sets values to the variables that goes into the tree.
+      bool ee = false;
+      bool em = false;
+      bool me = false;
+      bool mm = false;
+
+      //Offline cuts on the leptons:
+      float ptcut_mu  = 26;
+      float ptcut_ele = 35;
+      if(_year==2016) {ptcut_ele = 30; ptcut_mu = 26;}
+      if(_year==2017) {ptcut_ele = 37; ptcut_mu = 29;}
+
+      bool evt_2LSS = false;
+      bool evt_2LOS = false;
+
+      //Baseline selection
+      if((int)LightLepton.size()==2){
+
+	//Check offline trigger:
+	bool offline_trigger = false;
+	for(int i=0; i<(int)LightLepton.size(); i++){
+	  int lepton_id = fabs(LightLepton.at(i).id);
+	  float lepton_pt = LightLepton.at(i).v.Pt();
+	  if(lepton_id == 11 && lepton_pt > ptcut_ele) offline_trigger = true;
+	  if(lepton_id == 13 && lepton_pt > ptcut_mu)  offline_trigger = true;
+	}
+	if(LooseLepton.size() > 2) offline_trigger = false; //Veto additional loose leptons:
+
+	//Check resonance-cut:
+	bool reject_low_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 15;
+	bool reject_most_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 150;
+
+	//Check lepton charges:
+	bool samesign = LightLepton.at(0).charge == LightLepton.at(1).charge;
+
+	//Define events:
+	if(offline_trigger && reject_low_resonances && samesign)   evt_2LSS = true; //2LSS
+	if(offline_trigger && reject_most_resonances && !samesign) evt_2LOS = true; //2LOS
+	
+	//Veto additional events
+	bool veto_3L4L_event = Veto3L4L();
+	bool veto_HEM_event  = VetoHEM(Jet);
+	bool veto_this_event = veto_3L4L_event || veto_HEM_event;
+	if(veto_this_event){
+	  nEvtVeto++;
+	  evt_2LSS = false;
+	  evt_2LOS = false;
+	}
+
+	//------------------------------------------------//
+	//                                                //
+	//  SELECT FINAL-STATE HERE (ONLY ONE AT A TIME)  //
+	//                                                //
+	//------------------------------------------------//
+
+	if(evt_2LOS || evt_2LSS){
+
+	  int flav0 = fabs(LightLepton.at(0).id);
+	  int flav1 = fabs(LightLepton.at(1).id);
+
+	  if(     flav0 == 13 && flav1 == 13){ mm = true; nevt_mm++; }
+	  else if(flav0 == 13 && flav1 == 11){ me = true; nevt_me++; }
+	  else if(flav0 == 11 && flav1 == 13){ em = true; nevt_em++; }
+	  else if(flav0 == 11 && flav1 == 11){ ee = true; nevt_ee++; }
+	}
+      }
+
+      //-------------------------------------------
+      // Select the channel :
+      keep_this_event = mm || me || em || ee ;
+      //-------------------------------------------
+      
       if(bad_event) keep_this_event = false;
       
       //-------------------

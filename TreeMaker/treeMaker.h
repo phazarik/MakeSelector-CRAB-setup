@@ -21,7 +21,7 @@ void AnaScript::InitializeBranches(TTree *tree){
   tree->Branch("lep1_eta",  &lep1_eta,  "lep1_eta/F",  32000);
   tree->Branch("lep1_phi",  &lep1_phi,  "lep1_phi/F",  32000);
   tree->Branch("lep1_iso",  &lep1_iso,  "lep1_iso/F",  32000);
-  tree->Branch("lep1_sip3d",&lep1_sip3d,"lep0_sip3d/F",32000);
+  tree->Branch("lep1_sip3d",&lep1_sip3d,"lep1_sip3d/F",32000);
   tree->Branch("lep1_mt",   &lep1_mt,   "lep1_mt/F",   32000);
 
   //Dilepton system:
@@ -111,14 +111,14 @@ void AnaScript::FillTree(TTree *tree){
   if((int)LightLepton.size()==2){
 
     //Check offline trigger:
-    bool trigger = false;
+    bool offline_trigger = false;
     for(int i=0; i<(int)LightLepton.size(); i++){
       int lepton_id = fabs(LightLepton.at(i).id);
       float lepton_pt = LightLepton.at(i).v.Pt();
-      if(lepton_id == 11 && lepton_pt > ptcut_ele) trigger = true;
-      if(lepton_id == 13 && lepton_pt > ptcut_mu)  trigger = true;
+      if(lepton_id == 11 && lepton_pt > ptcut_ele) offline_trigger = true;
+      if(lepton_id == 13 && lepton_pt > ptcut_mu)  offline_trigger = true;
     }    
-    if(LooseLepton.size() > 2) trigger = false; //Veto additional loose leptons:
+    if(LooseLepton.size() > 2) offline_trigger = false; //Veto additional loose leptons:
 
     //Check resonance-cut:
     bool reject_low_resonances = (LightLepton.at(0).v + LightLepton.at(1).v).M() > 15;
@@ -128,8 +128,8 @@ void AnaScript::FillTree(TTree *tree){
     bool samesign = LightLepton.at(0).charge == LightLepton.at(1).charge;
 
     //Define events:
-    if(trigger && reject_low_resonances && samesign)   evt_2LSS = true; //2LSS
-    if(trigger && reject_most_resonances && !samesign) evt_2LOS = true; //2LOS
+    if(offline_trigger && reject_low_resonances && samesign)   evt_2LSS = true; //2LSS
+    if(offline_trigger && reject_most_resonances && !samesign) evt_2LOS = true; //2LOS
 
     //Veto additional events
     bool veto_3L4L_event = Veto3L4L();
@@ -141,16 +141,22 @@ void AnaScript::FillTree(TTree *tree){
       evt_2LOS = false;
       return;
     }
+
+    //------------------------------------------------//
+    //                                                //
+    //  SELECT FINAL-STATE HERE (ONLY ONE AT A TIME)  //
+    //                                                //
+    //------------------------------------------------//
     
-    if(evt_2LOS){ //IMPORTANT: SELECT ONLY ONE FINAL STATE
+    if(evt_2LOS){
       
       int flav0 = fabs(LightLepton.at(0).id);
       int flav1 = fabs(LightLepton.at(1).id);
 
-      if(     flav0 == 13 && flav1 == 13){ mm = true; }
-      else if(flav0 == 13 && flav1 == 11){ me = true; }
-      else if(flav0 == 11 && flav1 == 13){ em = true; }
-      else if(flav0 == 11 && flav1 == 11){ ee = true; }
+      if(     flav0 == 13 && flav1 == 13){ mm = true; nevt_mm++; }
+      else if(flav0 == 13 && flav1 == 11){ me = true; nevt_me++; }
+      else if(flav0 == 11 && flav1 == 13){ em = true; nevt_em++; }
+      else if(flav0 == 11 && flav1 == 11){ ee = true; nevt_ee++; }
     }
   }
   

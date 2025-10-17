@@ -21,11 +21,11 @@ if test:   print('[WARNING]: test mode', style="red")
 if dryrun: print('[WARNING]: dryrun mode', style="red")
 print()
 
-campaign = "Run3Summer22EE"
+campaign = "2018_UL"
 inbase   = "/eos/user/p/phazarik/CRABDUMP"
 outbase  = "/eos/user/p/phazarik/SKIMDUMP"
-jobdir   = f"CRAB_skim_2L_Run3Summer22EE_2025-10-14"
-dumpdir  = f"skimmed_2L_{campaign}_2025-10-14"
+jobdir   = f"CRAB_skim_2L_2018_UL_2025-10-16"
+dumpdir  = f"skimmed_2L_{campaign}_2025-10-17"
 sample_file = f"../samplelists/{campaign}.txt"
 
 # Job IDs for Data
@@ -36,28 +36,52 @@ job_ids_2017={
 
 }
 job_ids_2018 = {
-    "EGamma_A": "251006_055824",
-    "EGamma_B": "251006_055830",
-    "EGamma_C": "251006_055835", 
-    "EGamma_D": "251006_055840",
-    "Muon_A": "251006_055802",
-    "Muon_B": "251006_055808",
-    "Muon_C": "251006_055814",
-    "Muon_D": "251006_055819"
+    "EGamma_A": "251017_045621",
+    "EGamma_B": "251017_045626",
+    "EGamma_C": "251017_045631",
+    "EGamma_D": "251017_045636",
+    "Muon_A": "251017_045559",
+    "Muon_B": "251017_045604",
+    "Muon_C": "251017_045610",
+    "Muon_D": "251017_045615"
 }
 job_ids_2022 = {
-    "EGamma_C": "251015_085642",
-    "EGamma_D": "251015_085647",
-    "Muon_C": "251015_085630",
-    "Muon_D": "251015_085635"
-    "EGamma_F": "251014_135745",
-    "EGamma_G": "251014_135750",
-    "Muon_E": "251014_135646",
-    "Muon_F": "251014_135651",
-    "Muon_G": "251014_135655",
+    "EGamma_E": "251017_110708",
+    "EGamma_F": "251017_110716",
+    "EGamma_G": "251017_110724",
+    "Muon_E": "251017_110652",
+    "Muon_F": "251017_110657",
+    "Muon_G": "251017_110702",
+    "EGamma_C": "251017_111032",
+    "EGamma_D": "251017_111038",
+    "Muon_C": "251017_111019",
+    "Muon_D": "251017_111026"
 }
 job_ids_2023 = {
-
+    "EGamma0_D1": "251017_123859",
+    "EGamma0_D2": "251017_123904",
+    "EGamma1_D1": "251017_123909",
+    "EGamma1_D2": "251017_123915",
+    "Muon0_D1": "251017_123837",
+    "Muon0_D2": "251017_123842",
+    "Muon1_D1": "251017_123848",
+    "Muon1_D2": "251017_123853",
+    "EGamma0_C1": "251017_123407",
+    "EGamma0_C2": "251017_123413",
+    "EGamma0_C3": "251017_123418",
+    "EGamma0_C4": "251017_123424",
+    "EGamma1_C1": "251017_123429",
+    "EGamma1_C2": "251017_123435",
+    "EGamma1_C3": "251017_123440",
+    "EGamma1_C4": "251017_123446",
+    "Muon0_C1": "251017_123324",
+    "Muon0_C2": "251017_123330",
+    "Muon0_C3": "251017_123335",
+    "Muon0_C4": "251017_123340",
+    "Muon1_C1": "251017_123346",
+    "Muon1_C2": "251017_123352",
+    "Muon1_C3": "251017_123357",
+    "Muon1_C4": "251017_123402"
 }
 
 job_ids = {}

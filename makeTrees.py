@@ -11,7 +11,7 @@ args=parser.parse_args()
 
 finalstate = "2LOS"
 campaign = "Run3Summer22EE"
-jobname = f"skimmed_2L_{campaign}_2025-10-14"
+jobname = f"skimmed_2L_Run3Summer22EE_2025-10-14"
 outdir  = f"tree_{finalstate}_baseline_{campaign}"
 
 outdir  = os.path.join("/eos/user/p/phazarik/TREEDUMP", outdir)
@@ -29,6 +29,8 @@ for sample in samples:
     nsample += 1
     subsamples = os.listdir(os.path.join(indir, sample))
 
+    if "EGamma" not in sample: continue
+    
     print("\n"+hline)
     print(f"\033[93m({nsample}/{len(samples)}) Processing {sample}\033[0m")
     print(hline)
@@ -37,7 +39,7 @@ for sample in samples:
     if 'Muon' in sample:    flag='muon'
     if 'EGamma' in sample:  flag='egamma'
     if sample == 'QCDMu' :  flag='qcd'
-    if sample == 'QCDEle' : flag='qcdele'
+    if sample == 'QCDEle' : flag='qcd'
     if sample == 'DYto2L':  flag='dy'
     if sample == 'TT':      flag='ttbar'
     if 'VLLD' in sample:    flag='doublet'

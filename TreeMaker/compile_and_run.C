@@ -11,9 +11,12 @@
 using namespace std;
 
 void compile_and_run(
-		     TString infile = "../Skimmer/test_inputs/DYto2L_MLL-50_2022EE.root",
+		     //TString infile = "../Skimmer/test_inputs/DYto2L_MLL-50_2022EE.root",
+		     //TString infile = "/eos/user/p/phazarik/CRABDUMP/CRAB_skim_2L_2018_UL_2025-10-16/EGamma/skimmed/251017_045621/0000/*root",
+		     TString infile = "/eos/user/p/phazarik/CRABDUMP/CRAB_skim_2L_2018_UL_2025-10-16/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/skimmed/251017_045745/0000/*root",
+		     //TString infile = "test_inputs/EGammaA_2018.root",
 		     TString outfile = "test_outputs/tree_testcompile.root",
-		     TString campaign = "Run3Summer22EE",
+		     TString campaign = "2018_UL",
 		     TString sample = "DYto2L_50toInf",
 		     TString flag = "mc"
 		     )
