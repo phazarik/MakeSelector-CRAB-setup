@@ -48,10 +48,10 @@ config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1  # Number of files per job
 
-config.Data.outLFNDirBase = '/store/user/phazarik/CRABDUMP/CRAB_skim_2L_Run3Summer23BPix_data_2025-10-17'
+config.Data.outLFNDirBase = '/store/user/phazarik/CRABDUMP/CRAB_skim_2L_2016postVFP_UL_2025-10-20'
 config.Data.publication = False
 config.Data.outputDatasetTag = f'skimmed' ###subdirectory
 
 ### Site:
 config.Site.storageSite = 'T3_CH_CERNBOX' #Customize here according to your needs.
-config.Site.blacklist   = ['T2_FR_GRIF']
+config.Site.blacklist   = ['T2_FR_GRIF', 'T3_UK_ScotGrid_GLA', 'T1_IT_CNAF']

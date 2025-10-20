@@ -1,49 +1,48 @@
 {
     "WtoLNu": {
-        "Inclusive": 177198.543
+        "Inclusive": 176217.54
     },
     "WGtoLNuG": {
-        "10to100": 1256.855,
-        "100to200": 11.669,
-        "200to400": 0.869,
+        "10to100": 1255.945,
+        "100to200": 11.649,
+        "200to400": 0.87,
         "400to600": 0.054,
         "600toInf": 0.01
     },
     "DYto2L": {
-        "10to50": 35097.942,
-        "50toInf": 17844.903
+        "10to50": 35135.911,
+        "50toInf": 17809.371
     },
     "DYGToLLG": {
-        "M4to50-PT10to100": 177.73,
-        "M4to50-PT100to200": 1.396,
+        "M4to50-PT10to100": 177.35,
+        "M4to50-PT100to200": 1.397,
         "M4to50-PT200toInf": 0.063,
-        "M50-PT10to50": 242.504,
-        "M50-PT50to100": 71.944,
-        "M50-PT100to200": 2.002,
-        "M50-PT200to400": 0.148,
+        "M50-PT10to100": 242.132,
+        "M50-PT100to200": 2.005,
+        "M50-PT200to400": 0.149,
         "M50-PT400to600": 0.009,
         "M50-PT600toInf": 0.001
     },
     "TT": {
-        "TTto2L2Nu": 80.372,
-        "TTtoLNu2Q": 334.19
+        "TTto2L2Nu": 80.522,
+        "TTtoLNu2Q": 333.954
     },
     "ST": {
-        "TBbarQ": 124.749,
-        "TBbartoLplusNuBbar": 2.275,
-        "TbarBQ": 75.624,
-        "TbarBtoLminusNuB": 1.426
+        "TBbarQ": 124.579,
+        "TBbartoLplusNuBbar": 2.279,
+        "TbarBQ": 75.803,
+        "TbarBtoLminusNuB": 1.431
     },
     "TW": {
-        "TWminusto2L2Nu": 3.793,
+        "TWminusto2L2Nu": 3.804,
         "TWminustoLNu2Q": 35.998,
-        "TbarWplusto2L2Nu": 3.796,
-        "TbarWplustoLNu2Q": 36.004
+        "TbarWplusto2L2Nu": 3.808,
+        "TbarWplustoLNu2Q": 36.009
     },
     "TTV": {
-        "TTWtoLNu": 0.451,
-        "TTZtoLL4to50": 0.039,
-        "TTZtoLL50toInf": 0.086
+        "TTWtoLNu": 0.285,
+        "TTZtoLL4to50": 0.045,
+        "TTZtoLL50toInf": 0.117
     },
     "RareTop": {
         "THQ": 1.0,
@@ -57,19 +56,19 @@
         "TZQB": 0.082
     },
     "VVSS": {
-        "WpWp": 1.0
+        "WpWp": 1
     },
     "VV": {
-        "WWto2L2Nu": 11.87,
-        "WWto4Q": 50.77,
-        "WWtoLNu2Q": 48.43,
-        "WZto2L2Q": 7.541,
-        "WZto3LNu": 4.928,
-        "WZtoLNu2Q": 15.962,
-        "ZZto2L2Nu": 1.035,
-        "ZZto2L2Q": 6.789,
-        "ZZto2Nu2Q": 4.821,
-        "ZZto4L": 1.38
+        "WWto2L2Nu": 11.773,
+        "WWto4Q": 50.766,
+        "WWtoLNu2Q": 48.964,
+        "WZto2L2Q": 7.573,
+        "WZto3LNu": 4.915,
+        "WZtoLNu2Q": 15.923,
+        "ZZto2L2Nu": 1.029,
+        "ZZto2L2Q": 6.791,
+        "ZZto2Nu2Q": 4.828,
+        "ZZto4L": 1.391
     },
     "VVV": {
         "WWW": 0.233,
@@ -78,16 +77,17 @@
         "ZZZ": 0.016
     },
     "Higgs": {
-        "GGHHto2B": 30.228,
-        "GGHHto2W": 23.15,
-        "GGHHtoZZ": 23.133,
-        "TTHto2B": 0.573,
-        "TTHto2Z": 0.559,
-        "VBFHto2B": 4.181,
-        "VBFHto2W": 4.2,
-        "VBFHto2Z": 4.228,
-        "WminusHHto2B": 0.237,
-        "WplusHHto2B": 0.618,
+        "GGHHto2B": 30.239,
+        "GGHHto2W": 23.09,
+        "GGHHtoZZ": 23.16,
+        "TTHto2Z": 0.56,
+        "VBFHto2B": 4.171,
+        "VBFHto2W": 4.206,
+        "VBFHto2Z": 4.223,
+        "WminusHHto2B": 0.21,
+        "WminusHHto2Z": 0.581,
+        "WplusHHto2B": 0.344,
+        "WplusHHto2Z": 0.922,
         "ZHHto2B": 0.085
     },
     "QCDEM": {

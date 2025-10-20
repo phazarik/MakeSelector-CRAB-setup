@@ -24,26 +24,52 @@ print()
 campaign = "2018_UL"
 inbase   = "/eos/user/p/phazarik/CRABDUMP"
 outbase  = "/eos/user/p/phazarik/SKIMDUMP"
-jobdir   = f"CRAB_skim_2L_2018_UL_2025-10-16"
-dumpdir  = f"skimmed_2L_{campaign}_2025-10-17"
+jobdir   = f"CRAB_skim_2L_2018_UL_2025-10-17"
+dumpdir  = f"skimmed_2L_{campaign}_2025-10-20"
 sample_file = f"../samplelists/{campaign}.txt"
 
 # Job IDs for Data
 job_ids_2016 = {
-
+    "EGamma_F": "251020_072350",
+    "EGamma_G": "251020_072355",
+    "EGamma_H": "251020_072359",
+    "Muon_F": "251020_072336",
+    "Muon_G": "251020_072341",
+    "Muon_H": "251020_072346",
+    "EGamma_B1": "251020_063656",
+    "EGamma_B2": "251020_063701",
+    "EGamma_C": "251020_063706",
+    "EGamma_D": "251020_063710",
+    "EGamma_E": "251020_063714",
+    "EGamma_FHIPM": "251020_063719",
+    "Muon_B1": "251020_063629",
+    "Muon_B2": "251020_063634",
+    "Muon_C": "251020_063638",
+    "Muon_D": "251020_063643",
+    "Muon_E": "251020_063648",
+    "Muon_FHIPM": "251020_063652"
 }
 job_ids_2017={
-
+    "Muon_B": "251019_183237",
+    "Muon_C": "251019_183242",
+    "Muon_D": "251019_183248",
+    "Muon_E": "251019_183253",
+    "Muon_F": "251019_183259",
+    "EGamma_B": "251019_183304",
+    "EGamma_C": "251019_183309",
+    "EGamma_D": "251019_183314",
+    "EGamma_E": "251019_183319",
+    "EGamma_F": "251019_183324"
 }
 job_ids_2018 = {
-    "EGamma_A": "251017_045621",
-    "EGamma_B": "251017_045626",
-    "EGamma_C": "251017_045631",
-    "EGamma_D": "251017_045636",
-    "Muon_A": "251017_045559",
-    "Muon_B": "251017_045604",
-    "Muon_C": "251017_045610",
-    "Muon_D": "251017_045615"
+    "EGamma_A": "251019_132621",
+    "EGamma_B": "251019_132627",
+    "EGamma_C": "251019_132632",
+    "EGamma_D": "251019_132637",
+    "Muon_A": "251019_132600",
+    "Muon_B": "251019_132605",
+    "Muon_C": "251019_132610",
+    "Muon_D": "251019_132616"
 }
 job_ids_2022 = {
     "EGamma_E": "251017_110708",

@@ -48,21 +48,22 @@ void AnaScript::ReadBranch(){
   *HLT_SingleEle;
 
   //------------------------------- EXCEPTIONS --------------------------------
-
+ 
   //Jet correction variables (Run-3 only)
+  /*
   *Rho_fixedGridRhoFastjetAll;
   *Rho_fixedGridRhoFastjetCentral;
   *Rho_fixedGridRhoFastjetCentralCalo;
   *Rho_fixedGridRhoFastjetCentralChargedPileUp;
   *Rho_fixedGridRhoFastjetCentralNeutral;
-  /*
+  */
   //Jet correction variables (Run-2 only)
   *fixedGridRhoFastjetAll;
   *fixedGridRhoFastjetCentral;
   *fixedGridRhoFastjetCentralCalo;
   *fixedGridRhoFastjetCentralChargedPileUp;
   *fixedGridRhoFastjetCentralNeutral;
-  */
+  
   //Non-QCD MC branches:
   if(_data==0){
     // Non-QCD branches:

@@ -10,8 +10,8 @@ parser.add_argument('--test', action='store_true', help='Check one job')
 args=parser.parse_args()
 
 finalstate = "2LOS"
-campaign = "Run3Summer22EE"
-jobname = f"skimmed_2L_Run3Summer22EE_2025-10-14"
+campaign = "2018_UL"
+jobname = f"skimmed_2L_2018_UL_2025-10-20"
 outdir  = f"tree_{finalstate}_baseline_{campaign}"
 
 outdir  = os.path.join("/eos/user/p/phazarik/TREEDUMP", outdir)
@@ -29,7 +29,7 @@ for sample in samples:
     nsample += 1
     subsamples = os.listdir(os.path.join(indir, sample))
 
-    if "EGamma" not in sample: continue
+    #if "EGamma" not in sample: continue
     
     print("\n"+hline)
     print(f"\033[93m({nsample}/{len(samples)}) Processing {sample}\033[0m")

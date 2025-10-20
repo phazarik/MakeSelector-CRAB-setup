@@ -163,8 +163,8 @@ def check_status_all_jobs():
         job_info = parse_crab_status_output(output)
         if job_info["failed"] > 0: failed_jobs.append(folder_path)
         if job_info["Scheduler"] == "COMPLETED":
-            if not ("Muon" in folder_path or "EGamma" in folder_path):
-                completed_jobs.append(folder_path)
+            #if not ("Muon" in folder_path or "EGamma" in folder_path):
+            completed_jobs.append(folder_path)
 
         pct = job_info["percentages"]
         bar = make_progress_bar(pct, bar_length) + "  "
@@ -221,7 +221,6 @@ def check_status_all_jobs():
         ans = input(f"\n{YELLOW_BOLD}Delete these COMPLETED job folders? (except data) [y/n]: {RESET}").strip().lower()
         if ans in ["y", "yes"]:
             for job in completed_jobs:
-                if "Muon" in job or "EGamma" in job: continue
                 print(f"Deleting {job}...")
                 os.system(f"rm -rf '{job}'")
             print(f"{RED_BOLD}Completed jobs removed.{RESET}")
