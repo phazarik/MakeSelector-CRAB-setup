@@ -15,8 +15,8 @@ parser.add_argument("--dryrun", type=ast.literal_eval, default=True,  help="Prin
 args = parser.parse_args()
 args = parser.parse_args()
 
-campaign = "2016postVFP_UL"
-jobname ="nanoSkim_2016post"
+campaign = "Run3Summer23BPix"
+jobname ="nanoSkim_egamma23BPix"
 test   = args.test
 dryrun = args.dryrun
 
@@ -57,6 +57,7 @@ for samplename, dataset, flag in samples:
     
     ### Exceptions:
     #if "Muon" in samplename or "EGamma" in samplename: events = -1
+    if "EGamma" not in samplename: continue
     #if not ('muon' in flag or 'egamma' in flag): continue
     #if "VLL" in samplename: continue
     #if ('QCDMu' in samplename) or ('QCDEle' in samplename): continue

@@ -21,11 +21,11 @@ if test:   print('[WARNING]: test mode', style="red")
 if dryrun: print('[WARNING]: dryrun mode', style="red")
 print()
 
-campaign = "2018_UL"
+campaign = "2016postVFP_UL"
 inbase   = "/eos/user/p/phazarik/CRABDUMP"
 outbase  = "/eos/user/p/phazarik/SKIMDUMP"
-jobdir   = f"CRAB_skim_2L_2018_UL_2025-10-17"
-dumpdir  = f"skimmed_2L_{campaign}_2025-10-20"
+jobdir   = f"CRAB_skim_2L_2016postVFP_UL_2025-10-20"
+dumpdir  = f"skimmed_2L_{campaign}_2025-10-21"
 sample_file = f"../samplelists/{campaign}.txt"
 
 # Job IDs for Data
@@ -72,34 +72,22 @@ job_ids_2018 = {
     "Muon_D": "251019_132616"
 }
 job_ids_2022 = {
-    "EGamma_E": "251017_110708",
-    "EGamma_F": "251017_110716",
-    "EGamma_G": "251017_110724",
     "Muon_E": "251017_110652",
     "Muon_F": "251017_110657",
     "Muon_G": "251017_110702",
-    "EGamma_C": "251017_111032",
-    "EGamma_D": "251017_111038",
     "Muon_C": "251017_111019",
-    "Muon_D": "251017_111026"
+    "Muon_D": "251017_111026",
+    "EGamma_E": "251021_170710",
+    "EGamma_F": "251021_170718",
+    "EGamma_G": "251021_170725",
+    "EGamma_C": "251021_170838",
+    "EGamma_D": "251021_170845"
 }
 job_ids_2023 = {
-    "EGamma0_D1": "251017_123859",
-    "EGamma0_D2": "251017_123904",
-    "EGamma1_D1": "251017_123909",
-    "EGamma1_D2": "251017_123915",
     "Muon0_D1": "251017_123837",
     "Muon0_D2": "251017_123842",
     "Muon1_D1": "251017_123848",
     "Muon1_D2": "251017_123853",
-    "EGamma0_C1": "251017_123407",
-    "EGamma0_C2": "251017_123413",
-    "EGamma0_C3": "251017_123418",
-    "EGamma0_C4": "251017_123424",
-    "EGamma1_C1": "251017_123429",
-    "EGamma1_C2": "251017_123435",
-    "EGamma1_C3": "251017_123440",
-    "EGamma1_C4": "251017_123446",
     "Muon0_C1": "251017_123324",
     "Muon0_C2": "251017_123330",
     "Muon0_C3": "251017_123335",
@@ -107,7 +95,19 @@ job_ids_2023 = {
     "Muon1_C1": "251017_123346",
     "Muon1_C2": "251017_123352",
     "Muon1_C3": "251017_123357",
-    "Muon1_C4": "251017_123402"
+    "Muon1_C4": "251017_123402",
+    "EGamma0_D1": "251021_171847",
+    "EGamma0_D2": "251021_171117",
+    "EGamma1_D1": "251021_171123",
+    "EGamma1_D2": "251021_171129",
+    "EGamma0_C1": "251021_170933",
+    "EGamma0_C2": "251021_170940",
+    "EGamma0_C3": "251021_170946",
+    "EGamma0_C4": "251021_170952",
+    "EGamma1_C1": "251021_170958",
+    "EGamma1_C2": "251021_171005",
+    "EGamma1_C3": "251021_171011",
+    "EGamma1_C4": "251021_171017"
 }
 
 job_ids = {}

@@ -148,7 +148,7 @@ void AnaScript::FillTree(TTree *tree){
     //                                                //
     //------------------------------------------------//
     
-    if(evt_2LOS){
+    if(evt_2LSS){
       
       int flav0 = fabs(LightLepton.at(0).id);
       int flav1 = fabs(LightLepton.at(1).id);

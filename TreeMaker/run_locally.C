@@ -33,9 +33,12 @@ void run_locally(
   m_selec.SetCampaign(campaign);
   m_selec.SetSampleName(sample);
 
-  //Override parameters:
-  if(sample.Contains("Muon")  || sample.Contains("EGamma")) flag = "muon";
-  if(sample.Contains("QCDMu") || sample.Contains("QCDEM"))  flag = "qcd";
+  //---- Override flag ---- //be careful!
+  if(sample.Contains("Muon"))                                  flag = "muon";
+  if(sample.Contains("Electron") || sample.Contains("EGamma")) flag = "egamma";
+  if(sample.Contains("QCDMu") || sample.Contains("QCDEM"))     flag = "qcd";
+  if(sample.Contains("VLLD"))                                  flag = "doublet";
+  //-----------------------  
 
   m_selec.SetFlag(flag);
   if((flag == "egamma")||(flag =="muon")) m_selec.SetData(1);

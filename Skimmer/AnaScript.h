@@ -30,19 +30,19 @@
 
 class AnaScript : public TSelector {
 private:
-  /*
+
   //For NanoAODv12 and beyond:
   using iterator     = Int_t;
   using int_or_char  = UChar_t;
   using int_or_short = Short_t;
   using int_or_ushort = UShort_t;
-  */
+  /*
   //For NanoAODv11 and below
   using iterator     = UInt_t; 
   using int_or_char  = Int_t;
   using int_or_short = Int_t;
   using int_or_ushort = Int_t;
-  
+  */
   //Note: Remove LHE weight branches in case of QCD samples
   
 public :
@@ -55,17 +55,17 @@ public :
   
   // HLT paths that I am interested in:
   //For 2016:
-  TTreeReaderValue<Bool_t> HLT_SingleMuon = {fReader, "HLT_IsoMu24"};
-  TTreeReaderValue<Bool_t> HLT_SingleEle  = {fReader, "HLT_Ele27_WPTight_Gsf"};
+  //TTreeReaderValue<Bool_t> HLT_SingleMuon = {fReader, "HLT_IsoMu24"};
+  //TTreeReaderValue<Bool_t> HLT_SingleEle  = {fReader, "HLT_Ele27_WPTight_Gsf"};
   //For 2017:
   //TTreeReaderValue<Bool_t> HLT_SingleMuon  = {fReader, "HLT_IsoMu27"};
   //TTreeReaderValue<Bool_t> HLT_SingleEle   = {fReader, "HLT_Ele35_WPTight_Gsf"};
   //For 2018, 2022 and 2023:
-  //TTreeReaderValue<Bool_t> HLT_SingleMuon  = {fReader, "HLT_IsoMu24"};
-  //TTreeReaderValue<Bool_t> HLT_SingleEle   = {fReader, "HLT_Ele32_WPTight_Gsf"};
+  TTreeReaderValue<Bool_t> HLT_SingleMuon  = {fReader, "HLT_IsoMu24"};
+  TTreeReaderValue<Bool_t> HLT_SingleEle   = {fReader, "HLT_Ele32_WPTight_Gsf"};
 
   // Jet correction variables:
-  /*
+  
   //Rho (Run-3)
   TTreeReaderValue<Float_t> Rho_fixedGridRhoAll = {fReader, "Rho_fixedGridRhoAll"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetAll = {fReader, "Rho_fixedGridRhoFastjetAll"};
@@ -73,7 +73,7 @@ public :
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralCalo = {fReader, "Rho_fixedGridRhoFastjetCentralCalo"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralChargedPileUp = {fReader, "Rho_fixedGridRhoFastjetCentralChargedPileUp"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralNeutral = {fReader, "Rho_fixedGridRhoFastjetCentralNeutral"};
-  */
+  /*
   //Rho (Run-2)
   TTreeReaderValue<Float_t> fixedGridRhoFastjetAll =            {fReader, "fixedGridRhoFastjetAll"};
   TTreeReaderValue<Float_t> fixedGridRhoFastjetCentral =        {fReader, "fixedGridRhoFastjetCentral"};
@@ -81,7 +81,7 @@ public :
   TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralChargedPileUp = {fReader, "fixedGridRhoFastjetCentralChargedPileUp"};
   TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralNeutral = {fReader, "fixedGridRhoFastjetCentralNeutral"};
   TTreeReaderValue<Float_t> rho = fixedGridRhoFastjetAll;
-  
+  */
   //Non-QCD branches:
   TTreeReaderValue<Float_t>  LHEWeight_originalXWGTUP = {fReader_nonQCD, "LHEWeight_originalXWGTUP"};
   TTreeReaderValue<iterator> nLHEPdfWeight            = {fReader_nonQCD, "nLHEPdfWeight"};

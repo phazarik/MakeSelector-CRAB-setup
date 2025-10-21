@@ -9,10 +9,10 @@ parser.add_argument('--dryrun', action='store_true', help='Check if everything i
 parser.add_argument('--test', action='store_true', help='Check one job')
 args=parser.parse_args()
 
-finalstate = "2LOS"
-campaign = "2018_UL"
-jobname = f"skimmed_2L_2018_UL_2025-10-20"
-outdir  = f"tree_{finalstate}_baseline_{campaign}"
+finalstate = "2LSS"
+campaign = "Run3Summer22EE"
+jobname = f"skimmed_2L_Run3Summer22EE_2025-10-19"
+outdir  = f"EGamma/tree_{finalstate}_baseline_{campaign}"
 
 outdir  = os.path.join("/eos/user/p/phazarik/TREEDUMP", outdir)
 indir   = os.path.join("/eos/user/p/phazarik/SKIMDUMP", jobname)
@@ -29,8 +29,9 @@ for sample in samples:
     nsample += 1
     subsamples = os.listdir(os.path.join(indir, sample))
 
-    #if "EGamma" not in sample: continue
-    
+    if "EGamma" not in sample: continue
+    #if sample not in ["VLLD-ele", "VLLD-mu", "VV", "VVSS", "VVV", "WGtoLNuG", "WtoLNu"]: continue
+        
     print("\n"+hline)
     print(f"\033[93m({nsample}/{len(samples)}) Processing {sample}\033[0m")
     print(hline)
@@ -52,7 +53,7 @@ for sample in samples:
         nsubsample += 1
         
         fullsamplename = f"{sample}_{subsample}"
-        #if "TT_TTto2L2Nu" not in fullsamplename: continue
+        #if "1400" not in fullsamplename: continue
         #if "TT_TTtoLNu2Q" not in fullsamplename: continue
         print(f'\n\033[93m({nsample}/{len(samples)}) \033[94m({nsubsample}/{len(subsamples)}) Processing {fullsamplename} ... \033[0m')
         

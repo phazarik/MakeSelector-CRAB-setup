@@ -33,19 +33,19 @@ using namespace std;
 
 class AnaScript : public TSelector {
 private:
-  /*
+
   //For NanoAODv12+ (example: Run3Summer22 MC)
   using iterator     = Int_t;
   using int_or_char  = UChar_t;
   using int_or_short = Short_t;
   using int_or_ushort = UShort_t;
-  */  
+  /*
   //For NanoAODv11-
   using iterator     = UInt_t; 
   using int_or_char  = Int_t;
   using int_or_short = Int_t;
   using int_or_ushort = Int_t;  
-  
+  */
 public :
   TTreeReader     fReader;
   TTreeReader     fReader_MC;
@@ -66,7 +66,7 @@ public :
   TTreeReaderValue<Bool_t> HLT_SingleEle   = {fReader, "HLT_Ele32_WPTight_Gsf"};
 
   // Jet correction variables:
-  /*
+
   //Rho (Run-3)
   TTreeReaderValue<Float_t> rho = {fReader, "Rho_fixedGridRhoAll"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoAll = {fReader, "Rho_fixedGridRhoAll"};
@@ -75,7 +75,7 @@ public :
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralCalo = {fReader, "Rho_fixedGridRhoFastjetCentralCalo"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralChargedPileUp = {fReader, "Rho_fixedGridRhoFastjetCentralChargedPileUp"};
   TTreeReaderValue<Float_t> Rho_fixedGridRhoFastjetCentralNeutral = {fReader, "Rho_fixedGridRhoFastjetCentralNeutral"};
-  */
+  /*
   //Rho (Run-2)
   TTreeReaderValue<Float_t> rho = {fReader, "fixedGridRhoFastjetAll"};
   TTreeReaderValue<Float_t> fixedGridRhoFastjetAll =            {fReader, "fixedGridRhoFastjetAll"};
@@ -83,7 +83,7 @@ public :
   TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralCalo =    {fReader, "fixedGridRhoFastjetCentralCalo"};
   TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralChargedPileUp = {fReader, "fixedGridRhoFastjetCentralChargedPileUp"};
   TTreeReaderValue<Float_t> fixedGridRhoFastjetCentralNeutral = {fReader, "fixedGridRhoFastjetCentralNeutral"};
-  
+  */
   //Non-QCD branches:
   TTreeReaderValue<Float_t>  LHEWeight_originalXWGTUP = {fReader_nonQCD, "LHEWeight_originalXWGTUP"};
   TTreeReaderValue<iterator> nLHEPdfWeight            = {fReader_nonQCD, "nLHEPdfWeight"};
