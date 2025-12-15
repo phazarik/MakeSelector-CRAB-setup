@@ -9,10 +9,10 @@ parser.add_argument('--dryrun', action='store_true', help='Check if everything i
 parser.add_argument('--test', action='store_true', help='Check one job')
 args=parser.parse_args()
 
-finalstate = "2LSS"
-campaign = "Run3Summer22EE"
-jobname = f"skimmed_2L_Run3Summer22EE_2025-10-19"
-outdir  = f"EGamma/tree_{finalstate}_baseline_{campaign}"
+finalstate = "2LOS"
+campaign = "2016preVFP_UL"
+jobname = f"skimmed_2L_2016preVFP_UL_2025-10"
+outdir  = f"JERup/tree_{finalstate}_baseline_JERup_{campaign}"
 
 outdir  = os.path.join("/eos/user/p/phazarik/TREEDUMP", outdir)
 indir   = os.path.join("/eos/user/p/phazarik/SKIMDUMP", jobname)
@@ -29,9 +29,10 @@ for sample in samples:
     nsample += 1
     subsamples = os.listdir(os.path.join(indir, sample))
 
-    if "EGamma" not in sample: continue
-    #if sample not in ["VLLD-ele", "VLLD-mu", "VV", "VVSS", "VVV", "WGtoLNuG", "WtoLNu"]: continue
-        
+    #if "EGamma" not in sample: continue
+    if sample not in ["RareTop", "ST", "TTV", "TW", "VLLD-ele","VLLD-mu", "VV", "VVSS", "VVV", "WGtoLNuG", "WtoLNu"]: continue
+    #if sample not in ["TT"]: continue
+    
     print("\n"+hline)
     print(f"\033[93m({nsample}/{len(samples)}) Processing {sample}\033[0m")
     print(hline)

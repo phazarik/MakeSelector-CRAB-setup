@@ -263,7 +263,7 @@ Bool_t AnaScript::Process(Long64_t entry)
       if(_data == 0){
 	for(int i=0; i<(int)Jet.size(); i++){
 	  jec =  returnJetJECSF(Jet.at(i), "nom");
-	  jer =  returnJetResolutionCorrection(Jet.at(i), "nom");
+	  jer =  returnJetResolutionCorrection(Jet.at(i), "systup");
 	  Jet.at(i).v = Jet.at(i).v * jec;
 	  Jet.at(i).v = Jet.at(i).v * jer;
 	}
